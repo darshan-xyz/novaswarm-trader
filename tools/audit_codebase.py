@@ -1,4 +1,4 @@
-"""SkopaqTrader Enterprise Clean-Room Codebase Audit Tool.
+"""NovaSwarm Trader Enterprise Clean-Room Codebase Audit Tool.
 
 Systematically verifies complete decoupling, patent/copyright defense,
 AST syntax validity, schema contract symmetry, and regression-free operation.
@@ -39,51 +39,51 @@ PURGED_DIRS = [
     ROOT_DIR / "tests" / "unit" / "dataflows",
 ]
 
-SKOPAQ_CORE_MODULES = [
-    "skopaq.config",
-    "skopaq.indicators.formulas",
-    "skopaq.indicators.engine",
-    "skopaq.data.models",
-    "skopaq.data.symbols",
-    "skopaq.data.pipeline",
-    "skopaq.data.tools",
-    "skopaq.data.crypto",
-    "skopaq.data.indstocks",
-    "skopaq.llm.client_factory",
-    "skopaq.llm.gateway",
-    "skopaq.llm.model_tier",
-    "skopaq.memory.episodic",
-    "skopaq.memory.store",
-    "skopaq.orchestration.context",
-    "skopaq.orchestration.engine",
-    "skopaq.orchestration.reflection",
-    "skopaq.orchestration.signal_extraction",
-    "skopaq.intelligence.analysts.technical",
-    "skopaq.intelligence.analysts.sentiment",
-    "skopaq.intelligence.analysts.macro",
-    "skopaq.intelligence.analysts.valuation",
-    "skopaq.intelligence.analysts.network",
-    "skopaq.intelligence.analysts.tokenomics",
-    "skopaq.intelligence.analysts.derivatives",
-    "skopaq.intelligence.debate.advocate",
-    "skopaq.intelligence.debate.adjudicator",
-    "skopaq.intelligence.risk_committee.perspectives",
-    "skopaq.intelligence.risk_committee.chief_risk",
-    "skopaq.intelligence.execution.order_strategist",
-    "skopaq.graph.skopaq_graph",
-    "skopaq.execution.executor",
-    "skopaq.execution.order_router",
-    "skopaq.execution.safety_checker",
-    "skopaq.risk.atr",
-    "skopaq.risk.calendar",
-    "skopaq.risk.concentration",
-    "skopaq.risk.drawdown",
-    "skopaq.risk.regime",
-    "skopaq.broker.client",
-    "skopaq.broker.paper_engine",
-    "skopaq.scanner.engine",
-    "skopaq.scanner.screen",
-    "skopaq.cli.main",
+NOVASWARM_CORE_MODULES = [
+    "novaswarm.config",
+    "novaswarm.indicators.formulas",
+    "novaswarm.indicators.engine",
+    "novaswarm.data.models",
+    "novaswarm.data.symbols",
+    "novaswarm.data.pipeline",
+    "novaswarm.data.tools",
+    "novaswarm.data.crypto",
+    "novaswarm.data.indstocks",
+    "novaswarm.llm.client_factory",
+    "novaswarm.llm.gateway",
+    "novaswarm.llm.model_tier",
+    "novaswarm.memory.episodic",
+    "novaswarm.memory.store",
+    "novaswarm.orchestration.context",
+    "novaswarm.orchestration.engine",
+    "novaswarm.orchestration.reflection",
+    "novaswarm.orchestration.signal_extraction",
+    "novaswarm.intelligence.analysts.technical",
+    "novaswarm.intelligence.analysts.sentiment",
+    "novaswarm.intelligence.analysts.macro",
+    "novaswarm.intelligence.analysts.valuation",
+    "novaswarm.intelligence.analysts.network",
+    "novaswarm.intelligence.analysts.tokenomics",
+    "novaswarm.intelligence.analysts.derivatives",
+    "novaswarm.intelligence.debate.advocate",
+    "novaswarm.intelligence.debate.adjudicator",
+    "novaswarm.intelligence.risk_committee.perspectives",
+    "novaswarm.intelligence.risk_committee.chief_risk",
+    "novaswarm.intelligence.execution.order_strategist",
+    "novaswarm.graph.novaswarm_graph",
+    "novaswarm.execution.executor",
+    "novaswarm.execution.order_router",
+    "novaswarm.execution.safety_checker",
+    "novaswarm.risk.atr",
+    "novaswarm.risk.calendar",
+    "novaswarm.risk.concentration",
+    "novaswarm.risk.drawdown",
+    "novaswarm.risk.regime",
+    "novaswarm.broker.client",
+    "novaswarm.broker.paper_engine",
+    "novaswarm.scanner.engine",
+    "novaswarm.scanner.screen",
+    "novaswarm.cli.main",
 ]
 
 
@@ -106,7 +106,7 @@ def check_1_purged_directories() -> bool:
 def check_2_forbidden_terms() -> bool:
     log_header("CHECK 2: Forbidden Terms Scan in Production Source Code")
     violations = []
-    scan_paths = [ROOT_DIR / "skopaq", ROOT_DIR / "main.py", ROOT_DIR / "pyproject.toml"]
+    scan_paths = [ROOT_DIR / "novaswarm", ROOT_DIR / "main.py", ROOT_DIR / "pyproject.toml"]
 
     for sp in scan_paths:
         if sp.is_file():
@@ -138,7 +138,7 @@ def check_2_forbidden_terms() -> bool:
 
 def check_3_ast_syntax() -> bool:
     log_header("CHECK 3: AST Syntax Validity Across All Python Files")
-    py_files = list((ROOT_DIR / "skopaq").rglob("*.py")) + [ROOT_DIR / "main.py"]
+    py_files = list((ROOT_DIR / "novaswarm").rglob("*.py")) + [ROOT_DIR / "main.py"]
     errors = []
 
     for f in py_files:
@@ -162,7 +162,7 @@ def check_4_import_resolution() -> bool:
     sys.path.insert(0, str(ROOT_DIR))
     errors = []
 
-    for mod_name in SKOPAQ_CORE_MODULES:
+    for mod_name in NOVASWARM_CORE_MODULES:
         try:
             importlib.import_module(mod_name)
             print(f"  [OK] {mod_name}")
@@ -174,14 +174,14 @@ def check_4_import_resolution() -> bool:
         print(f"  [FAIL] {len(errors)} module imports failed.")
         return False
 
-    print(f"  [PASS] All {len(SKOPAQ_CORE_MODULES)} core modules imported successfully.")
+    print(f"  [PASS] All {len(NOVASWARM_CORE_MODULES)} core modules imported successfully.")
     return True
 
 
 def check_5_schema_contract_symmetry() -> bool:
     log_header("CHECK 5: Schema Contract Symmetry & Legacy Bridge")
     try:
-        from skopaq.orchestration.context import AnalysisContext
+        from novaswarm.orchestration.context import AnalysisContext
 
         # Test forward conversion
         ctx = AnalysisContext(
@@ -226,8 +226,8 @@ def check_6_cli_smoke_tests() -> bool:
     commands = [
         [sys.executable, "main.py", "--help"],
         [sys.executable, "main.py", "version"],
-        [sys.executable, "-m", "skopaq.cli.main", "--help"],
-        [sys.executable, "-m", "skopaq.cli.main", "version"],
+        [sys.executable, "-m", "novaswarm.cli.main", "--help"],
+        [sys.executable, "-m", "novaswarm.cli.main", "version"],
     ]
 
     for cmd in commands:
@@ -259,7 +259,7 @@ def check_7_unit_test_suite() -> bool:
 
 
 def main():
-    print(f"{'#'*70}\nSKOPAQTRADER CLEAN-ROOM ARCHITECTURAL AUDIT\n{'#'*70}")
+    print(f"{'#'*70}\nNOVASWARM_TRADER CLEAN-ROOM ARCHITECTURAL AUDIT\n{'#'*70}")
     checks = [
         ("Check 1: Zero Upstream Directories", check_1_purged_directories),
         ("Check 2: Zero Forbidden Terms", check_2_forbidden_terms),

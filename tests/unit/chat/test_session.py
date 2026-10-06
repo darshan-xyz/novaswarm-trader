@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from skopaq.chat.session import ChatSession, Infrastructure
+from novaswarm.chat.session import ChatSession, Infrastructure
 
 
 @pytest.fixture
@@ -104,7 +104,7 @@ def test_clear_resets_history(mock_config):
     assert len(session.messages) == 0
 
 
-@patch("skopaq.chat.session.build_infrastructure")
+@patch("novaswarm.chat.session.build_infrastructure")
 def test_ensure_infra_lazily_initialised(mock_build, mock_config):
     mock_infra = MagicMock(spec=Infrastructure)
     mock_build.return_value = mock_infra

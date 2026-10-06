@@ -1,4 +1,4 @@
-"""Adversarial stress and edge case test suite for Skopaq Multi-Provider LLM Gateway.
+"""Adversarial stress and edge case test suite for NovaSwarm Multi-Provider LLM Gateway.
 
 Milestone 2 Challenger Suite:
 1. Malformed provider names, invalid model strings, case insensitivity.
@@ -19,7 +19,7 @@ from typing import Any
 from unittest.mock import MagicMock, patch
 import pytest
 
-from skopaq.llm.gateway import (
+from novaswarm.llm.gateway import (
     LLMError,
     LLMGateway,
     LLMProvider,
@@ -31,7 +31,7 @@ from skopaq.llm.gateway import (
     extract_clean_text,
     strip_reasoning_tags,
 )
-from skopaq.llm.client_factory import (
+from novaswarm.llm.client_factory import (
     LegacyLLMClientAdapter,
     create_llm_client,
     instantiate_model,
@@ -353,20 +353,20 @@ class TestApiKeysAndFallbackFaultInjection:
                 mock_openai.assert_called_once()
                 assert mock_openai.call_args[1]["api_key"] == "explicit-key"
 
-    def test_skopaq_prefixed_env_keys_accepted(self):
-        """All providers must accept SKOPAQ_<PROVIDER>_API_KEY as fallback."""
+    def test_novaswarm_prefixed_env_keys_accepted(self):
+        """All providers must accept NOVASWARM_<PROVIDER>_API_KEY as fallback."""
         key_pairs = [
-            (LLMProvider.GOOGLE, "SKOPAQ_GOOGLE_API_KEY"),
-            (LLMProvider.ANTHROPIC, "SKOPAQ_ANTHROPIC_API_KEY"),
-            (LLMProvider.OPENAI, "SKOPAQ_OPENAI_API_KEY"),
-            (LLMProvider.XAI, "SKOPAQ_XAI_API_KEY"),
-            (LLMProvider.OPENROUTER, "SKOPAQ_OPENROUTER_API_KEY"),
-            (LLMProvider.PERPLEXITY, "SKOPAQ_PERPLEXITY_API_KEY"),
+            (LLMProvider.GOOGLE, "NOVASWARM_GOOGLE_API_KEY"),
+            (LLMProvider.ANTHROPIC, "NOVASWARM_ANTHROPIC_API_KEY"),
+            (LLMProvider.OPENAI, "NOVASWARM_OPENAI_API_KEY"),
+            (LLMProvider.XAI, "NOVASWARM_XAI_API_KEY"),
+            (LLMProvider.OPENROUTER, "NOVASWARM_OPENROUTER_API_KEY"),
+            (LLMProvider.PERPLEXITY, "NOVASWARM_PERPLEXITY_API_KEY"),
         ]
         for prov, env_name in key_pairs:
-            with patch.dict(os.environ, {env_name: f"skopaq-token-for-{prov.value}"}, clear=True):
+            with patch.dict(os.environ, {env_name: f"novaswarm-token-for-{prov.value}"}, clear=True):
                 resolved = LLMGateway.get_api_key(prov)
-                assert resolved == f"skopaq-token-for-{prov.value}"
+                assert resolved == f"novaswarm-token-for-{prov.value}"
 
     def test_empty_string_api_key_treated_as_missing(self):
         """Passing api_key='' or whitespace must trigger ProviderKeyMissingError."""
@@ -414,8 +414,8 @@ class TestApiKeysAndFallbackFaultInjection:
     def test_fallback_cascade_to_ollama_when_google_unavailable(self):
         """When primary and Google are unavailable, fall back to local Ollama."""
         with patch.dict(os.environ, {}, clear=True):
-            with patch("skopaq.llm.model_tier._is_ollama_available", return_value=True):
-                with patch("skopaq.llm.gateway.LLMGateway._build_ollama") as mock_ollama:
+            with patch("novaswarm.llm.model_tier._is_ollama_available", return_value=True):
+                with patch("novaswarm.llm.gateway.LLMGateway._build_ollama") as mock_ollama:
                     mock_instance = MagicMock()
                     mock_ollama.return_value = mock_instance
 
@@ -427,7 +427,7 @@ class TestApiKeysAndFallbackFaultInjection:
     def test_fallback_cascade_exhaustion_raises(self):
         """When primary and all fallbacks fail, raise ProviderKeyMissingError."""
         with patch.dict(os.environ, {}, clear=True):
-            with patch("skopaq.llm.model_tier._is_ollama_available", return_value=False):
+            with patch("novaswarm.llm.model_tier._is_ollama_available", return_value=False):
                 with pytest.raises(ProviderKeyMissingError):
                     instantiate_model("openai", "gpt-4o", allow_fallback=True)
 
@@ -467,8 +467,8 @@ class TestBaseUrlAndOptionalPackageFaultInjection:
         mock_openai.assert_called_once()
         kwargs = mock_openai.call_args[1]
         assert kwargs["base_url"] == "https://custom.openrouter.ai/v1/"
-        assert kwargs["default_headers"]["HTTP-Referer"] == "https://skopaq.ai"
-        assert kwargs["default_headers"]["X-Title"] == "SkopaqTrader"
+        assert kwargs["default_headers"]["HTTP-Referer"] == "https://novaswarm.ai"
+        assert kwargs["default_headers"]["X-Title"] == "NovaSwarm Trader"
         assert kwargs["default_headers"]["X-Custom-Route"] == "high-priority"
 
     @patch("langchain_openai.ChatOpenAI")

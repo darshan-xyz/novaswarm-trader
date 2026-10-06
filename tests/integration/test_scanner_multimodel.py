@@ -7,7 +7,7 @@ Tests the full multi-model scanner pipeline:
     4. Social screening with Grok via OpenRouter (parallel)
     5. Deduplication merges multi-source signals
 
-Requires: SKOPAQ_INDSTOCKS_TOKEN, GOOGLE_API_KEY, OPENROUTER_API_KEY in .env
+Requires: NOVASWARM_INDSTOCKS_TOKEN, GOOGLE_API_KEY, OPENROUTER_API_KEY in .env
 
 Run:  python3 -m pytest tests/integration/test_scanner_multimodel.py -v -m integration -s
 """
@@ -33,8 +33,8 @@ logger = logging.getLogger(__name__)
 
 def _skip_unless_full_stack():
     """Skip if any required key is missing."""
-    if not os.environ.get("SKOPAQ_INDSTOCKS_TOKEN"):
-        pytest.skip("SKOPAQ_INDSTOCKS_TOKEN not set")
+    if not os.environ.get("NOVASWARM_INDSTOCKS_TOKEN"):
+        pytest.skip("NOVASWARM_INDSTOCKS_TOKEN not set")
     if not os.environ.get("GOOGLE_API_KEY"):
         pytest.skip("GOOGLE_API_KEY not set")
     if not os.environ.get("OPENROUTER_API_KEY"):
@@ -52,7 +52,7 @@ def _skip_unless_openrouter():
 async def gemini_flash_screener(prompt: str) -> str:
     """Send technical screening prompt to Gemini 3 Flash."""
     from langchain_google_genai import ChatGoogleGenerativeAI
-    from skopaq.llm import extract_text
+    from novaswarm.llm import extract_text
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-3-flash-preview",
@@ -122,7 +122,7 @@ class TestPerplexityNewsScreener:
     def test_returns_json_response(self):
         """Perplexity Sonar should return valid JSON candidates for Indian stocks."""
         _skip_unless_openrouter()
-        from skopaq.scanner.screen import build_news_prompt, parse_screen_response
+        from novaswarm.scanner.screen import build_news_prompt, parse_screen_response
 
         symbols = ["RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK"]
         prompt = build_news_prompt(symbols, max_candidates=3)
@@ -153,7 +153,7 @@ class TestGrokSocialScreener:
     def test_returns_json_response(self):
         """Grok should return valid JSON candidates for social signals."""
         _skip_unless_openrouter()
-        from skopaq.scanner.screen import build_social_prompt, parse_screen_response
+        from novaswarm.scanner.screen import build_social_prompt, parse_screen_response
 
         symbols = ["RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK"]
         prompt = build_social_prompt(symbols, max_candidates=3)
@@ -185,8 +185,8 @@ class TestMultiModelScanner:
     def test_scan_once_all_three_screeners(self):
         """Full multi-model scan with all three LLMs running in parallel."""
         _skip_unless_full_stack()
-        from skopaq.scanner.engine import ScannerEngine
-        from skopaq.scanner.watchlist import Watchlist
+        from novaswarm.scanner.engine import ScannerEngine
+        from novaswarm.scanner.watchlist import Watchlist
 
         watchlist = Watchlist(symbols=MULTIMODEL_WATCHLIST)
 
@@ -225,8 +225,8 @@ class TestMultiModelScanner:
     def test_scan_degrades_gracefully_on_screener_failure(self):
         """If one screener fails, others should still produce candidates."""
         _skip_unless_full_stack()
-        from skopaq.scanner.engine import ScannerEngine
-        from skopaq.scanner.watchlist import Watchlist
+        from novaswarm.scanner.engine import ScannerEngine
+        from novaswarm.scanner.watchlist import Watchlist
 
         async def failing_screener(prompt: str) -> str:
             raise RuntimeError("Simulated screener failure")

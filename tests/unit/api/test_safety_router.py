@@ -1,4 +1,4 @@
-"""Unit tests for skopaq/api/safety_router.py."""
+"""Unit tests for novaswarm/api/safety_router.py."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.safety_router import router
+from novaswarm.api.safety_router import router
 
 
 @pytest.fixture

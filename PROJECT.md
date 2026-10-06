@@ -1,21 +1,21 @@
-# Project: SkopaqTrader Production-Ready Mock Eradication & Subsystem Hardening
+# Project: NovaSwarm Trader Production-Ready Mock Eradication & Subsystem Hardening
 
 ## Architecture
-SkopaqTrader is an autonomous AI multi-agent algorithmic trading platform for Indian equities.
+NovaSwarm Trader is an autonomous AI multi-agent algorithmic trading platform for Indian equities.
 This project phase executes the complete, production-ready eradication of all mock data, seed arrays, fake stats, and simulated fallbacks across all frontend pages and backend subsystems, replacing them with live subsystem integrations, a unified shared paper trading engine, real live market scanning, and clean, truthful empty states.
 
-1. **Centralized Shared Paper Trading Engine (`skopaq/broker/paper_engine.py`)**:
+1. **Centralized Shared Paper Trading Engine (`novaswarm/broker/paper_engine.py`)**:
    - Single in-memory singleton via `get_shared_paper_engine()` and `reset_shared_paper_engine()`.
    - Unified synchronization of cash (₹10,00,000.00), open positions, executed orders, and realized/unrealized P&L across `server.py`, `performance_router.py`, `safety_router.py`, `chat/session.py`, and `chat/tools.py`.
-2. **Hardened Live Market Scanner (`skopaq/scanner/engine.py`)**:
+2. **Hardened Live Market Scanner (`novaswarm/scanner/engine.py`)**:
    - Real batch quote fetching across NIFTY 50 via `yfinance.download` / INDstocks.
    - Real LLM screening via `instantiate_model("google", "gemini-flash-lite-latest")` evaluating against `SCREEN_PROMPT_TEMPLATE`.
-   - Wired in `skopaq/api/server.py:_get_scanner()` to power `POST /api/scanner/scan` and `GET /api/scanner/candidates`.
+   - Wired in `novaswarm/api/server.py:_get_scanner()` to power `POST /api/scanner/scan` and `GET /api/scanner/candidates`.
 3. **Truthful Performance Metrics & Resilient Learning Tracker**:
-   - `skopaq/api/performance_router.py`: Strict calculation of Sharpe ratio and Max Drawdown from trade returns (0.0 if trades < 5); 0.0 accuracy and 0 predictions in `/models` when no prediction history exists.
-   - `skopaq/learning/tracker.py`: Resilient multi-tier query (Postgres -> Supabase `trades` via `get_safe_supabase()` -> in-memory) returning truthful zeroed metrics without connection exceptions.
+   - `novaswarm/api/performance_router.py`: Strict calculation of Sharpe ratio and Max Drawdown from trade returns (0.0 if trades < 5); 0.0 accuracy and 0 predictions in `/models` when no prediction history exists.
+   - `novaswarm/learning/tracker.py`: Resilient multi-tier query (Postgres -> Supabase `trades` via `get_safe_supabase()` -> in-memory) returning truthful zeroed metrics without connection exceptions.
 4. **Chat Bridge Multi-Modal Text Extraction & Timeout Configuration**:
-   - `skopaq/chat/bridge.py`: Robust `_extract_text(content)` handling both strings and Google GenAI/Anthropic block lists (`[{'type': 'text', ...}]`).
+   - `novaswarm/chat/bridge.py`: Robust `_extract_text(content)` handling both strings and Google GenAI/Anthropic block lists (`[{'type': 'text', ...}]`).
    - `frontend/src/lib/api.ts`: 45-second timeout for `/api/chat/message`.
 5. **Frontend Seed & Mock Data Eradication**:
    - Clean empty states across `/scanner`, `/chat`, `/trades`, `/portfolio`, `/`, `/analytics`, and `/settings`.
@@ -98,7 +98,7 @@ This project phase executes the complete, production-ready eradication of all mo
 
 ## Code Layout
 - Write ownership boundaries:
-  - Backend Routers & Models: `skopaq/api/trades_router.py`, `skopaq/api/analysis_models.py`, `skopaq/api/analysis_manager.py`, `skopaq/api/analysis_router.py`, `skopaq/api/memory_router.py`, `skopaq/api/performance_router.py`, `skopaq/api/safety_router.py`, `skopaq/api/system_router.py`, `skopaq/api/server.py`.
+  - Backend Routers & Models: `novaswarm/api/trades_router.py`, `novaswarm/api/analysis_models.py`, `novaswarm/api/analysis_manager.py`, `novaswarm/api/analysis_router.py`, `novaswarm/api/memory_router.py`, `novaswarm/api/performance_router.py`, `novaswarm/api/safety_router.py`, `novaswarm/api/system_router.py`, `novaswarm/api/server.py`.
   - Backend Unit Tests: `tests/unit/api/*`, `tests/unit/llm/test_ollama.py`.
   - Frontend Workspace: `frontend/package.json`, `frontend/src/*`, `frontend/public/*`, `frontend/tailwind.config.ts`, `frontend/next.config.js`.
   - E2E Tests: `tests/e2e/*`, `tests/e2e/test_runner.py`, `TEST_INFRA.md`, `TEST_READY.md`.

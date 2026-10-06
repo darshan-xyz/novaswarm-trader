@@ -1,4 +1,4 @@
-"""Empirical Stress Tests and Vulnerability Scenarios for skopaq.data.
+"""Empirical Stress Tests and Vulnerability Scenarios for novaswarm.data.
 
 This suite stress-tests:
 1. Adversarial Inputs:
@@ -33,33 +33,33 @@ import pandas as pd
 from pydantic import SecretStr
 import pytest
 
-from skopaq.config import SkopaqConfig
-from skopaq.data.indstocks import (
+from novaswarm.config import NovaSwarmConfig
+from novaswarm.data.indstocks import (
     INDstocksAuthError,
     INDstocksDataProvider,
     INDstocksError,
     INDstocksSymbolNotFoundError,
 )
-from skopaq.data.models import (
+from novaswarm.data.models import (
     CompanyFundamentals,
     NewsArticle,
     QuoteData,
     validate_ohlcv_dataframe,
 )
-from skopaq.data.pipeline import (
+from novaswarm.data.pipeline import (
     MarketDataError,
     UnifiedMarketData,
     get_historical_ohlcv,
     get_quote,
     get_unified_market_data,
 )
-from skopaq.data.symbols import (
+from novaswarm.data.symbols import (
     detect_exchange,
     normalize_symbol,
     to_indstocks_symbol,
     to_yfinance_symbol,
 )
-from skopaq.data.yfinance import YFinanceDataProvider, YFinanceError
+from novaswarm.data.yfinance import YFinanceDataProvider, YFinanceError
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ def sample_news():
 class TestAdversarialCredentials:
     def test_missing_token_secretstr_empty(self, tmp_path, sample_ohlcv):
         """When indstocks_token is empty SecretStr, should fallback to yfinance."""
-        cfg = SkopaqConfig(indstocks_token=SecretStr(""))
+        cfg = NovaSwarmConfig(indstocks_token=SecretStr(""))
         umd = UnifiedMarketData(config=cfg, cache_dir=tmp_path)
         with patch.object(umd.yfinance_provider, "get_historical", return_value=sample_ohlcv) as mock_yf:
             df = umd.get_historical_ohlcv("TCS", "2026-01-01", "2026-01-20")
@@ -153,9 +153,9 @@ class TestAdversarialCredentials:
 
     def test_indstocks_provider_standalone_missing_token(self):
         """Standalone INDstocksDataProvider must raise INDstocksAuthError when token missing."""
-        cfg = SkopaqConfig(indstocks_token=SecretStr(""))
+        cfg = NovaSwarmConfig(indstocks_token=SecretStr(""))
         provider = INDstocksDataProvider(cfg)
-        with pytest.raises(INDstocksAuthError, match="SKOPAQ_INDSTOCKS_TOKEN is not configured"):
+        with pytest.raises(INDstocksAuthError, match="NOVASWARM_INDSTOCKS_TOKEN is not configured"):
             provider._get_client()
 
 

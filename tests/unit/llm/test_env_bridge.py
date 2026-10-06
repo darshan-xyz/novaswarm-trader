@@ -11,7 +11,7 @@ class TestBridgeEnvVars:
     """Tests for bridge_env_vars()."""
 
     def _make_config(self, **kwargs):
-        """Create a mock SkopaqConfig with SecretStr fields.
+        """Create a mock NovaSwarmConfig with SecretStr fields.
 
         All bridged keys default to empty SecretStr so MagicMock's
         auto-attribute creation doesn't leak non-string values into
@@ -27,8 +27,8 @@ class TestBridgeEnvVars:
         return config
 
     def test_bridges_google_key(self):
-        """SKOPAQ_GOOGLE_API_KEY → GOOGLE_API_KEY."""
-        from skopaq.llm.env_bridge import bridge_env_vars
+        """NOVASWARM_GOOGLE_API_KEY → GOOGLE_API_KEY."""
+        from novaswarm.llm.env_bridge import bridge_env_vars
 
         config = self._make_config(google_api_key="test-google-key-123")
 
@@ -41,7 +41,7 @@ class TestBridgeEnvVars:
 
     def test_does_not_overwrite_existing(self):
         """If GOOGLE_API_KEY is already set, bridge should not touch it."""
-        from skopaq.llm.env_bridge import bridge_env_vars
+        from novaswarm.llm.env_bridge import bridge_env_vars
 
         config = self._make_config(google_api_key="new-key")
 
@@ -52,7 +52,7 @@ class TestBridgeEnvVars:
 
     def test_skips_empty_values(self):
         """Empty secrets should not be bridged."""
-        from skopaq.llm.env_bridge import bridge_env_vars
+        from novaswarm.llm.env_bridge import bridge_env_vars
 
         config = self._make_config(google_api_key="", anthropic_api_key="")
 
@@ -65,7 +65,7 @@ class TestBridgeEnvVars:
 
     def test_bridges_multiple_keys(self):
         """Multiple keys get bridged in one call."""
-        from skopaq.llm.env_bridge import bridge_env_vars
+        from novaswarm.llm.env_bridge import bridge_env_vars
 
         config = self._make_config(
             google_api_key="g-key",

@@ -1,4 +1,4 @@
-# SkopaqTrader E2E Test Suite Readiness Certification
+# NovaSwarm Trader E2E Test Suite Readiness Certification
 
 **Document Version**: 1.0.0  
 **Milestone**: M0 (E2E Testing Track)  
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-This document certifies that the **SkopaqTrader End-to-End (E2E) Test Suite** is fully implemented, rigorously verified, and certified ready for deployment across CI/CD automation and live integration testing.
+This document certifies that the **NovaSwarm Trader End-to-End (E2E) Test Suite** is fully implemented, rigorously verified, and certified ready for deployment across CI/CD automation and live integration testing.
 
 The E2E test suite provides an **opaque-box verification layer** that executes against all public application boundaries:
 - 7 REST routers (`/api/status`, `/api/portfolio`, `/api/scanner`, `/api/trades`, `/api/analysis`, `/api/memory`, `/api/performance`, `/api/safety`, `/api/system`)
@@ -33,7 +33,7 @@ python tests/e2e/test_runner.py --mode mock --json-report tests/e2e/test_report.
 ### Execution Results:
 ```
 ================================================================================
-  SKOPAQTRADER END-TO-END (E2E) TEST RUNNER
+  NOVASWARM_TRADER END-TO-END (E2E) TEST RUNNER
   Mode: MOCK | Tier: ALL | Feature Filter: None
   Backend: http://localhost:8000 | Frontend: http://localhost:3000
 ================================================================================
@@ -114,7 +114,7 @@ python -m pytest tests/e2e/ -q
 ## 4. Test Infrastructure Directory Structure
 
 ```
-d:/projects/skopaqtrader-main/
+d:/projects/novaswarm-trader-main/
 ├── TEST_INFRA.md                       # Comprehensive test methodology & catalog
 ├── TEST_READY.md                       # Readiness certification (this file)
 └── tests/
@@ -178,7 +178,7 @@ python tests/e2e/test_runner.py --mode mock --json-report test_results.json
 ```
 
 ### Staging / Milestone 6 (Live Server Mode):
-Once the backend server (`python -m skopaq.cli.main serve`) and frontend server (`npm run dev` in `frontend/`) are running:
+Once the backend server (`python -m novaswarm.cli.main serve`) and frontend server (`npm run dev` in `frontend/`) are running:
 ```bash
 python tests/e2e/test_runner.py --mode live --backend-url http://localhost:8000 --frontend-url http://localhost:3000
 ```

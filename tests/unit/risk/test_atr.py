@@ -1,7 +1,7 @@
 """Tests for ATR data fetching and parsing.
 
 Validates the fallback estimate, regex-based parser, and integration
-with native indicator engine (skopaq.indicators.engine.get_indicators).
+with native indicator engine (novaswarm.indicators.engine.get_indicators).
 """
 
 from __future__ import annotations
@@ -12,8 +12,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from skopaq.indicators.engine import get_indicators
-from skopaq.risk.atr import _parse_atr_value, estimate_atr, fetch_atr
+from novaswarm.indicators.engine import get_indicators
+from novaswarm.risk.atr import _parse_atr_value, estimate_atr, fetch_atr
 
 
 # ── Estimate ATR ──────────────────────────────────────────────────────────────
@@ -101,28 +101,28 @@ def synthetic_ohlcv():
 
 
 class TestFetchATR:
-    """Test fetch_atr decoupled to native skopaq.indicators.engine."""
+    """Test fetch_atr decoupled to native novaswarm.indicators.engine."""
 
     def test_vendor_failure_returns_none(self):
         """When vendor/provider fails, return None."""
-        with patch("skopaq.indicators.engine.get_indicators", side_effect=RuntimeError("Data unavailable")):
+        with patch("novaswarm.indicators.engine.get_indicators", side_effect=RuntimeError("Data unavailable")):
             result = fetch_atr("RELIANCE", "2026-03-01")
         assert result is None
 
     def test_vendor_returns_empty(self):
-        with patch("skopaq.indicators.engine.get_indicators", return_value=""):
+        with patch("novaswarm.indicators.engine.get_indicators", return_value=""):
             result = fetch_atr("RELIANCE", "2026-03-01")
         assert result is None
 
     def test_vendor_returns_valid_data(self):
-        with patch("skopaq.indicators.engine.get_indicators", return_value="2026-03-01: ATR = 55.0000"):
+        with patch("novaswarm.indicators.engine.get_indicators", return_value="2026-03-01: ATR = 55.0000"):
             result = fetch_atr("RELIANCE", "2026-03-01")
         assert result == 55.0
 
     def test_fetch_atr_delegates_to_native_engine(self, synthetic_ohlcv):
         """Verify fetch_atr works seamlessly when routed to native get_indicators."""
         with patch(
-            "skopaq.indicators.engine.get_indicators",
+            "novaswarm.indicators.engine.get_indicators",
             side_effect=lambda sym, ind, date, lb: get_indicators(
                 sym, ind, date, lb, ohlcv_df=synthetic_ohlcv
             ),

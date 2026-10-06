@@ -25,11 +25,11 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 
-from skopaq.api.analysis_models import DecisionCard
-from skopaq.memory.episodic import EpisodicLessonStore
-from skopaq.orchestration.context import AnalysisContext
-from skopaq.orchestration.engine import NovaPipeline
-from skopaq.orchestration.signal_extraction import DecisionExtractor
+from novaswarm.api.analysis_models import DecisionCard
+from novaswarm.memory.episodic import EpisodicLessonStore
+from novaswarm.orchestration.context import AnalysisContext
+from novaswarm.orchestration.engine import NovaPipeline
+from novaswarm.orchestration.signal_extraction import DecisionExtractor
 
 logger = logging.getLogger(__name__)
 

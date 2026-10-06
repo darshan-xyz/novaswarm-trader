@@ -1,4 +1,4 @@
-"""Adversarial Stress Test and Empirical Benchmark Suite for SkopaqTrader Episodic Memory.
+"""Adversarial Stress Test and Empirical Benchmark Suite for NovaSwarm Trader Episodic Memory.
 
 Covers:
 1. Extreme corpus scaling (up to 10,000 situations) with latency, throughput, and memory profiling.
@@ -24,7 +24,7 @@ import time
 import tracemalloc
 from typing import Any
 
-from skopaq.memory.episodic import (
+from novaswarm.memory.episodic import (
     EpisodicLessonMatch,
     EpisodicLessonStore,
     InvertedIndex,

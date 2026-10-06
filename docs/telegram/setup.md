@@ -1,6 +1,6 @@
 # Telegram Bot Setup
 
-SkopaqTrader includes a Telegram bot (`@Skopaq_bot`) that provides trade alerts, portfolio monitoring, and scheduled market updates. The bot is defined in `skopaq/telegram_bot.py`.
+NovaSwarm Trader includes a Telegram bot (`@NovaSwarm_bot`) that provides trade alerts, portfolio monitoring, and scheduled market updates. The bot is defined in `novaswarm/telegram_bot.py`.
 
 ## Create Your Bot
 
@@ -8,8 +8,8 @@ SkopaqTrader includes a Telegram bot (`@Skopaq_bot`) that provides trade alerts,
 
 1. Open Telegram and search for `@BotFather`
 2. Send `/newbot`
-3. Choose a name (e.g., "SkopaqTrader")
-4. Choose a username (e.g., `my_skopaq_bot`)
+3. Choose a name (e.g., "NovaSwarm Trader")
+4. Choose a username (e.g., `my_novaswarm_bot`)
 5. BotFather gives you a token like `7123456789:AAH-abc123def456ghi789jkl`
 
 ### Step 2: Set the Token
@@ -17,13 +17,13 @@ SkopaqTrader includes a Telegram bot (`@Skopaq_bot`) that provides trade alerts,
 Add the token to your `.env`:
 
 ```bash
-SKOPAQ_TELEGRAM_BOT_TOKEN=7123456789:AAH-abc123def456ghi789jkl
+NOVASWARM_TELEGRAM_BOT_TOKEN=7123456789:AAH-abc123def456ghi789jkl
 ```
 
 Optionally set a default chat ID for notifications:
 
 ```bash
-SKOPAQ_TELEGRAM_CHAT_ID=123456789
+NOVASWARM_TELEGRAM_CHAT_ID=123456789
 ```
 
 !!! tip "Finding your chat ID"
@@ -52,19 +52,19 @@ help - List all commands
 ## Running Locally
 
 ```bash
-python -m skopaq.telegram_bot
+python -m novaswarm.telegram_bot
 ```
 
 Or via the CLI:
 
 ```bash
-skopaq telegram  # If this command exists
+novaswarm telegram  # If this command exists
 ```
 
 The bot starts polling for messages and registers 3 scheduled jobs:
 
 ```
-Starting SkopaqTrader Telegram bot...
+Starting NovaSwarm Trader Telegram bot...
 Scheduled jobs:
   09:00 IST — Pre-market login reminder
   09:25 IST — Auto market scan
@@ -77,18 +77,18 @@ Bot ready. Polling for messages...
 ### Step 1: Create the App
 
 ```bash
-fly launch --name skopaq-telegram --region bom --no-deploy
+fly launch --name novaswarm-telegram --region bom --no-deploy
 ```
 
 ### Step 2: Set Secrets
 
 ```bash
 fly secrets set \
-  SKOPAQ_TELEGRAM_BOT_TOKEN="your-token" \
-  SKOPAQ_KITE_API_KEY="your-key" \
-  SKOPAQ_KITE_API_SECRET="your-secret" \
-  SKOPAQ_GOOGLE_API_KEY="your-key" \
-  -a skopaq-telegram
+  NOVASWARM_TELEGRAM_BOT_TOKEN="your-token" \
+  NOVASWARM_KITE_API_KEY="your-key" \
+  NOVASWARM_KITE_API_SECRET="your-secret" \
+  NOVASWARM_GOOGLE_API_KEY="your-key" \
+  -a novaswarm-telegram
 ```
 
 ### Step 3: Deploy
@@ -103,14 +103,14 @@ The Telegram bot runs as a background worker (no HTTP port needed):
 
 ```toml
 # fly-telegram.toml
-app = 'skopaq-telegram'
+app = 'novaswarm-telegram'
 primary_region = 'bom'
 
 [processes]
   app = "telegram"
 
 [mounts]
-  source = "skopaq_data"
+  source = "novaswarm_data"
   destination = "/data"
 
 [[vm]]
@@ -122,18 +122,18 @@ primary_region = 'bom'
 ### Step 4: Create Volume for Token Persistence
 
 ```bash
-fly volumes create skopaq_data --region bom --size 1 -a skopaq-telegram
+fly volumes create novaswarm_data --region bom --size 1 -a novaswarm-telegram
 ```
 
-The Kite access token is persisted to `/data/skopaq_kite_token.json` so it survives restarts.
+The Kite access token is persisted to `/data/novaswarm_kite_token.json` so it survives restarts.
 
 ## Deploying with Docker
 
 ```bash
 docker run -d \
-  --name skopaq-telegram \
+  --name novaswarm-telegram \
   --env-file .env \
-  samuelvinay91/skopaq:latest \
+  samuelvinay91/novaswarm:latest \
   telegram
 ```
 
@@ -150,23 +150,23 @@ Telegram Cloud
       │
       │ (polling)
       ▼
-skopaq/telegram_bot.py
+novaswarm/telegram_bot.py
       │
       ├── Command Handlers (/quote, /portfolio, etc.)
       ├── Natural Language Handler (AI chat brain)
       ├── Scheduled Jobs (login, scan, EOD)
       │
-      ├── skopaq/broker/kite_client.py (market data)
-      ├── skopaq/notifications.py (centralized alerts)
-      └── skopaq/mcp_server.py (analysis tools)
+      ├── novaswarm/broker/kite_client.py (market data)
+      ├── novaswarm/notifications.py (centralized alerts)
+      └── novaswarm/mcp_server.py (analysis tools)
 ```
 
 ## Notification System
 
-The bot integrates with `skopaq/notifications.py`. Any part of the system can send alerts:
+The bot integrates with `novaswarm/notifications.py`. Any part of the system can send alerts:
 
 ```python
-from skopaq.notifications import notify
+from novaswarm.notifications import notify
 
 await notify("Order filled: BUY 10x RELIANCE @ Rs 2,485")
 ```

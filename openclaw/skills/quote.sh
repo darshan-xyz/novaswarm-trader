@@ -5,12 +5,12 @@ set -e
 cd "$(dirname "$0")/../.."
 python3 -c "
 import asyncio, sys
-from skopaq.config import SkopaqConfig
-from skopaq.chat.session import build_infrastructure
-from skopaq.chat.tools import init_tools, get_quote
+from novaswarm.config import NovaSwarmConfig
+from novaswarm.chat.session import build_infrastructure
+from novaswarm.chat.tools import init_tools, get_quote
 
 async def main():
-    config = SkopaqConfig()
+    config = NovaSwarmConfig()
     infra = build_infrastructure(config)
     init_tools(infra)
     result = await get_quote.ainvoke({'symbol': sys.argv[1]})

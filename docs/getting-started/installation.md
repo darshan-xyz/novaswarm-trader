@@ -9,15 +9,15 @@
 ## Install from Source
 
 ```bash
-git clone https://github.com/samuelvinay91/skopaqtrader.git
-cd skopaqtrader
+git clone https://github.com/samuelvinay91/novaswarm-trader.git
+cd novaswarm-trader
 pip install -e .
 ```
 
 ## Install via Docker
 
 ```bash
-docker pull samuelvinay91/skopaq:latest
+docker pull samuelvinay91/novaswarm:latest
 ```
 
 ## API Keys
@@ -32,46 +32,46 @@ cp .env.example .env
 
 ```bash
 # At least one LLM provider
-SKOPAQ_GOOGLE_API_KEY=your-gemini-key
+NOVASWARM_GOOGLE_API_KEY=your-gemini-key
 ```
 
 ### Full Setup (Live Trading)
 
 ```bash
 # LLM Providers
-SKOPAQ_GOOGLE_API_KEY=...          # Gemini 3 Flash (analysts)
-SKOPAQ_ANTHROPIC_API_KEY=...       # Claude Opus (research/risk manager)
-SKOPAQ_OPENROUTER_API_KEY=...      # Grok + Perplexity (social + news)
+NOVASWARM_GOOGLE_API_KEY=...          # Gemini 3 Flash (analysts)
+NOVASWARM_ANTHROPIC_API_KEY=...       # Claude Opus (research/risk manager)
+NOVASWARM_OPENROUTER_API_KEY=...      # Grok + Perplexity (social + news)
 
 # Broker
-SKOPAQ_KITE_API_KEY=...            # Zerodha Kite Connect
-SKOPAQ_KITE_API_SECRET=...         # Kite API secret
+NOVASWARM_KITE_API_KEY=...            # Zerodha Kite Connect
+NOVASWARM_KITE_API_SECRET=...         # Kite API secret
 
 # Telegram Bot
-SKOPAQ_TELEGRAM_BOT_TOKEN=...      # From @BotFather
-SKOPAQ_TELEGRAM_CHAT_ID=...        # Your chat ID
+NOVASWARM_TELEGRAM_BOT_TOKEN=...      # From @BotFather
+NOVASWARM_TELEGRAM_CHAT_ID=...        # Your chat ID
 
 # Trading Mode
-SKOPAQ_TRADING_MODE=paper          # Start with paper, switch to live later
+NOVASWARM_TRADING_MODE=paper          # Start with paper, switch to live later
 ```
 
 ### Optional Services
 
 ```bash
 # Supabase (agent memory persistence)
-SKOPAQ_SUPABASE_URL=...
-SKOPAQ_SUPABASE_SERVICE_KEY=...
+NOVASWARM_SUPABASE_URL=...
+NOVASWARM_SUPABASE_SERVICE_KEY=...
 
 # Ollama (local model fallback)
-SKOPAQ_OLLAMA_ENABLED=true
-SKOPAQ_OLLAMA_BASE_URL=http://localhost:11434
+NOVASWARM_OLLAMA_ENABLED=true
+NOVASWARM_OLLAMA_BASE_URL=http://localhost:11434
 ```
 
 ## Verify Installation
 
 ```bash
-skopaq status    # System health check
-skopaq --help    # All commands
+novaswarm status    # System health check
+novaswarm --help    # All commands
 ```
 
 ## Model Tiering

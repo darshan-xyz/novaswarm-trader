@@ -2,8 +2,8 @@
 
 import pytest
 
-from skopaq.scanner.models import ScannerMetrics
-from skopaq.scanner.screen import (
+from novaswarm.scanner.models import ScannerMetrics
+from novaswarm.scanner.screen import (
     build_screen_prompt,
     format_metrics_table,
     parse_screen_response,

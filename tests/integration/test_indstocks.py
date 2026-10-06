@@ -1,7 +1,7 @@
 """Integration tests — INDstocks API connectivity.
 
 Tests real API calls to INDstocks for market data.
-Requires: SKOPAQ_INDSTOCKS_TOKEN in .env
+Requires: NOVASWARM_INDSTOCKS_TOKEN in .env
 """
 
 import os
@@ -14,9 +14,9 @@ pytestmark = pytest.mark.integration
 
 
 def _skip_if_no_token():
-    token = os.environ.get("SKOPAQ_INDSTOCKS_TOKEN", "")
+    token = os.environ.get("NOVASWARM_INDSTOCKS_TOKEN", "")
     if not token:
-        pytest.skip("SKOPAQ_INDSTOCKS_TOKEN not set")
+        pytest.skip("NOVASWARM_INDSTOCKS_TOKEN not set")
 
 
 class TestINDstocksToken:
@@ -24,7 +24,7 @@ class TestINDstocksToken:
 
     def test_token_is_jwt(self):
         _skip_if_no_token()
-        token = os.environ["SKOPAQ_INDSTOCKS_TOKEN"]
+        token = os.environ["NOVASWARM_INDSTOCKS_TOKEN"]
         parts = token.split(".")
         assert len(parts) == 3, f"Token should be JWT (3 dot-separated parts), got {len(parts)}"
 
@@ -35,7 +35,7 @@ class TestINDstocksToken:
         import json
         import time
 
-        token = os.environ["SKOPAQ_INDSTOCKS_TOKEN"]
+        token = os.environ["NOVASWARM_INDSTOCKS_TOKEN"]
         # Decode payload (second part)
         payload_b64 = token.split(".")[1]
         # Add padding
@@ -58,7 +58,7 @@ class TestINDstocksQuote:
     def test_fetch_reliance_quote(self):
         """Fetch real-time quote for RELIANCE."""
         _skip_if_no_token()
-        from skopaq.data.pipeline import get_quote
+        from novaswarm.data.pipeline import get_quote
 
         quote = get_quote("RELIANCE")
         print(f"\n  Quote result:\n{quote}")
@@ -72,7 +72,7 @@ class TestINDstocksHistorical:
     def test_fetch_reliance_historical(self):
         """Fetch 5-day OHLCV for RELIANCE."""
         _skip_if_no_token()
-        from skopaq.data.pipeline import get_stock_data
+        from novaswarm.data.pipeline import get_stock_data
 
         # Use recent dates (API max 1yr for daily candles)
         result = get_stock_data("RELIANCE", "2026-02-24", "2026-02-28")
@@ -87,7 +87,7 @@ class TestINDstocksVendorFallback:
 
     def test_route_to_vendor_uses_indstocks_first(self):
         """UnifiedMarketData should configure INDstocks and fallback."""
-        from skopaq.data.pipeline import get_unified_market_data
+        from novaswarm.data.pipeline import get_unified_market_data
 
         pipeline = get_unified_market_data()
         assert pipeline.indstocks_provider is not None

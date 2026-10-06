@@ -1,4 +1,4 @@
-"""Unit tests for skopaq/api/memory_router.py."""
+"""Unit tests for novaswarm/api/memory_router.py."""
 
 from __future__ import annotations
 
@@ -9,8 +9,8 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.memory_router import router
-from skopaq.db.models import AgentMemoryRecord
+from novaswarm.api.memory_router import router
+from novaswarm.db.models import AgentMemoryRecord
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def client():
 
 def test_list_roles_offline(client):
     """When Supabase is offline, list_roles returns the 5 canonical roles with 0 counts."""
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/memory/roles")
         assert resp.status_code == 200
         data = resp.json()
@@ -45,8 +45,8 @@ def test_list_roles_with_data(client):
         updated_at=datetime.now(timezone.utc),
     )
     mock_client = MagicMock()
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-         patch("skopaq.api.memory_router.MemoryRepository.get_all_roles", return_value=[mock_record]):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+         patch("novaswarm.api.memory_router.MemoryRepository.get_all_roles", return_value=[mock_record]):
         resp = client.get("/api/memory/roles")
         assert resp.status_code == 200
         data = resp.json()
@@ -58,7 +58,7 @@ def test_list_roles_with_data(client):
 
 def test_get_role_memories_offline(client):
     """GET /api/memory/role/{role} returns empty list when offline."""
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/memory/role/bull_memory")
         assert resp.status_code == 200
         data = resp.json()
@@ -75,8 +75,8 @@ def test_get_role_memories_with_data(client):
         recommendations=["Cut position size in half and widen ATR stops."],
     )
     mock_client = MagicMock()
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-         patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_record):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+         patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_record):
         resp = client.get("/api/memory/role/risk_manager_memory?limit=10")
         assert resp.status_code == 200
         data = resp.json()
@@ -101,8 +101,8 @@ def test_query_memory_bm25(client):
         ],
     )
     mock_client = MagicMock()
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-         patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_record):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+         patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_record):
         resp = client.post(
             "/api/memory/query",
             json={
@@ -121,7 +121,7 @@ def test_query_memory_bm25(client):
 
 def test_reflections_offline(client):
     """GET /api/memory/reflections returns empty list when offline."""
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/memory/reflections")
         assert resp.status_code == 200
         data = resp.json()
@@ -136,8 +136,8 @@ def test_reflections_with_data(client):
         {"symbol": "INFY", "reflection": "Stop hit on tech selloff", "pnl": -800.0, "pnl_pct": -1.8, "trade_date": "2026-09-22"},
     ]
     mock_client = MagicMock()
-    with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-         patch("skopaq.api.memory_router.load_recent_lessons", return_value=mock_reflections):
+    with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+         patch("novaswarm.api.memory_router.load_recent_lessons", return_value=mock_reflections):
         resp = client.get("/api/memory/reflections?symbol=RELIANCE")
         assert resp.status_code == 200
         data = resp.json()

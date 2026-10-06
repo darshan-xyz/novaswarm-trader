@@ -3,12 +3,12 @@ name: analyze
 description: Run the full 15-agent analysis pipeline using Claude's own reasoning + live market data from MCP tools. Produces BUY/SELL/HOLD with confidence score.
 argument-hint: <SYMBOL>
 user-invocable: true
-allowed-tools: mcp__skopaq__gather_all_analysis_data mcp__skopaq__gather_market_data mcp__skopaq__gather_news_data mcp__skopaq__gather_fundamentals_data mcp__skopaq__gather_social_data mcp__skopaq__recall_agent_memories mcp__skopaq__check_safety mcp__skopaq__get_quote WebSearch
+allowed-tools: mcp__novaswarm__gather_all_analysis_data mcp__novaswarm__gather_market_data mcp__novaswarm__gather_news_data mcp__novaswarm__gather_fundamentals_data mcp__novaswarm__gather_social_data mcp__novaswarm__recall_agent_memories mcp__novaswarm__check_safety mcp__novaswarm__get_quote WebSearch
 ---
 
 # Full Multi-Agent Stock Analysis — Claude-Native Pipeline
 
-You will run the complete SkopaqTrader 15-agent analysis pipeline using YOUR OWN reasoning, powered by live market data from MCP tools. This replicates the exact multi-perspective structure (4 analysts, bull/bear debate, research manager, trader, 3-way risk debate, risk manager) but uses Claude's reasoning instead of separate LLM API calls.
+You will run the complete NovaSwarm Trader 15-agent analysis pipeline using YOUR OWN reasoning, powered by live market data from MCP tools. This replicates the exact multi-perspective structure (4 analysts, bull/bear debate, research manager, trader, 3-way risk debate, risk manager) but uses Claude's reasoning instead of separate LLM API calls.
 
 **Symbol to analyze: $ARGUMENTS**
 
@@ -16,16 +16,16 @@ You will run the complete SkopaqTrader 15-agent analysis pipeline using YOUR OWN
 
 ## PHASE 0: Data Gathering
 
-Call the MCP tool `mcp__skopaq__gather_all_analysis_data` with symbol=$ARGUMENTS to fetch ALL data in one shot. This returns: market data (OHLCV + indicators), news, fundamentals, social sentiment, and agent memories.
+Call the MCP tool `mcp__novaswarm__gather_all_analysis_data` with symbol=$ARGUMENTS to fetch ALL data in one shot. This returns: market data (OHLCV + indicators), news, fundamentals, social sentiment, and agent memories.
 
 If that fails, call these individually:
-- `mcp__skopaq__gather_market_data` (symbol=$ARGUMENTS)
-- `mcp__skopaq__gather_news_data` (symbol=$ARGUMENTS)
-- `mcp__skopaq__gather_fundamentals_data` (symbol=$ARGUMENTS)
-- `mcp__skopaq__gather_social_data` (symbol=$ARGUMENTS)
-- `mcp__skopaq__recall_agent_memories` (situation_summary="Analyzing $ARGUMENTS")
+- `mcp__novaswarm__gather_market_data` (symbol=$ARGUMENTS)
+- `mcp__novaswarm__gather_news_data` (symbol=$ARGUMENTS)
+- `mcp__novaswarm__gather_fundamentals_data` (symbol=$ARGUMENTS)
+- `mcp__novaswarm__gather_social_data` (symbol=$ARGUMENTS)
+- `mcp__novaswarm__recall_agent_memories` (situation_summary="Analyzing $ARGUMENTS")
 
-Also call `mcp__skopaq__get_quote` for the latest live price.
+Also call `mcp__novaswarm__get_quote` for the latest live price.
 
 Once you have ALL the data, proceed through Phases 1-7 below. Write each section as a detailed report.
 
@@ -162,6 +162,6 @@ Parse your Phase 6 decision and present a clean summary:
 | **Target** | ₹X.XX |
 | **Risk-Reward** | X:1 |
 
-Then call `mcp__skopaq__check_safety` to validate the trade against safety rules.
+Then call `mcp__novaswarm__check_safety` to validate the trade against safety rules.
 
 Format all prices in INR (₹). Reference specific data points from your analysis.

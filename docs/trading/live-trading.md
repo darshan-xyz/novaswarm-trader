@@ -1,9 +1,9 @@
 # Live Trading
 
-Going live with SkopaqTrader requires Kite Connect setup, safety verification, and careful configuration. Paper mode is always the default.
+Going live with NovaSwarm Trader requires Kite Connect setup, safety verification, and careful configuration. Paper mode is always the default.
 
 !!! warning "Real Money at Risk"
-    Live trading uses real money. Thoroughly test in paper mode first. SkopaqTrader is experimental software -- the authors are not responsible for trading losses.
+    Live trading uses real money. Thoroughly test in paper mode first. NovaSwarm Trader is experimental software -- the authors are not responsible for trading losses.
 
 ## Prerequisites
 
@@ -29,8 +29,8 @@ Before going live:
 Add to your `.env`:
 
 ```bash
-SKOPAQ_KITE_API_KEY=your_api_key
-SKOPAQ_KITE_API_SECRET=your_api_secret
+NOVASWARM_KITE_API_KEY=your_api_key
+NOVASWARM_KITE_API_SECRET=your_api_secret
 ```
 
 ### 3. OAuth Login Flow
@@ -74,19 +74,19 @@ GET /api/kite/status
 ### Via Environment
 
 ```bash
-export SKOPAQ_TRADING_MODE=live
+export NOVASWARM_TRADING_MODE=live
 ```
 
 Or in `.env`:
 
 ```
-SKOPAQ_TRADING_MODE=live
+NOVASWARM_TRADING_MODE=live
 ```
 
 ### Via CLI
 
 ```bash
-skopaq trade RELIANCE --live --confirm-live
+novaswarm trade RELIANCE --live --confirm-live
 ```
 
 The `--confirm-live` flag is mandatory -- it prevents accidental live trades.
@@ -94,12 +94,12 @@ The `--confirm-live` flag is mandatory -- it prevents accidental live trades.
 ### Via Daemon
 
 ```bash
-skopaq daemon --once --live --confirm-live
+novaswarm daemon --once --live --confirm-live
 ```
 
 ## Safety Rules
 
-Live trading enforces immutable safety rules defined in `skopaq/constants.py`:
+Live trading enforces immutable safety rules defined in `novaswarm/constants.py`:
 
 | Rule | Value | Purpose |
 |------|-------|---------|
@@ -117,7 +117,7 @@ Live trading enforces immutable safety rules defined in `skopaq/constants.py`:
 | `auto_shutdown_on_api_failure_minutes` | 5 | Kill switch on API failures |
 
 !!! note "Immutable rules"
-    `SafetyRules` is a frozen dataclass. These values cannot be modified at runtime by any automated process. Only a human can edit `skopaq/constants.py`.
+    `SafetyRules` is a frozen dataclass. These values cannot be modified at runtime by any automated process. Only a human can edit `novaswarm/constants.py`.
 
 ## Pre-Live Checklist
 
@@ -126,16 +126,16 @@ Live trading enforces immutable safety rules defined in `skopaq/constants.py`:
 python3 -m pytest tests/unit/ -x -q
 
 # 2. Verify paper trading works
-skopaq trade RELIANCE    # Should execute in paper mode
+novaswarm trade RELIANCE    # Should execute in paper mode
 
 # 3. Check system health
-skopaq status
+novaswarm status
 
 # 4. Verify Kite connection
 # Visit /api/kite/login and complete OAuth
 
 # 5. Test with minimum quantity
-skopaq trade RELIANCE --live --confirm-live
+novaswarm trade RELIANCE --live --confirm-live
 # This will trade 1 share as a sanity check
 ```
 
@@ -168,7 +168,7 @@ Notification ─── Telegram alert
 ### Position Monitor
 
 ```bash
-skopaq monitor
+novaswarm monitor
 ```
 
 Watches open positions and triggers alerts for:
@@ -194,7 +194,7 @@ If something goes wrong:
 
 1. **Telegram**: Send `/stop` to the bot
 2. **API**: `POST /api/kill-switch`
-3. **Manual**: Set `SKOPAQ_TRADING_MODE=paper` and restart
+3. **Manual**: Set `NOVASWARM_TRADING_MODE=paper` and restart
 4. **Zerodha**: Cancel all orders directly on Kite web/app
 
 The daemon automatically shuts down if the API fails for 5 consecutive minutes (`auto_shutdown_on_api_failure_minutes`).

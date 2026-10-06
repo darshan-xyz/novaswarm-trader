@@ -1,5 +1,5 @@
 /**
- * Comprehensive TypeScript domain definitions for SkopaqTrader Web UI & API client.
+ * Comprehensive TypeScript domain definitions for NovaSwarm Trader Web UI & API client.
  * Matching specifications from PROJECT.md and backend routers.
  */
 

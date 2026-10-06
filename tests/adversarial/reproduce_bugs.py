@@ -3,7 +3,7 @@
 from __future__ import annotations
 import math
 import time
-from skopaq.memory.episodic import EpisodicLessonStore
+from novaswarm.memory.episodic import EpisodicLessonStore
 
 def reproduce_serialization_data_loss():
     print("=== REPRODUCING FINDING 1: Truncation Data Loss on Serialization ===")

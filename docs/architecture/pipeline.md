@@ -1,10 +1,10 @@
 # Multi-Agent Pipeline
 
-The core of SkopaqTrader is a 15-agent LangGraph pipeline that produces trading decisions through structured debate and multi-perspective analysis. This page describes the architecture in detail.
+The core of NovaSwarm Trader is a 15-agent LangGraph pipeline that produces trading decisions through structured debate and multi-perspective analysis. This page describes the architecture in detail.
 
 ## Overview
 
-The pipeline is built on the vendored [TradingAgents v0.2.0](https://github.com/TauricResearch/TradingAgents) framework (Apache 2.0), extended by `skopaq/graph/skopaq_graph.py`.
+The pipeline is built on the vendored [TradingAgents v0.2.0](https://github.com/TauricResearch/TradingAgents) framework (Apache 2.0), extended by `novaswarm/graph/novaswarm_graph.py`.
 
 ```
 Raw Data → 4 Analysts → Bull/Bear Debate → Research Manager
@@ -110,7 +110,7 @@ The final judge (Claude Opus 4.6) produces the ultimate decision with:
 | Risk Debaters (3) | Google | gemini-3-flash-preview | Fast for multi-round debate |
 | Risk Manager | Anthropic | claude-opus-4-6 | Strongest reasoning for final decision |
 
-Model assignments are configured in `skopaq/llm/model_tier.py`. Each role has a fallback chain -- if the primary provider is unavailable, it falls back to the next option.
+Model assignments are configured in `novaswarm/llm/model_tier.py`. Each role has a fallback chain -- if the primary provider is unavailable, it falls back to the next option.
 
 ## Agent Memory
 
@@ -128,24 +128,24 @@ Before each analysis, relevant past lessons are retrieved and injected into the 
 
 | Method | Module | Description |
 |--------|--------|-------------|
-| `SkopaqTradingGraph.analyze()` | `skopaq/graph/skopaq_graph.py` | Primary entry point |
-| `analyze_stock` MCP tool | `skopaq/mcp_server.py` | MCP-accessible |
-| `skopaq analyze` CLI | `skopaq/cli/main.py` | Command line |
-| `/analyze` Telegram | `skopaq/telegram_bot.py` | Telegram bot |
+| `NovaSwarmTradingGraph.analyze()` | `novaswarm/graph/novaswarm_graph.py` | Primary entry point |
+| `analyze_stock` MCP tool | `novaswarm/mcp_server.py` | MCP-accessible |
+| `novaswarm analyze` CLI | `novaswarm/cli/main.py` | Command line |
+| `/analyze` Telegram | `novaswarm/telegram_bot.py` | Telegram bot |
 
 ## Configuration
 
 ```bash
 # Number of bull/bear debate rounds
-SKOPAQ_MAX_DEBATE_ROUNDS=1
+NOVASWARM_MAX_DEBATE_ROUNDS=1
 
 # Number of risk debate rounds
-SKOPAQ_MAX_RISK_DISCUSS_ROUNDS=1
+NOVASWARM_MAX_RISK_DISCUSS_ROUNDS=1
 
 # Which analysts to include
-SKOPAQ_SELECTED_ANALYSTS=market_analyst,news_analyst,fundamentals_analyst,social_analyst
+NOVASWARM_SELECTED_ANALYSTS=market_analyst,news_analyst,fundamentals_analyst,social_analyst
 ```
 
 ## Upstream Modifications
 
-Changes to the vendored `tradingagents/` code are minimal and documented in `UPSTREAM_CHANGES.md`. The `skopaq/` layer wraps the upstream pipeline without modifying its core logic.
+Changes to the vendored `tradingagents/` code are minimal and documented in `UPSTREAM_CHANGES.md`. The `novaswarm/` layer wraps the upstream pipeline without modifying its core logic.

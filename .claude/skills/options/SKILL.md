@@ -3,7 +3,7 @@ name: options
 description: AI-powered options selling — analyzes option chain, selects optimal OTM strike, calculates risk metrics. Supports NIFTY, BANKNIFTY, stocks.
 argument-hint: "[NIFTY|BANKNIFTY|SYMBOL] [SHORT_PUT|SHORT_CALL|SHORT_STRANGLE]"
 user-invocable: true
-allowed-tools: mcp__skopaq__get_option_chain mcp__skopaq__suggest_option_trade mcp__skopaq__get_quote WebSearch
+allowed-tools: mcp__novaswarm__get_option_chain mcp__novaswarm__suggest_option_trade mcp__novaswarm__get_quote WebSearch
 ---
 
 # AI Options Selling
@@ -17,13 +17,13 @@ You are an options selling specialist. Analyze the option chain and recommend th
 Analyze options for: $ARGUMENTS (default: NIFTY SHORT_PUT)
 
 ### Step 1: Market Context
-Call `mcp__skopaq__get_quote` for the underlying to get current spot price and trend.
+Call `mcp__novaswarm__get_quote` for the underlying to get current spot price and trend.
 
 ### Step 2: Option Chain
-Call `mcp__skopaq__get_option_chain` with the symbol.
+Call `mcp__novaswarm__get_option_chain` with the symbol.
 
 ### Step 3: AI Trade Suggestion
-Call `mcp__skopaq__suggest_option_trade` with the symbol and strategy.
+Call `mcp__novaswarm__suggest_option_trade` with the symbol and strategy.
 
 ### Step 4: Your Analysis
 

@@ -1,6 +1,6 @@
 # Swing Trading
 
-SkopaqTrader automates CNC (Cash and Carry) swing trades using GTT orders for both entry and exit. The goal is set-and-forget trading at key support/resistance levels.
+NovaSwarm Trader automates CNC (Cash and Carry) swing trades using GTT orders for both entry and exit. The goal is set-and-forget trading at key support/resistance levels.
 
 ## What Is CNC Swing Trading?
 
@@ -45,7 +45,7 @@ Or ask Claude directly:
 Claude calls `setup_swing_trade`:
 
 ```
-mcp__skopaq__setup_swing_trade(
+mcp__novaswarm__setup_swing_trade(
     symbol="RELIANCE",
     entry_price=2400.0,
     target_price=2600.0,
@@ -69,7 +69,7 @@ After the buy fills, set up the automated exit:
 > Place a GTT OCO sell for RELIANCE: target Rs 2,600, stop-loss Rs 2,350, 20 shares.
 
 ```
-mcp__skopaq__place_gtt_order(
+mcp__novaswarm__place_gtt_order(
     symbol="RELIANCE",
     action="SELL",
     target_price=2600.0,
@@ -88,7 +88,7 @@ The OCO order watches both levels simultaneously:
 
 ## Position Sizing
 
-SkopaqTrader uses the 1% risk rule:
+NovaSwarm Trader uses the 1% risk rule:
 
 ```
 Available capital:    Rs 10,00,000

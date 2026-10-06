@@ -79,7 +79,7 @@ export function TopBar({ onOpenSidebar }: TopBarProps) {
   }, []);
 
   const routeInfo = ROUTE_TITLES[pathname || "/"] || {
-    title: "SkopaqTrader",
+    title: "NovaSwarm Trader",
     subtitle: "Autonomous AI Algorithmic Trading",
   };
 

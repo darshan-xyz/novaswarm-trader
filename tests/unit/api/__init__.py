@@ -1,1 +1,1 @@
-"""Unit tests for Skopaq expanded REST and SSE routers."""
+"""Unit tests for NovaSwarm expanded REST and SSE routers."""

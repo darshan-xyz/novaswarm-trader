@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 import random
 import time
-from skopaq.memory.episodic import EpisodicLessonStore
+from novaswarm.memory.episodic import EpisodicLessonStore
 
 def profile_10k_query():
     print("Populating 10,000 documents...")

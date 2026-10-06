@@ -15,9 +15,9 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from skopaq.agents.sell_analyst import SellDecision
-from skopaq.broker.models import Position, Quote, TradingSignal
-from skopaq.execution.position_monitor import (
+from novaswarm.agents.sell_analyst import SellDecision
+from novaswarm.broker.models import Position, Quote, TradingSignal
+from novaswarm.execution.position_monitor import (
     MonitoredPosition,
     MonitorResult,
     PositionMonitor,
@@ -138,7 +138,7 @@ class TestSafetyTier:
         # Should only be None if not EOD time
         # Patch time to be during market hours (not EOD)
         with patch(
-            "skopaq.execution.position_monitor.datetime"
+            "novaswarm.execution.position_monitor.datetime"
         ) as mock_dt:
             mock_dt.now.return_value = datetime(2026, 3, 4, 11, 0, 0, tzinfo=_IST)
             mock_dt.today.return_value = datetime(2026, 3, 4)
@@ -159,7 +159,7 @@ class TestSafetyTier:
         )
         # LTP at 107.5 — within 2% of HWM (trail = 110 * 0.98 = 107.8)
         with patch(
-            "skopaq.execution.position_monitor.datetime"
+            "novaswarm.execution.position_monitor.datetime"
         ) as mock_dt:
             mock_dt.now.return_value = datetime(2026, 3, 4, 11, 0, 0, tzinfo=_IST)
             mock_dt.today.return_value = datetime(2026, 3, 4)
@@ -181,7 +181,7 @@ class TestSafetyTier:
         )
         # LTP at 109 — above trail (110 * 0.98 = 107.8)
         with patch(
-            "skopaq.execution.position_monitor.datetime"
+            "novaswarm.execution.position_monitor.datetime"
         ) as mock_dt:
             mock_dt.now.return_value = datetime(2026, 3, 4, 11, 0, 0, tzinfo=_IST)
             mock_dt.today.return_value = datetime(2026, 3, 4)
@@ -200,7 +200,7 @@ class TestSafetyTier:
         )
         # Mock time to 15:25 IST (past 15:20 threshold)
         with patch(
-            "skopaq.execution.position_monitor.datetime"
+            "novaswarm.execution.position_monitor.datetime"
         ) as mock_dt:
             mock_dt.now.return_value = datetime(2026, 3, 4, 15, 25, 0, tzinfo=_IST)
             mock_dt.today.return_value = datetime(2026, 3, 4)
@@ -228,7 +228,7 @@ class TestAITier:
             reasoning="RSI overbought, MACD crossing down",
         )
         with patch(
-            "skopaq.execution.position_monitor.analyze_exit",
+            "novaswarm.execution.position_monitor.analyze_exit",
             return_value=sell_decision,
         ):
             pos = MonitoredPosition(
@@ -252,7 +252,7 @@ class TestAITier:
             reasoning="Momentum still bullish",
         )
         with patch(
-            "skopaq.execution.position_monitor.analyze_exit",
+            "novaswarm.execution.position_monitor.analyze_exit",
             return_value=hold_decision,
         ):
             pos = MonitoredPosition(
@@ -385,7 +385,7 @@ class TestMonitorRun:
 
         # Patch resolve_scrip_code to avoid real API calls
         with patch(
-            "skopaq.broker.scrip_resolver.resolve_scrip_code",
+            "novaswarm.broker.scrip_resolver.resolve_scrip_code",
             return_value="NSE_123",
         ):
             mon = _make_monitor(
@@ -404,7 +404,7 @@ class TestMonitorRun:
         stop_event = asyncio.Event()
 
         with patch(
-            "skopaq.broker.scrip_resolver.resolve_scrip_code",
+            "novaswarm.broker.scrip_resolver.resolve_scrip_code",
             return_value="NSE_123",
         ):
             mon = _make_monitor(
@@ -438,7 +438,7 @@ class TestMonitorRun:
         stop_event = asyncio.Event()
 
         with patch(
-            "skopaq.broker.scrip_resolver.resolve_scrip_code",
+            "novaswarm.broker.scrip_resolver.resolve_scrip_code",
             return_value="NSE_123",
         ):
             mon = _make_monitor(
@@ -474,7 +474,7 @@ class TestMonitorRun:
         stop_event = asyncio.Event()
 
         with patch(
-            "skopaq.broker.scrip_resolver.resolve_scrip_code",
+            "novaswarm.broker.scrip_resolver.resolve_scrip_code",
             return_value="NSE_123",
         ):
             mon = _make_monitor(
@@ -484,7 +484,7 @@ class TestMonitorRun:
 
             # AI would say HOLD — but safety should override
             with patch(
-                "skopaq.execution.position_monitor.analyze_exit",
+                "novaswarm.execution.position_monitor.analyze_exit",
                 return_value=SellDecision(action="HOLD", confidence=80),
             ) as mock_ai:
                 with patch.object(mon, "_should_eod_exit", return_value=False):
@@ -503,7 +503,7 @@ class TestSellDecisionParsing:
     """Tests for the _parse_decision helper in sell_analyst."""
 
     def test_parse_sell_decision(self):
-        from skopaq.agents.sell_analyst import _parse_decision
+        from novaswarm.agents.sell_analyst import _parse_decision
 
         text = """Based on the analysis, the stock shows bearish divergence.
 
@@ -517,7 +517,7 @@ REASONING: RSI divergence detected, MACD crossing below signal line."""
         assert "RSI divergence" in decision.reasoning
 
     def test_parse_hold_decision(self):
-        from skopaq.agents.sell_analyst import _parse_decision
+        from novaswarm.agents.sell_analyst import _parse_decision
 
         text = """The stock is still in an uptrend.
 
@@ -530,13 +530,13 @@ REASONING: Strong momentum, no reversal signals yet."""
         assert decision.confidence == 60
 
     def test_parse_empty_text_defaults_to_hold(self):
-        from skopaq.agents.sell_analyst import _parse_decision
+        from novaswarm.agents.sell_analyst import _parse_decision
 
         decision = _parse_decision("")
         assert decision.action == "HOLD"
 
     def test_parse_confidence_clamped(self):
-        from skopaq.agents.sell_analyst import _parse_decision
+        from novaswarm.agents.sell_analyst import _parse_decision
 
         text = "DECISION: SELL\nCONFIDENCE: 150\nREASONING: test"
         decision = _parse_decision(text)

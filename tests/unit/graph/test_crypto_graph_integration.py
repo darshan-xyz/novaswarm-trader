@@ -2,7 +2,7 @@
 
 Tests:
 - Crypto report fields preservation in AnalysisContext legacy bridge
-- SkopaqTradingGraph auto-selection of crypto analysts for asset_class='crypto'
+- NovaSwarmTradingGraph auto-selection of crypto analysts for asset_class='crypto'
 - Analyst explicit overrides
 """
 
@@ -11,8 +11,8 @@ from __future__ import annotations
 from unittest.mock import MagicMock
 import pytest
 
-from skopaq.graph.skopaq_graph import SkopaqTradingGraph
-from skopaq.orchestration.context import AnalysisContext
+from novaswarm.graph.novaswarm_graph import NovaSwarmTradingGraph
+from novaswarm.orchestration.context import AnalysisContext
 
 
 class TestAnalysisContextCryptoReports:
@@ -45,11 +45,11 @@ class TestAnalysisContextCryptoReports:
         assert ctx.analyst_reports.get("funding") == "Rate: 0.01%"
 
 
-class TestSkopaqTradingGraphCryptoAnalystSelection:
+class TestNovaSwarmTradingGraphCryptoAnalystSelection:
     def _make_graph(self, asset_class="equity", selected_analysts=None):
         executor = MagicMock()
         config = {"asset_class": asset_class}
-        return SkopaqTradingGraph(
+        return NovaSwarmTradingGraph(
             upstream_config=config,
             executor=executor,
             selected_analysts=selected_analysts,
@@ -74,7 +74,7 @@ class TestSkopaqTradingGraphCryptoAnalystSelection:
         assert graph._selected_analysts == ["market", "news"]
 
     def test_empty_config_defaults_to_equity_analysts(self):
-        graph = SkopaqTradingGraph(
+        graph = NovaSwarmTradingGraph(
             upstream_config={},
             executor=MagicMock(),
         )

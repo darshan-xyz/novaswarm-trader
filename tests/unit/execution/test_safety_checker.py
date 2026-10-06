@@ -7,7 +7,7 @@ import pytest
 from datetime import datetime, time, timezone, timedelta
 from unittest.mock import patch
 
-from skopaq.broker.models import (
+from novaswarm.broker.models import (
     Exchange,
     Funds,
     OrderRequest,
@@ -17,8 +17,8 @@ from skopaq.broker.models import (
     Side,
     TradingSignal,
 )
-from skopaq.constants import SafetyRules
-from skopaq.execution.safety_checker import SafetyChecker
+from novaswarm.constants import SafetyRules
+from novaswarm.execution.safety_checker import SafetyChecker
 
 
 @pytest.fixture

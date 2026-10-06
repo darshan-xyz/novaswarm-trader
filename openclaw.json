@@ -1,5 +1,5 @@
 {
-  "name": "SkopaqTrader",
+  "name": "NovaSwarm Trader",
   "description": "AI trading assistant for Indian equities and crypto",
   "brain": {
     "provider": "custom",
@@ -85,18 +85,18 @@
     "whatsapp": {
       "enabled": false,
       "provider": "twilio",
-      "account_sid": "${SKOPAQ_TWILIO_ACCOUNT_SID}",
-      "auth_token": "${SKOPAQ_TWILIO_AUTH_TOKEN}",
-      "phone_number": "${SKOPAQ_TWILIO_PHONE_NUMBER}"
+      "account_sid": "${NOVASWARM_TWILIO_ACCOUNT_SID}",
+      "auth_token": "${NOVASWARM_TWILIO_AUTH_TOKEN}",
+      "phone_number": "${NOVASWARM_TWILIO_PHONE_NUMBER}"
     },
     "telegram": {
       "enabled": false,
-      "bot_token": "${SKOPAQ_TELEGRAM_BOT_TOKEN}"
+      "bot_token": "${NOVASWARM_TELEGRAM_BOT_TOKEN}"
     },
     "slack": {
       "enabled": false,
-      "bot_token": "${SKOPAQ_SLACK_BOT_TOKEN}",
-      "app_token": "${SKOPAQ_SLACK_APP_TOKEN}"
+      "bot_token": "${NOVASWARM_SLACK_BOT_TOKEN}",
+      "app_token": "${NOVASWARM_SLACK_APP_TOKEN}"
     }
   },
   "heartbeat": {

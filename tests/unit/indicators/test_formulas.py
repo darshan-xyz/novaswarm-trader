@@ -1,4 +1,4 @@
-"""Unit tests for pure vectorized technical indicators (skopaq.indicators.formulas).
+"""Unit tests for pure vectorized technical indicators (novaswarm.indicators.formulas).
 
 Verifies mathematical accuracy against hand-calculated analytical vectors,
 mathematical invariants, and all edge cases (empty series, flat prices,
@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from skopaq.indicators.formulas import (
+from novaswarm.indicators.formulas import (
     compute_all_indicators,
     compute_atr,
     compute_bollinger_bands,

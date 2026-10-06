@@ -1,8 +1,8 @@
-# SkopaqTrader
+# NovaSwarm Trader
 
 **AI Algorithmic Trading Platform for Indian Equities**
 
-SkopaqTrader is an open-source AI trading platform that combines a 15-agent analysis pipeline with broker integration, options selling, and autonomous trading — all controllable from Claude Code, Telegram, or the CLI.
+NovaSwarm Trader is an open-source AI trading platform that combines a 15-agent analysis pipeline with broker integration, options selling, and autonomous trading — all controllable from Claude Code, Telegram, or the CLI.
 
 ---
 
@@ -24,16 +24,16 @@ SkopaqTrader is an open-source AI trading platform that combines a 15-agent anal
 
 ```bash
 # 3 commands to start trading:
-git clone https://github.com/samuelvinay91/skopaqtrader.git
+git clone https://github.com/samuelvinay91/novaswarm-trader.git
 cp .env.example .env        # Add your API keys
 pip install -e .             # Install
-skopaq chat                  # Start trading
+novaswarm chat                  # Start trading
 ```
 
 Or with Docker:
 ```bash
-docker pull samuelvinay91/skopaq
-docker run -it --env-file .env samuelvinay91/skopaq chat
+docker pull samuelvinay91/novaswarm
+docker run -it --env-file .env samuelvinay91/novaswarm chat
 ```
 
 ## Architecture at a Glance

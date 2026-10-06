@@ -1,4 +1,4 @@
 #!/bin/bash
 # MCP server wrapper for Claude Code
-cd /Users/bvk/Github/skopaqtrader
-exec python3 -m skopaq.mcp_server
+cd /Users/bvk/Github/novaswarm-trader
+exec python3 -m novaswarm.mcp_server

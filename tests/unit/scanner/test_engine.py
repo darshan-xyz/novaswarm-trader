@@ -5,9 +5,9 @@ import json
 
 import pytest
 
-from skopaq.scanner.engine import ScannerEngine
-from skopaq.scanner.models import ScannerCandidate
-from skopaq.scanner.watchlist import Watchlist
+from novaswarm.scanner.engine import ScannerEngine
+from novaswarm.scanner.models import ScannerCandidate
+from novaswarm.scanner.watchlist import Watchlist
 
 
 def _make_quotes(symbols: list[str]) -> list[dict]:

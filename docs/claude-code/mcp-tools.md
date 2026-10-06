@@ -1,6 +1,6 @@
 # MCP Tools Reference
 
-SkopaqTrader exposes 23 MCP tools through `skopaq/mcp_server.py`. All tools are async and return JSON strings.
+NovaSwarm Trader exposes 23 MCP tools through `novaswarm/mcp_server.py`. All tools are async and return JSON strings.
 
 ## Market Data
 
@@ -13,7 +13,7 @@ SkopaqTrader exposes 23 MCP tools through `skopaq/mcp_server.py`. All tools are 
 
 > What is the current price of RELIANCE?
 
-Claude calls `mcp__skopaq__get_quote(symbol="RELIANCE")` and returns:
+Claude calls `mcp__novaswarm__get_quote(symbol="RELIANCE")` and returns:
 
 ```json
 {
@@ -31,7 +31,7 @@ Claude calls `mcp__skopaq__get_quote(symbol="RELIANCE")` and returns:
 > Show me 15-minute candles for TCS over the last 3 days.
 
 ```
-mcp__skopaq__get_historical(symbol="TCS", days=3, resolution=15)
+mcp__novaswarm__get_historical(symbol="TCS", days=3, resolution=15)
 ```
 
 ## Portfolio Management

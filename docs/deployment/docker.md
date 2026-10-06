@@ -1,21 +1,21 @@
 # Docker Deployment
 
-SkopaqTrader ships as a multi-service Docker image. A single image supports all services -- API, Telegram bot, chatbot, MCP server, daemon, and more.
+NovaSwarm Trader ships as a multi-service Docker image. A single image supports all services -- API, Telegram bot, chatbot, MCP server, daemon, and more.
 
 ## Quick Start
 
 ```bash
 # Pull the image
-docker pull samuelvinay91/skopaq:latest
+docker pull samuelvinay91/novaswarm:latest
 
 # Run the API server
-docker run -d --env-file .env -p 8000:8000 samuelvinay91/skopaq:latest api
+docker run -d --env-file .env -p 8000:8000 samuelvinay91/novaswarm:latest api
 
 # Run the Telegram bot
-docker run -d --env-file .env samuelvinay91/skopaq:latest telegram
+docker run -d --env-file .env samuelvinay91/novaswarm:latest telegram
 
 # Interactive chatbot
-docker run -it --env-file .env samuelvinay91/skopaq:latest chat
+docker run -it --env-file .env samuelvinay91/novaswarm:latest chat
 ```
 
 ## Dockerfile
@@ -39,8 +39,8 @@ COPY . .
 RUN pip install --no-cache-dir -e .
 
 # Non-root user
-RUN useradd -m -s /bin/bash skopaq
-USER skopaq
+RUN useradd -m -s /bin/bash novaswarm
+USER novaswarm
 
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
@@ -159,18 +159,18 @@ Essential variables:
 
 ```bash
 # Broker
-SKOPAQ_KITE_API_KEY=...
-SKOPAQ_KITE_API_SECRET=...
+NOVASWARM_KITE_API_KEY=...
+NOVASWARM_KITE_API_SECRET=...
 
 # LLM Providers
-SKOPAQ_GOOGLE_API_KEY=...
-SKOPAQ_ANTHROPIC_API_KEY=...
+NOVASWARM_GOOGLE_API_KEY=...
+NOVASWARM_ANTHROPIC_API_KEY=...
 
 # Telegram
-SKOPAQ_TELEGRAM_BOT_TOKEN=...
+NOVASWARM_TELEGRAM_BOT_TOKEN=...
 
 # Trading Mode
-SKOPAQ_TRADING_MODE=paper
+NOVASWARM_TRADING_MODE=paper
 ```
 
 !!! warning "Never commit .env"
@@ -180,13 +180,13 @@ SKOPAQ_TRADING_MODE=paper
 
 ```bash
 # Build the image
-docker build -t skopaqtrader .
+docker build -t novaswarm-trader .
 
 # Build with a specific tag
-docker build -t samuelvinay91/skopaq:v0.4.0 .
+docker build -t samuelvinay91/novaswarm:v0.4.0 .
 
 # Push to Docker Hub
-docker push samuelvinay91/skopaq:latest
+docker push samuelvinay91/novaswarm:latest
 ```
 
 ## Health Check
@@ -206,12 +206,12 @@ For persistent data (Kite tokens, logs):
 ```bash
 docker run -d \
   --env-file .env \
-  -v skopaq_data:/data \
+  -v novaswarm_data:/data \
   -p 8000:8000 \
-  samuelvinay91/skopaq:latest api
+  samuelvinay91/novaswarm:latest api
 ```
 
-The Kite access token is persisted to `/data/skopaq_kite_token.json` inside the container.
+The Kite access token is persisted to `/data/novaswarm_kite_token.json` inside the container.
 
 ## File Reference
 

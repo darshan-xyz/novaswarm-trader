@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 import pytest
 
-from skopaq.risk.position_sizer import PositionSize, PositionSizer
+from novaswarm.risk.position_sizer import PositionSize, PositionSizer
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
@@ -25,14 +25,14 @@ def sizer():
 @pytest.fixture
 def mock_atr_vendor():
     """Patch fetch_atr to return a known value (avoid network calls)."""
-    with patch("skopaq.risk.position_sizer.fetch_atr", return_value=50.0) as m:
+    with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=50.0) as m:
         yield m
 
 
 @pytest.fixture
 def mock_atr_none():
     """Patch fetch_atr to return None (vendor unavailable)."""
-    with patch("skopaq.risk.position_sizer.fetch_atr", return_value=None) as m:
+    with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=None) as m:
         yield m
 
 
@@ -62,7 +62,7 @@ class TestCoreFormula:
 
     def test_high_atr_reduces_position(self, sizer):
         """Higher ATR → smaller position (more volatile stock gets less size)."""
-        with patch("skopaq.risk.position_sizer.fetch_atr", return_value=200.0):
+        with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=200.0):
             result = sizer.compute_size(
                 equity=1_000_000, price=2500.0,
                 symbol="RELIANCE", trade_date="2026-03-01",
@@ -72,7 +72,7 @@ class TestCoreFormula:
 
     def test_low_atr_increases_position(self, sizer):
         """Lower ATR → larger position (calm stock gets more size)."""
-        with patch("skopaq.risk.position_sizer.fetch_atr", return_value=10.0):
+        with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=10.0):
             result = sizer.compute_size(
                 equity=1_000_000, price=2500.0,
                 symbol="RELIANCE", trade_date="2026-03-01",
@@ -97,7 +97,7 @@ class TestFallbackToEstimate:
         assert result.quantity == 100
 
     def test_zero_atr_uses_estimate(self, sizer):
-        with patch("skopaq.risk.position_sizer.fetch_atr", return_value=0.0):
+        with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=0.0):
             result = sizer.compute_size(
                 equity=1_000_000, price=2500.0,
                 symbol="RELIANCE", trade_date="2026-03-01",
@@ -105,7 +105,7 @@ class TestFallbackToEstimate:
         assert result.atr_source == "estimate"
 
     def test_negative_atr_uses_estimate(self, sizer):
-        with patch("skopaq.risk.position_sizer.fetch_atr", return_value=-5.0):
+        with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=-5.0):
             result = sizer.compute_size(
                 equity=1_000_000, price=2500.0,
                 symbol="RELIANCE", trade_date="2026-03-01",
@@ -194,7 +194,7 @@ class TestEdgeCases:
 
     def test_very_low_atr_clamped(self, sizer):
         """ATR stop distance must be at least 0.5% of price."""
-        with patch("skopaq.risk.position_sizer.fetch_atr", return_value=0.01):
+        with patch("novaswarm.risk.position_sizer.fetch_atr", return_value=0.01):
             result = sizer.compute_size(
                 equity=1_000_000, price=2500.0,
                 symbol="RELIANCE", trade_date="2026-03-01",

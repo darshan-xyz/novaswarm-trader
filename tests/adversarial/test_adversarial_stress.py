@@ -1,4 +1,4 @@
-"""Adversarial stress and boundary correctness test suite for SkopaqTrader.
+"""Adversarial stress and boundary correctness test suite for NovaSwarm Trader.
 
 Milestone 6: Empirical verification of backend robustness, boundary validation,
 concurrency limits, SSE stream durability, and pre-trade safety constraints.
@@ -16,11 +16,11 @@ from typing import Any, Dict, List, Tuple
 import pytest
 
 from fastapi.testclient import TestClient
-from skopaq.api.server import app
-from skopaq.api.analysis_manager import AnalysisJobManager, AnalysisJob
-from skopaq.broker.paper_engine import PaperEngine
-from skopaq.execution.safety_checker import SafetyChecker
-from skopaq.constants import PAPER_SAFETY_RULES, SAFETY_RULES
+from novaswarm.api.server import app
+from novaswarm.api.analysis_manager import AnalysisJobManager, AnalysisJob
+from novaswarm.broker.paper_engine import PaperEngine
+from novaswarm.execution.safety_checker import SafetyChecker
+from novaswarm.constants import PAPER_SAFETY_RULES, SAFETY_RULES
 
 
 @pytest.fixture

@@ -59,7 +59,7 @@ const SEED_STRATEGIES: StrategyVersionRecord[] = [
     win_rate: 0.684,
     max_drawdown: 2.15,
     created_at: "2026-09-01T00:00:00Z",
-    dna_yaml: `# SkopaqTrader Strategy DNA v1.0.0 (Production)
+    dna_yaml: `# NovaSwarm Trader Strategy DNA v1.0.0 (Production)
 version: "1.0.0"
 risk_mode: "balanced"
 universe: "NIFTY50_EXPANDED"
@@ -85,7 +85,7 @@ timeframes:
     win_rate: 0.642,
     max_drawdown: 2.65,
     created_at: "2026-08-15T00:00:00Z",
-    dna_yaml: `# SkopaqTrader Strategy DNA v0.9.5
+    dna_yaml: `# NovaSwarm Trader Strategy DNA v0.9.5
 version: "0.9.5"
 risk_mode: "moderate"
 max_portfolio_risk_pct: 2.5
@@ -100,7 +100,7 @@ consensus_threshold: 0.65`,
     win_rate: 0.582,
     max_drawdown: 3.8,
     created_at: "2026-07-20T00:00:00Z",
-    dna_yaml: `# SkopaqTrader Strategy DNA v0.9.0
+    dna_yaml: `# NovaSwarm Trader Strategy DNA v0.9.0
 version: "0.9.0"
 risk_mode: "aggressive"
 max_portfolio_risk_pct: 3.0`,
@@ -704,7 +704,7 @@ export default function SettingsPage() {
               <CardContent>
                 <pre className="rounded-xl bg-gray-950 p-4 font-mono text-xs text-gray-300 border border-gray-800 overflow-x-auto leading-relaxed">
                   {activeStrategy.dna_yaml ||
-                    `# SkopaqTrader Strategy DNA ${activeStrategy.version}
+                    `# NovaSwarm Trader Strategy DNA ${activeStrategy.version}
 version: "${activeStrategy.version}"
 risk_mode: "balanced"
 universe: "NIFTY50_EXPANDED"

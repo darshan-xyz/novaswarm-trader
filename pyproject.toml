@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "skopaqtrader"
+name = "novaswarm-trader"
 version = "0.2.0"
 description = "Institutional Quantitative AI Multi-Agent Trading Platform for Indian Equities — Nova Architecture"
 readme = "README.md"
@@ -31,7 +31,7 @@ dependencies = [
     "tqdm>=4.67.1",
     "typing-extensions>=4.14.0",
     "yfinance>=0.2.63",
-    # --- Skopaq additions ---
+    # --- NovaSwarm additions ---
     "httpx>=0.28.0",
     "websockets>=13.0",
     "pydantic>=2.10.0",
@@ -55,10 +55,10 @@ dev = [
 ]
 
 [project.scripts]
-skopaq = "skopaq.cli.main:app"
+novaswarm = "novaswarm.cli.main:app"
 
 [tool.setuptools.packages.find]
-include = ["skopaq*"]
+include = ["novaswarm*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

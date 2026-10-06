@@ -14,7 +14,7 @@ name: my-skill
 description: What this skill does (shown in Claude Code UI)
 argument-hint: "<SYMBOL>"
 user-invocable: true
-allowed-tools: mcp__skopaq__get_quote mcp__skopaq__get_historical WebSearch
+allowed-tools: mcp__novaswarm__get_quote mcp__novaswarm__get_historical WebSearch
 ---
 ```
 
@@ -38,7 +38,7 @@ You will perform X using data from MCP tools.
 **Symbol to process: $ARGUMENTS**
 
 ## Step 1: Fetch Data
-Call `mcp__skopaq__get_quote` with symbol=$ARGUMENTS.
+Call `mcp__novaswarm__get_quote` with symbol=$ARGUMENTS.
 
 ## Step 2: Analyze
 Based on the data, provide your analysis.
@@ -63,7 +63,7 @@ name: watchlist
 description: Monitor a list of stocks with live quotes and alerts.
 argument-hint: "RELIANCE,TCS,INFY"
 user-invocable: true
-allowed-tools: mcp__skopaq__get_quote mcp__skopaq__get_historical
+allowed-tools: mcp__novaswarm__get_quote mcp__novaswarm__get_historical
 ---
 
 # Watchlist Monitor
@@ -74,7 +74,7 @@ Monitor the given stocks and highlight any with unusual activity.
 
 ## Step 1: Fetch Quotes
 For each symbol in the comma-separated list, call:
-- `mcp__skopaq__get_quote` with symbol=SYMBOL
+- `mcp__novaswarm__get_quote` with symbol=SYMBOL
 
 ## Step 2: Analyze
 For each stock, check:
@@ -116,12 +116,12 @@ Skills should instruct Claude to use MCP tools, not write Python code:
 
 ```markdown
 # Good
-Call `mcp__skopaq__get_quote` with symbol=$ARGUMENTS.
+Call `mcp__novaswarm__get_quote` with symbol=$ARGUMENTS.
 
 # Bad
 Run this Python code:
 ```python
-from skopaq.broker.client import INDstocksClient
+from novaswarm.broker.client import INDstocksClient
 ...
 ```
 
@@ -131,7 +131,7 @@ Only list the tools the skill actually needs in `allowed-tools`. This prevents t
 
 ```yaml
 # Specific — only read-only tools
-allowed-tools: mcp__skopaq__get_quote mcp__skopaq__get_historical
+allowed-tools: mcp__novaswarm__get_quote mcp__novaswarm__get_historical
 
 # Not recommended — allows everything
 # (no allowed-tools field = all tools available)

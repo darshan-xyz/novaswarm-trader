@@ -18,13 +18,13 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.analysis_router import router as analysis_router
-from skopaq.api.memory_router import router as memory_router
-from skopaq.api.performance_router import router as perf_router
-from skopaq.api.safety_router import router as safety_router
-from skopaq.api.system_router import router as system_router
-from skopaq.api.trades_router import router as trades_router
-from skopaq.db.models import AgentMemoryRecord, TradeRecord
+from novaswarm.api.analysis_router import router as analysis_router
+from novaswarm.api.memory_router import router as memory_router
+from novaswarm.api.performance_router import router as perf_router
+from novaswarm.api.safety_router import router as safety_router
+from novaswarm.api.system_router import router as system_router
+from novaswarm.api.trades_router import router as trades_router
+from novaswarm.db.models import AgentMemoryRecord, TradeRecord
 
 
 @pytest.fixture
@@ -67,8 +67,8 @@ class TestMemoryRouterAdversarial:
     def test_bm25_empty_tokens_spaces_only(self, app_client, mock_memory_corpus):
         """Query with whitespace only tokenizes to empty list; should not crash with ZeroDivisionError."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "bull_memory", "query": "   ", "top_k": 3},
@@ -81,8 +81,8 @@ class TestMemoryRouterAdversarial:
     def test_bm25_special_characters_only(self, app_client, mock_memory_corpus):
         """Query containing only punctuation and special characters tokenizes to [] and returns empty list."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "bull_memory", "query": "!@#$%^&*()_+=-{}[]:;\"'|<>,.?/", "top_k": 3},
@@ -102,8 +102,8 @@ class TestMemoryRouterAdversarial:
     def test_bm25_nonexistent_role_online_returns_empty(self, app_client):
         """Querying a non-existent role returns empty results gracefully without raising 500."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=None):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=None):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "non_existent_role_xyz", "query": "breakout", "top_k": 3},
@@ -115,7 +115,7 @@ class TestMemoryRouterAdversarial:
 
     def test_bm25_nonexistent_role_offline(self, app_client):
         """When Supabase is offline, querying any role returns empty results gracefully."""
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=None):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=None):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "non_existent_role_xyz", "query": "breakout", "top_k": 3},
@@ -133,8 +133,8 @@ class TestMemoryRouterAdversarial:
             updated_at=datetime.now(timezone.utc),
         )
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=empty_corpus):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=empty_corpus):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "bear_memory", "query": "market crash", "top_k": 3},
@@ -146,8 +146,8 @@ class TestMemoryRouterAdversarial:
     def test_bm25_top_k_boundaries(self, app_client, mock_memory_corpus):
         """Verify boundary top_k values: top_k=1, top_k=20 pass; top_k=0, top_k=21, top_k=-1 return 422."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
             # top_k=1 valid
             r1 = app_client.post("/api/memory/query", json={"role": "bull_memory", "query": "NIFTY", "top_k": 1})
             assert r1.status_code == 200
@@ -172,8 +172,8 @@ class TestMemoryRouterAdversarial:
     def test_bm25_sql_injection_attempt_query(self, app_client, mock_memory_corpus):
         """SQL injection attempt string is treated purely as search tokens, no error."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "bull_memory", "query": "' OR '1'='1'; DROP TABLE trades;--", "top_k": 3},
@@ -184,8 +184,8 @@ class TestMemoryRouterAdversarial:
     def test_bm25_xss_payload_query(self, app_client, mock_memory_corpus):
         """XSS attempt string is treated purely as search tokens without script evaluation."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=mock_memory_corpus):
             resp = app_client.post(
                 "/api/memory/query",
                 json={"role": "bull_memory", "query": "<script>alert('xss')</script>", "top_k": 3},
@@ -196,8 +196,8 @@ class TestMemoryRouterAdversarial:
     def test_get_role_memories_nonexistent_role(self, app_client):
         """GET /api/memory/role/{role} for an unseeded role returns count=0 and empty entries."""
         mock_client = MagicMock()
-        with patch("skopaq.api.memory_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.memory_router.MemoryRepository.get_by_role", return_value=None):
+        with patch("novaswarm.api.memory_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.memory_router.MemoryRepository.get_by_role", return_value=None):
             resp = app_client.get("/api/memory/role/non_existent_role_123")
             assert resp.status_code == 200
             data = resp.json()
@@ -233,8 +233,8 @@ class TestTradeSummaryMathAlignment:
         ]
         mock_client = self._build_mock_client(rows)
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client):
 
             stats_resp = app_client.get("/api/trades/summary/stats")
             perf_resp = app_client.get("/api/performance/metrics")
@@ -277,8 +277,8 @@ class TestTradeSummaryMathAlignment:
         ]
         mock_client = self._build_mock_client(rows)
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client):
 
             s = app_client.get("/api/trades/summary/stats").json()
             p = app_client.get("/api/performance/metrics").json()
@@ -303,8 +303,8 @@ class TestTradeSummaryMathAlignment:
         ]
         mock_client = self._build_mock_client(rows)
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client):
 
             s = app_client.get("/api/trades/summary/stats").json()
             p = app_client.get("/api/performance/metrics").json()
@@ -324,8 +324,8 @@ class TestTradeSummaryMathAlignment:
         """Scenario: No trades recorded (fresh deployment)."""
         mock_client = self._build_mock_client([])
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client):
 
             s = app_client.get("/api/trades/summary/stats").json()
             p = app_client.get("/api/performance/metrics").json()
@@ -349,8 +349,8 @@ class TestTradeSummaryMathAlignment:
         ]
         mock_client = self._build_mock_client(rows)
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client):
 
             s = app_client.get("/api/trades/summary/stats").json()
             p = app_client.get("/api/performance/metrics").json()
@@ -376,8 +376,8 @@ class TestTradeSummaryMathAlignment:
         ]
         mock_client = self._build_mock_client(rows)
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client):
 
             s = app_client.get("/api/trades/summary/stats").json()
             p = app_client.get("/api/performance/metrics").json()
@@ -397,8 +397,8 @@ class TestTradeSummaryMathAlignment:
 
     def test_math_alignment_offline_mode(self, app_client):
         """When Supabase is completely offline, both routers return matching default null-states."""
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=None), \
-             patch("skopaq.api.performance_router.get_safe_supabase", return_value=None):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=None), \
+             patch("novaswarm.api.performance_router.get_safe_supabase", return_value=None):
 
             s = app_client.get("/api/trades/summary/stats").json()
             p = app_client.get("/api/performance/metrics").json()
@@ -442,8 +442,8 @@ class TestApiUntestedBranches:
         mock_repo = MagicMock()
         mock_repo.get_by_id.return_value = None
 
-        with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-             patch("skopaq.api.trades_router.TradeRepository", return_value=mock_repo):
+        with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+             patch("novaswarm.api.trades_router.TradeRepository", return_value=mock_repo):
             resp = app_client.get(f"/api/trades/{random_uuid}")
             assert resp.status_code == 404
             assert "not found" in resp.json()["detail"]

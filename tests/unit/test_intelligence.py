@@ -1,4 +1,4 @@
-"""Comprehensive offline unit test suite for Skopaq Clean-Room Intelligence Prompts.
+"""Comprehensive offline unit test suite for NovaSwarm Clean-Room Intelligence Prompts.
 
 Verifies:
 1. All 16 agent prompt getters exist, accept standard kwargs, and return non-empty strings.
@@ -16,8 +16,8 @@ from pathlib import Path
 import re
 import pytest
 
-import skopaq.intelligence as intel
-from skopaq.intelligence import (
+import novaswarm.intelligence as intel
+from novaswarm.intelligence import (
     ALL_PROMPT_ROLES,
     get_prompt_for_role,
     # 7 Analysts
@@ -259,9 +259,9 @@ class TestPlagiarismAndASTSimilarityImmunity:
                 assert term not in prompt, f"Forbidden upstream term '{term}' found in prompt for {role}"
 
     def test_zero_forbidden_upstream_terms_in_intelligence_source(self):
-        intelligence_dir = Path(__file__).parent.parent.parent / "skopaq" / "intelligence"
+        intelligence_dir = Path(__file__).parent.parent.parent / "novaswarm" / "intelligence"
         if not intelligence_dir.exists():
-            pytest.skip("skopaq/intelligence/ not yet created on disk")
+            pytest.skip("novaswarm/intelligence/ not yet created on disk")
 
         for py_file in intelligence_dir.rglob("*.py"):
             content = py_file.read_text(encoding="utf-8")

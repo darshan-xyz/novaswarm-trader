@@ -1,8 +1,8 @@
-site_name: SkopaqTrader Docs
+site_name: NovaSwarm Trader Docs
 site_description: AI Algorithmic Trading Platform for Indian Equities
-site_url: https://samuelvinay91.github.io/skopaqtrader/
-repo_url: https://github.com/samuelvinay91/skopaqtrader
-repo_name: samuelvinay91/skopaqtrader
+site_url: https://samuelvinay91.github.io/novaswarm-trader/
+repo_url: https://github.com/samuelvinay91/novaswarm-trader
+repo_name: samuelvinay91/novaswarm-trader
 edit_uri: edit/main/docs/
 
 theme:
@@ -84,6 +84,6 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/samuelvinay91/skopaqtrader
+      link: https://github.com/samuelvinay91/novaswarm-trader
 
 copyright: "Apache 2.0 — Built on TradingAgents by TauricResearch"

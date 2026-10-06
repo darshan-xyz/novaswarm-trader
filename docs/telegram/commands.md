@@ -1,6 +1,6 @@
 # Telegram Commands
 
-The SkopaqTrader Telegram bot supports both slash commands and natural language queries.
+The NovaSwarm Trader Telegram bot supports both slash commands and natural language queries.
 
 ## Slash Commands
 
@@ -22,7 +22,7 @@ The SkopaqTrader Telegram bot supports both slash commands and natural language 
 Registers your chat for notifications and displays a welcome message with available commands and scheduled job times.
 
 ```
-Welcome to SkopaqTrader! Your AI trading assistant.
+Welcome to NovaSwarm Trader! Your AI trading assistant.
 
 Commands:
 /quote SYMBOL - Live stock quote
@@ -91,7 +91,7 @@ Shows P&L for open positions with individual and total figures.
 Displays system health information:
 
 ```
-SkopaqTrader v0.4.0
+NovaSwarm Trader v0.4.0
 Mode: paper
 Token: valid
 LLMs: Gemini, Claude, Grok
@@ -118,7 +118,7 @@ Response (not connected):
 
 ```
 Tap to connect Zerodha:
-https://skopaq-trader.fly.dev/api/kite/login
+https://novaswarm-trader.fly.dev/api/kite/login
 ```
 
 Response (already connected):

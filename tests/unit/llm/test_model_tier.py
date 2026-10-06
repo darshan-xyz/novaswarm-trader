@@ -17,10 +17,10 @@ class TestBuildLlmMap:
         client.get_llm.return_value = llm
         return client
 
-    @patch("skopaq.llm.model_tier._create_llm")
+    @patch("novaswarm.llm.model_tier._create_llm")
     def test_all_keys_available(self, mock_create):
         """When all API keys are set, each role gets its preferred model."""
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         # Track which (provider, model) pairs were requested
         created = {}
@@ -54,10 +54,10 @@ class TestBuildLlmMap:
         assert llm_map["market_analyst"]._provider == "google"
         assert "_default" in llm_map
 
-    @patch("skopaq.llm.model_tier._create_llm")
+    @patch("novaswarm.llm.model_tier._create_llm")
     def test_only_google_key(self, mock_create):
         """When only Google key is set, all roles fall back to Gemini Flash."""
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         gemini_llm = MagicMock()
         gemini_llm._provider = "google"
@@ -77,10 +77,10 @@ class TestBuildLlmMap:
                       "research_manager", "risk_manager"]:
             assert llm_map[role]._provider == "google"
 
-    @patch("skopaq.llm.model_tier._create_llm")
+    @patch("novaswarm.llm.model_tier._create_llm")
     def test_fallback_on_missing_key(self, mock_create):
         """social_analyst falls back to Gemini when OpenRouter/XAI keys are missing."""
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         def side_effect(provider, model, **kw):
             llm = MagicMock()
@@ -100,10 +100,10 @@ class TestBuildLlmMap:
         # social_analyst should have fallen back to google
         assert llm_map["social_analyst"]._provider == "google"
 
-    @patch("skopaq.llm.model_tier._create_llm")
+    @patch("novaswarm.llm.model_tier._create_llm")
     def test_default_key_always_present(self, mock_create):
         """_default key is always in the map."""
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         mock_create.return_value = MagicMock()
 
@@ -114,10 +114,10 @@ class TestBuildLlmMap:
 
         assert "_default" in llm_map
 
-    @patch("skopaq.llm.model_tier._create_llm")
+    @patch("novaswarm.llm.model_tier._create_llm")
     def test_caches_same_model(self, mock_create):
         """Same (provider, model) pair should be created only once."""
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         call_count = 0
         def side_effect(provider, model, **kw):

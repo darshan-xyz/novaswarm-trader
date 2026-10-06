@@ -1,13 +1,13 @@
 # Fly.io Deployment
 
-SkopaqTrader runs on [Fly.io](https://fly.io/) with two apps: the API server and the Telegram bot. Both are deployed in the Mumbai region (`bom`) for lowest latency to Indian exchanges.
+NovaSwarm Trader runs on [Fly.io](https://fly.io/) with two apps: the API server and the Telegram bot. Both are deployed in the Mumbai region (`bom`) for lowest latency to Indian exchanges.
 
 ## Apps
 
 | App | Purpose | Config | Type |
 |-----|---------|--------|------|
-| `skopaq-trader` | FastAPI backend (REST API + Kite OAuth) | `fly.toml` | HTTP service |
-| `skopaq-telegram` | Telegram bot (polling + scheduled jobs) | `fly-telegram.toml` | Background worker |
+| `novaswarm-trader` | FastAPI backend (REST API + Kite OAuth) | `fly.toml` | HTTP service |
+| `novaswarm-telegram` | Telegram bot (polling + scheduled jobs) | `fly-telegram.toml` | Background worker |
 
 ## Initial Setup
 
@@ -31,10 +31,10 @@ fly auth login
 
 ```bash
 # API server
-fly launch --name skopaq-trader --region bom --no-deploy
+fly launch --name novaswarm-trader --region bom --no-deploy
 
 # Telegram bot
-fly launch --name skopaq-telegram --region bom --no-deploy
+fly launch --name novaswarm-telegram --region bom --no-deploy
 ```
 
 ### Step 4: Create Volumes
@@ -42,8 +42,8 @@ fly launch --name skopaq-telegram --region bom --no-deploy
 Volumes persist data across deploys (Kite tokens, logs):
 
 ```bash
-fly volumes create skopaq_data --region bom --size 1 -a skopaq-trader
-fly volumes create skopaq_data --region bom --size 1 -a skopaq-telegram
+fly volumes create novaswarm_data --region bom --size 1 -a novaswarm-trader
+fly volumes create novaswarm_data --region bom --size 1 -a novaswarm-telegram
 ```
 
 ### Step 5: Set Secrets
@@ -51,21 +51,21 @@ fly volumes create skopaq_data --region bom --size 1 -a skopaq-telegram
 ```bash
 # API server secrets
 fly secrets set \
-  SKOPAQ_KITE_API_KEY="..." \
-  SKOPAQ_KITE_API_SECRET="..." \
-  SKOPAQ_GOOGLE_API_KEY="..." \
-  SKOPAQ_ANTHROPIC_API_KEY="..." \
-  SKOPAQ_SUPABASE_URL="..." \
-  SKOPAQ_SUPABASE_SERVICE_KEY="..." \
-  -a skopaq-trader
+  NOVASWARM_KITE_API_KEY="..." \
+  NOVASWARM_KITE_API_SECRET="..." \
+  NOVASWARM_GOOGLE_API_KEY="..." \
+  NOVASWARM_ANTHROPIC_API_KEY="..." \
+  NOVASWARM_SUPABASE_URL="..." \
+  NOVASWARM_SUPABASE_SERVICE_KEY="..." \
+  -a novaswarm-trader
 
 # Telegram bot secrets
 fly secrets set \
-  SKOPAQ_TELEGRAM_BOT_TOKEN="..." \
-  SKOPAQ_KITE_API_KEY="..." \
-  SKOPAQ_KITE_API_SECRET="..." \
-  SKOPAQ_GOOGLE_API_KEY="..." \
-  -a skopaq-telegram
+  NOVASWARM_TELEGRAM_BOT_TOKEN="..." \
+  NOVASWARM_KITE_API_KEY="..." \
+  NOVASWARM_KITE_API_SECRET="..." \
+  NOVASWARM_GOOGLE_API_KEY="..." \
+  -a novaswarm-telegram
 ```
 
 ## Deploy
@@ -79,7 +79,7 @@ fly deploy --config fly.toml
 Configuration in `fly.toml`:
 
 ```toml
-app = 'skopaq-trader'
+app = 'novaswarm-trader'
 primary_region = 'bom'
 
 [build]
@@ -96,7 +96,7 @@ primary_region = 'bom'
   min_machines_running = 1
 
 [mounts]
-  source = "skopaq_data"
+  source = "novaswarm_data"
   destination = "/data"
 
 [[vm]]
@@ -121,7 +121,7 @@ fly deploy --config fly-telegram.toml
 Configuration in `fly-telegram.toml`:
 
 ```toml
-app = 'skopaq-telegram'
+app = 'novaswarm-telegram'
 primary_region = 'bom'
 
 [build]
@@ -134,7 +134,7 @@ primary_region = 'bom'
   app = "telegram"
 
 [mounts]
-  source = "skopaq_data"
+  source = "novaswarm_data"
   destination = "/data"
 
 [[vm]]
@@ -155,14 +155,14 @@ After deployment:
 
 | Service | URL |
 |---------|-----|
-| API | `https://skopaq-trader.fly.dev` |
-| Health check | `https://skopaq-trader.fly.dev/health` |
-| API docs | `https://skopaq-trader.fly.dev/docs` |
-| Kite login | `https://skopaq-trader.fly.dev/api/kite/login` |
-| Kite callback | `https://skopaq-trader.fly.dev/api/kite/callback` |
+| API | `https://novaswarm-trader.fly.dev` |
+| Health check | `https://novaswarm-trader.fly.dev/health` |
+| API docs | `https://novaswarm-trader.fly.dev/docs` |
+| Kite login | `https://novaswarm-trader.fly.dev/api/kite/login` |
+| Kite callback | `https://novaswarm-trader.fly.dev/api/kite/callback` |
 
 !!! note "Kite redirect URL"
-    Set `https://skopaq-trader.fly.dev/api/kite/callback` as the redirect URL in your Kite Connect developer console.
+    Set `https://novaswarm-trader.fly.dev/api/kite/callback` as the redirect URL in your Kite Connect developer console.
 
 ## Monitoring
 
@@ -170,33 +170,33 @@ After deployment:
 
 ```bash
 # API logs
-fly logs -a skopaq-trader
+fly logs -a novaswarm-trader
 
 # Telegram bot logs
-fly logs -a skopaq-telegram
+fly logs -a novaswarm-telegram
 ```
 
 ### Status
 
 ```bash
-fly status -a skopaq-trader
-fly status -a skopaq-telegram
+fly status -a novaswarm-trader
+fly status -a novaswarm-telegram
 ```
 
 ### SSH
 
 ```bash
-fly ssh console -a skopaq-trader
+fly ssh console -a novaswarm-trader
 ```
 
 ## Scaling
 
 ```bash
 # Scale API to 2 machines
-fly scale count 2 -a skopaq-trader
+fly scale count 2 -a novaswarm-trader
 
 # Increase memory
-fly scale memory 2048 -a skopaq-trader
+fly scale memory 2048 -a novaswarm-trader
 ```
 
 ## Cost
@@ -220,8 +220,8 @@ Rough monthly estimates (Fly.io shared-cpu pricing):
 | Deploy fails | Check `fly logs` for build errors |
 | Token not persisting | Verify volume is mounted (`fly ssh console` then `ls /data`) |
 | Kite login fails | Verify redirect URL matches in Kite developer console |
-| Bot not responding | Check `fly status -a skopaq-telegram` and logs |
-| Out of memory | Scale up: `fly scale memory 2048 -a skopaq-trader` |
+| Bot not responding | Check `fly status -a novaswarm-telegram` and logs |
+| Out of memory | Scale up: `fly scale memory 2048 -a novaswarm-trader` |
 
 ## CI/CD
 

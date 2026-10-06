@@ -14,8 +14,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from skopaq.db.models import AgentMemoryRecord
-from skopaq.memory.store import MEMORY_ROLES, MemoryStore
+from novaswarm.db.models import AgentMemoryRecord
+from novaswarm.memory.store import MEMORY_ROLES, MemoryStore
 
 
 # ── Stubs ────────────────────────────────────────────────────────────────────

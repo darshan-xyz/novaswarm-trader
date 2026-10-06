@@ -7,8 +7,8 @@ Rate limit: 1200 weight/minute.
 
 import pytest
 
-from skopaq.broker.binance_client import BinanceClient, BinanceError
-from skopaq.broker.models import Exchange, Quote
+from novaswarm.broker.binance_client import BinanceClient, BinanceError
+from novaswarm.broker.models import Exchange, Quote
 
 pytestmark = [pytest.mark.integration, pytest.mark.asyncio]
 

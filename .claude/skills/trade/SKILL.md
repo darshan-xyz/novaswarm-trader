@@ -3,7 +3,7 @@ name: trade
 description: Full trade workflow — Claude analyzes the stock, validates safety, and executes (paper mode) after user confirmation.
 argument-hint: <SYMBOL>
 user-invocable: true
-allowed-tools: mcp__skopaq__get_quote mcp__skopaq__get_historical mcp__skopaq__get_positions mcp__skopaq__get_funds mcp__skopaq__check_safety mcp__skopaq__place_order WebSearch
+allowed-tools: mcp__novaswarm__get_quote mcp__novaswarm__get_historical mcp__novaswarm__get_positions mcp__novaswarm__get_funds mcp__novaswarm__check_safety mcp__novaswarm__place_order WebSearch
 ---
 
 # Execute Trade — Claude-Native Analysis + Execution
@@ -23,12 +23,12 @@ You ARE the trader. Analyze the stock yourself using live data, then execute if 
 
 If your signal is BUY or SELL:
 
-1. Call `mcp__skopaq__get_funds` to check available capital
+1. Call `mcp__novaswarm__get_funds` to check available capital
 2. Calculate position size:
    - Risk 1% of available capital per trade
    - Stop distance = entry - stop_loss
    - Quantity = floor(risk_amount / stop_distance)
-3. Call `mcp__skopaq__check_safety` to validate:
+3. Call `mcp__novaswarm__check_safety` to validate:
    - symbol, quantity, price, side (BUY or SELL)
 4. If safety check fails, explain why and adjust
 
@@ -52,7 +52,7 @@ TRADE PLAN: BUY RELIANCE
 
 ### Phase 4: Execution (only after user says yes)
 
-Call `mcp__skopaq__place_order` with the confirmed parameters.
+Call `mcp__novaswarm__place_order` with the confirmed parameters.
 
 **NEVER execute without explicit user confirmation.**
 Paper mode is always the default.

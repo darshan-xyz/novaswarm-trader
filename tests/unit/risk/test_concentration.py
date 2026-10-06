@@ -6,8 +6,8 @@ using the static NIFTY 50 sector map.
 
 import pytest
 
-from skopaq.broker.models import Exchange, Position, Product
-from skopaq.risk.concentration import ConcentrationChecker, SECTOR_MAP, get_sector
+from novaswarm.broker.models import Exchange, Position, Product
+from novaswarm.risk.concentration import ConcentrationChecker, SECTOR_MAP, get_sector
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────

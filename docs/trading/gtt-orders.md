@@ -47,7 +47,7 @@ OCO SELL HDFCBANK
 Claude calls:
 
 ```
-mcp__skopaq__place_gtt_order(
+mcp__novaswarm__place_gtt_order(
     symbol="HDFCBANK",
     action="BUY",
     trigger_price=1450.0,
@@ -60,7 +60,7 @@ mcp__skopaq__place_gtt_order(
 > Set a GTT sell for my HDFCBANK position: target Rs 1,650, stop-loss Rs 1,400.
 
 ```
-mcp__skopaq__place_gtt_order(
+mcp__novaswarm__place_gtt_order(
     symbol="HDFCBANK",
     action="SELL",
     target_price=1650.0,
@@ -74,7 +74,7 @@ mcp__skopaq__place_gtt_order(
 > Show my active GTT orders.
 
 ```
-mcp__skopaq__list_gtt_orders()
+mcp__novaswarm__list_gtt_orders()
 ```
 
 ## MCP Tools
@@ -119,11 +119,11 @@ GTT events trigger automatic Telegram notifications:
 | GTT cancelled | Confirmation of cancellation |
 | GTT expired | Warning that order expired |
 
-These are sent via `skopaq/notifications.py` using `notify_gtt_event()`.
+These are sent via `novaswarm/notifications.py` using `notify_gtt_event()`.
 
 ## Architecture
 
-GTT orders are implemented in `skopaq/options/gtt.py`:
+GTT orders are implemented in `novaswarm/options/gtt.py`:
 
 - `place_gtt_buy()` -- Single-trigger buy at support
 - `place_gtt_oco_sell()` -- OCO sell with target + stop-loss

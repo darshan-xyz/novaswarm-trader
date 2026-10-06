@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from skopaq.chat.tools import (
+from novaswarm.chat.tools import (
     _get_infra,
     analyze_stock,
     check_safety,
@@ -100,7 +100,7 @@ def test_init_tools_sets_infra():
 
 
 def test_get_infra_raises_when_not_init():
-    import skopaq.chat.tools as tools_mod
+    import novaswarm.chat.tools as tools_mod
 
     old = tools_mod._infra
     try:
@@ -174,7 +174,7 @@ async def test_get_orders_with_data(mock_infra):
 
 @pytest.mark.asyncio
 async def test_check_status(mock_infra):
-    with patch("skopaq.broker.token_manager.TokenManager") as MockTM:
+    with patch("novaswarm.broker.token_manager.TokenManager") as MockTM:
         health = MagicMock()
         health.valid = True
         MockTM.return_value.get_health.return_value = health
@@ -187,7 +187,7 @@ async def test_check_status(mock_infra):
 
 @pytest.mark.asyncio
 async def test_check_safety_passes(mock_infra):
-    from skopaq.execution.safety_checker import SafetyResult
+    from novaswarm.execution.safety_checker import SafetyResult
 
     mock_infra.safety_checker.validate.return_value = SafetyResult(
         passed=True, rejections=[]
@@ -209,7 +209,7 @@ async def test_check_safety_passes(mock_infra):
 
 @pytest.mark.asyncio
 async def test_check_safety_rejects(mock_infra):
-    from skopaq.execution.safety_checker import SafetyResult
+    from novaswarm.execution.safety_checker import SafetyResult
 
     mock_infra.safety_checker.validate.return_value = SafetyResult(
         passed=False, rejections=["Exceeds position limit", "Market closed"]
@@ -233,7 +233,7 @@ async def test_check_safety_rejects(mock_infra):
 
 @pytest.mark.asyncio
 async def test_compute_position_size(mock_infra):
-    from skopaq.risk.position_sizer import PositionSize
+    from novaswarm.risk.position_sizer import PositionSize
 
     mock_infra.position_sizer.compute_size.return_value = PositionSize(
         quantity=111,
@@ -269,7 +269,7 @@ async def test_compute_position_size_disabled(mock_infra):
 
 @pytest.mark.asyncio
 async def test_analyze_stock_error_handling(mock_infra):
-    with patch("skopaq.graph.skopaq_graph.SkopaqTradingGraph") as MockGraph:
+    with patch("novaswarm.graph.novaswarm_graph.NovaSwarmTradingGraph") as MockGraph:
         MockGraph.return_value.analyze = AsyncMock(side_effect=Exception("LLM timeout"))
 
         result = await analyze_stock.ainvoke({"symbol": "RELIANCE"})
@@ -278,7 +278,7 @@ async def test_analyze_stock_error_handling(mock_infra):
 
 @pytest.mark.asyncio
 async def test_analyze_stock_returns_signal(mock_infra):
-    with patch("skopaq.graph.skopaq_graph.SkopaqTradingGraph") as MockGraph:
+    with patch("novaswarm.graph.novaswarm_graph.NovaSwarmTradingGraph") as MockGraph:
         mock_result = MagicMock()
         mock_result.error = None
         mock_result.signal = MagicMock()

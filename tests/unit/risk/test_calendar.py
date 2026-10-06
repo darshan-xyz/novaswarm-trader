@@ -8,7 +8,7 @@ from datetime import date
 
 import pytest
 
-from skopaq.risk.calendar import NSEEventCalendar, _last_thursday, _all_thursdays
+from novaswarm.risk.calendar import NSEEventCalendar, _last_thursday, _all_thursdays
 
 
 @pytest.fixture

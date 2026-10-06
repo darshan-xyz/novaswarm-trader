@@ -8,17 +8,17 @@ from unittest.mock import patch
 
 import pytest
 
-from skopaq.broker.token_manager import TokenExpiredError, TokenManager
+from novaswarm.broker.token_manager import TokenExpiredError, TokenManager
 
 
 @pytest.fixture
 def tmp_token_dir(tmp_path):
     """Redirect token storage to a temp directory."""
-    token_dir = tmp_path / ".skopaq"
+    token_dir = tmp_path / ".novaswarm"
     with (
-        patch("skopaq.broker.token_manager.TOKEN_DIR", token_dir),
-        patch("skopaq.broker.token_manager.TOKEN_FILE", token_dir / "token.enc"),
-        patch("skopaq.broker.token_manager.KEY_FILE", token_dir / "token.key"),
+        patch("novaswarm.broker.token_manager.TOKEN_DIR", token_dir),
+        patch("novaswarm.broker.token_manager.TOKEN_FILE", token_dir / "token.enc"),
+        patch("novaswarm.broker.token_manager.KEY_FILE", token_dir / "token.key"),
     ):
         yield token_dir
 
@@ -30,9 +30,9 @@ def mgr(tmp_token_dir):
 
 class TestTokenManager:
     def test_no_token_stored(self, mgr, monkeypatch):
-        # Clear env var and mock SkopaqConfig so the fallback returns empty
-        monkeypatch.delenv("SKOPAQ_INDSTOCKS_TOKEN", raising=False)
-        with patch("skopaq.config.SkopaqConfig") as MockConfig:
+        # Clear env var and mock NovaSwarmConfig so the fallback returns empty
+        monkeypatch.delenv("NOVASWARM_INDSTOCKS_TOKEN", raising=False)
+        with patch("novaswarm.config.NovaSwarmConfig") as MockConfig:
             mock_cfg = MockConfig.return_value
             mock_cfg.indstocks_token.get_secret_value.return_value = ""
             health = mgr.get_health()
@@ -63,10 +63,10 @@ class TestTokenManager:
             mgr.get_token()
 
     def test_clear_token(self, mgr, monkeypatch):
-        monkeypatch.delenv("SKOPAQ_INDSTOCKS_TOKEN", raising=False)
+        monkeypatch.delenv("NOVASWARM_INDSTOCKS_TOKEN", raising=False)
         mgr.set_token("to-be-cleared")
         mgr.clear()
-        with patch("skopaq.config.SkopaqConfig") as MockConfig:
+        with patch("novaswarm.config.NovaSwarmConfig") as MockConfig:
             MockConfig.return_value.indstocks_token.get_secret_value.return_value = ""
             health = mgr.get_health()
             assert not health.valid

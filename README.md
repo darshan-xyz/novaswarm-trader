@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/hero_banner.png" alt="SkopaqTrader AI Platform" style="max-width: 100%; height: auto; object-fit: contain;" />
+<img src="assets/hero_banner.png" alt="NovaSwarm Trader AI Platform" style="max-width: 100%; height: auto; object-fit: contain;" />
 
-# SkopaqTrader
+# NovaSwarm Trader
 
 **An open-source AI algorithmic trading platform for Indian equities**
 
@@ -30,12 +30,12 @@ Built on [TradingAgents](https://github.com/TauricResearch/TradingAgents) (Apach
 
 ## Overview
 
-SkopaqTrader extends the [TradingAgents](https://github.com/TauricResearch/TradingAgents) multi-agent LLM framework with Indian equity market support, multi-model tiering, broker integration, and an experience-driven execution pipeline.
+NovaSwarm Trader extends the [TradingAgents](https://github.com/TauricResearch/TradingAgents) multi-agent LLM framework with Indian equity market support, multi-model tiering, broker integration, and an experience-driven execution pipeline.
 
 **Key capabilities:**
 
 - **Claude Code Integration** — Native MCP server with 18 tools + custom slash commands (`/analyze`, `/quote`, `/scan`, `/portfolio`, `/trade`). Run the full 15-agent analysis pipeline using Claude's own reasoning at zero extra LLM cost.
-- **Interactive AI Chat** — Claude Code-style REPL (`skopaq chat`) with streaming responses, tool panels, human-in-the-loop trade confirmation, and LangGraph checkpointing.
+- **Interactive AI Chat** — Claude Code-style REPL (`novaswarm chat`) with streaming responses, tool panels, human-in-the-loop trade confirmation, and LangGraph checkpointing.
 - **Ollama Local Fallback** — Run analyst roles on local models via Ollama/MLX for offline operation and zero API cost.
 - **Post-Trade Reflection Loop** — Reflection node analyzes past trades and injects history into the analyst context, enabling the system to incorporate lessons from wins and losses over time.
 - **Persistent Agent Memory** — BM25-indexed memory store backed by Supabase for long-term strategic recall across all agent roles.
@@ -53,7 +53,7 @@ SkopaqTrader extends the [TradingAgents](https://github.com/TauricResearch/Tradi
 - **Crypto Support** — On-chain (Blockchair), DeFi/tokenomics (DeFiLlama/CoinGecko), and funding rate (Binance Futures) analysts activate when `asset_class=crypto`.
 - **Blockchain Infrastructure** — Live Binance trading, WebSocket real-time feeds, gas oracles (ETH/Polygon/Arbitrum/Optimism), whale transaction alerts, and multi-exchange abstraction layer.
 
-<img src="assets/dashboard.png" alt="Skopaq Dashboard" style="max-width: 100%; height: auto;" />
+<img src="assets/dashboard.png" alt="NovaSwarm Dashboard" style="max-width: 100%; height: auto;" />
 *Dashboard for monitoring agent workflows, market scanning, and trade execution.*
 
 - **Paper → Live pipeline** — Start paper, graduate to live when ready
@@ -78,8 +78,8 @@ graph TD
         Dashboard["Next.js Dashboard"]:::interface
     end
 
-    subgraph CoreSystem["SkopaqTrader Core"]
-        Orchestrator["SkopaqTradingGraph<br/>System Orchestrator"]:::core
+    subgraph CoreSystem["NovaSwarm Trader Core"]
+        Orchestrator["NovaSwarmTradingGraph<br/>System Orchestrator"]:::core
         DataAgents["Data Analysts<br/>Market / News / Social"]:::agent
         ResearchAgents["Researchers<br/>Bull / Bear / Debate"]:::agent
         RiskAgent["Risk Manager<br/>Evaluation"]:::agent
@@ -115,7 +115,7 @@ graph TD
     Orchestrator -. "Reflection" .-> DataAgents
 ```
 
-*High-level overview of the SkopaqTrader architecture, connecting the user interfaces to the multi-agent AI team and the INDstocks execution engine.*
+*High-level overview of the NovaSwarm Trader architecture, connecting the user interfaces to the multi-agent AI team and the INDstocks execution engine.*
 
 ### 🤖 AI Agent Workflow
 
@@ -174,15 +174,15 @@ flowchart LR
     S6 -. "Feeds next trade" .-> S2
 ```
 
-*A simple mental model of how SkopaqTrader operates, making complex algorithmic trading easy to understand.*
+*A simple mental model of how NovaSwarm Trader operates, making complex algorithmic trading easy to understand.*
 
 ### 🔍 Deep-Dive: Scanner Engine & Advanced Risk
 
 <img src="assets/data_scanner.png" alt="Concept: Real-Time Market Scanner" style="max-width: 100%; height: auto;" />
 <br/>
-<sub>*Conceptual UI of the SkopaqTrader scanner engine processing live NIFTY 50 metrics, sentiment scores, and confidence data.*</sub>
+<sub>*Conceptual UI of the NovaSwarm Trader scanner engine processing live NIFTY 50 metrics, sentiment scores, and confidence data.*</sub>
 
-The real power of SkopaqTrader lies in its parallel scanner and dynamic risk management logic. When running `skopaq scan`, the system doesn't rely on just one LLM or simple heuristics. It queries multiple models simultaneously while injecting Indian market regime rules.
+The real power of NovaSwarm Trader lies in its parallel scanner and dynamic risk management logic. When running `novaswarm scan`, the system doesn't rely on just one LLM or simple heuristics. It queries multiple models simultaneously while injecting Indian market regime rules.
 
 ```mermaid
 flowchart TD
@@ -192,7 +192,7 @@ flowchart TD
     classDef check fill:#f59e0b,stroke:#d97706,color:#fff
     classDef memory fill:#475569,stroke:#334155,color:#fff
 
-    Start(("skopaq scan<br/>NIFTY 50")):::trigger
+    Start(("novaswarm scan<br/>NIFTY 50")):::trigger
     INDapi["INDstocks API Batch Quote"]:::data
     CacheCheck{"Redis LangCache<br/>Semantic Check"}:::check
     CachedData["Return Cached Inference"]:::llm
@@ -249,42 +249,42 @@ flowchart TD
 
 > **Note:** Perplexity Sonar is used only in the scanner (plain prompts). It does not support tool calling, so it cannot serve as an analyst in the LangGraph agent pipeline.
 >
-> **Ollama fallback** activates only when `SKOPAQ_OLLAMA_ENABLED=true` and Ollama is running locally. Judge roles (Research Manager, Risk Manager) never fall back to local models.
+> **Ollama fallback** activates only when `NOVASWARM_OLLAMA_ENABLED=true` and Ollama is running locally. Judge roles (Research Manager, Risk Manager) never fall back to local models.
 
 ### Blockchain Infrastructure
 
-SkopaqTrader includes comprehensive blockchain infrastructure for crypto trading:
+NovaSwarm Trader includes comprehensive blockchain infrastructure for crypto trading:
 
 | Feature | Module | Description |
 |---------|--------|-------------|
-| **Live Trading** | `skopaq/broker/binance_auth.py` | Authenticated Binance API for spot trading with API keys |
-| **Real-Time Feeds** | `skopaq/broker/binance_ws.py` | WebSocket streams for ticker, trades, order book, klines |
-| **Gas Oracle** | `skopaq/blockchain/gas.py` | ETH, Polygon, Arbitrum, Optimism gas prices + tx cost estimates |
-| **Whale Alerts** | `skopaq/blockchain/whales.py` | Large transaction monitoring for BTC, ETH, SOL |
-| **Multi-Exchange** | `skopaq/broker/exchange.py` | Unified abstraction layer (Binance, Coinbase, Kraken) |
+| **Live Trading** | `novaswarm/broker/binance_auth.py` | Authenticated Binance API for spot trading with API keys |
+| **Real-Time Feeds** | `novaswarm/broker/binance_ws.py` | WebSocket streams for ticker, trades, order book, klines |
+| **Gas Oracle** | `novaswarm/blockchain/gas.py` | ETH, Polygon, Arbitrum, Optimism gas prices + tx cost estimates |
+| **Whale Alerts** | `novaswarm/blockchain/whales.py` | Large transaction monitoring for BTC, ETH, SOL |
+| **Multi-Exchange** | `novaswarm/broker/exchange.py` | Unified abstraction layer (Binance, Coinbase, Kraken) |
 
 ```python
 # Live Binance trading
-from skopaq.broker import BinanceAuthClient
+from novaswarm.broker import BinanceAuthClient
 
 async with BinanceAuthClient(api_key="...", api_secret="...") as client:
     await client.place_order("BTCUSDT", "BUY", 0.001, 50000.0)
 
 # Real-time price via WebSocket
-from skopaq.broker import BinanceWS
+from novaswarm.broker import BinanceWS
 
 ws = BinanceWS()
 async for ticker in ws.ticker_stream("BTCUSDT"):
     print(f"BTC: ${ticker.price}")
 
 # Gas oracle
-from skopaq.blockchain import get_gas_price, get_gas_estimate
+from novaswarm.blockchain import get_gas_price, get_gas_estimate
 
 gas = await get_gas_price("ETH")
 estimate = await get_gas_estimate("ETH", "USDT transfer")
 
 # Whale alerts
-from skopaq.blockchain import check_whale_alerts
+from novaswarm.blockchain import check_whale_alerts
 
 alerts = await check_whale_alerts("ETH", min_value_usd=100000)
 ```
@@ -299,8 +299,8 @@ alerts = await check_whale_alerts("ETH", min_value_usd=100000)
 ### Setup
 
 ```bash
-git clone https://github.com/bvkio/skopaqtrader.git
-cd skopaqtrader
+git clone https://github.com/bvkio/novaswarm-trader.git
+cd novaswarm-trader
 
 # Create virtual environment
 python -m venv .venv
@@ -337,43 +337,43 @@ See [`.env.example`](.env.example) for all configuration options.
 
 ```bash
 # System health check
-skopaq status
+novaswarm status
 
 # Analyze a stock (no execution)
-skopaq analyze RELIANCE
-skopaq analyze TATAMOTORS --date 2026-02-28
+novaswarm analyze RELIANCE
+novaswarm analyze TATAMOTORS --date 2026-02-28
 
 # Analyze + execute (paper mode by default)
-skopaq trade RELIANCE
+novaswarm trade RELIANCE
 
 # Run scanner cycle
-skopaq scan --max-candidates 5
+novaswarm scan --max-candidates 5
 
 # Autonomous daemon (full session: scan → trade → monitor → close)
 # WARNING: The daemon trades autonomously. Use paper mode until you are confident.
-skopaq daemon --once --paper           # Single paper session, run immediately
-skopaq daemon --dry-run                # Scanner only, print candidates, exit
-skopaq daemon --once --max-trades 1    # Live mode, 1 trade max (requires confirmation)
+novaswarm daemon --once --paper           # Single paper session, run immediately
+novaswarm daemon --dry-run                # Scanner only, print candidates, exit
+novaswarm daemon --once --max-trades 1    # Live mode, 1 trade max (requires confirmation)
 
 # Position monitor (attach to existing open positions)
-skopaq monitor                         # Monitor all open positions until EOD
+novaswarm monitor                         # Monitor all open positions until EOD
 
 # Start API server
-skopaq serve --port 8000
+novaswarm serve --port 8000
 
 # Token management (INDstocks broker)
-skopaq token set <your-token>
-skopaq token status
+novaswarm token set <your-token>
+novaswarm token status
 ```
 
 ### Python API
 
 ```python
-from skopaq.config import SkopaqConfig
-from skopaq.graph.skopaq_graph import SkopaqTradingGraph
+from novaswarm.config import NovaSwarmConfig
+from novaswarm.graph.novaswarm_graph import NovaSwarmTradingGraph
 
-config = SkopaqConfig()
-graph = SkopaqTradingGraph(config)
+config = NovaSwarmConfig()
+graph = NovaSwarmTradingGraph(config)
 
 # Analysis only
 result = await graph.analyze("RELIANCE", "2026-03-01")
@@ -388,8 +388,8 @@ print(result.execution)
 
 ```bash
 # Start the interactive AI trading assistant
-skopaq chat                    # Paper mode (default)
-skopaq chat --live             # Live mode (with confirmation)
+novaswarm chat                    # Paper mode (default)
+novaswarm chat --live             # Live mode (with confirmation)
 
 # Inside the REPL:
 > what should I trade today?   # Natural language → AI reasons + calls tools
@@ -402,15 +402,15 @@ skopaq chat --live             # Live mode (with confirmation)
 
 ## Claude Code Integration (MCP + Skills)
 
-SkopaqTrader integrates natively with [Claude Code](https://claude.ai/code) as an MCP server + custom slash commands. This turns Claude Code into a **full-featured trading terminal** — with Claude's own reasoning powering the multi-agent analysis pipeline at zero extra LLM cost.
+NovaSwarm Trader integrates natively with [Claude Code](https://claude.ai/code) as an MCP server + custom slash commands. This turns Claude Code into a **full-featured trading terminal** — with Claude's own reasoning powering the multi-agent analysis pipeline at zero extra LLM cost.
 
 ### Quick Setup (3 steps)
 
-**Step 1: Install SkopaqTrader**
+**Step 1: Install NovaSwarm Trader**
 
 ```bash
-git clone https://github.com/samuelvinay91/skopaqtrader.git
-cd skopaqtrader
+git clone https://github.com/samuelvinay91/novaswarm-trader.git
+cd novaswarm-trader
 pip install -e .
 cp .env.example .env   # Add your API keys
 ```
@@ -422,9 +422,9 @@ Add to your `~/.claude.json` (or run `/mcp add` in Claude Code):
 ```json
 {
   "mcpServers": {
-    "skopaq": {
+    "novaswarm": {
       "command": "python3",
-      "args": ["-m", "skopaq.mcp_server"]
+      "args": ["-m", "novaswarm.mcp_server"]
     }
   }
 }
@@ -432,7 +432,7 @@ Add to your `~/.claude.json` (or run `/mcp add` in Claude Code):
 
 **Step 3: Restart Claude Code**
 
-Open Claude Code in the `skopaqtrader` directory. The MCP server starts automatically. You'll see 18 trading tools available.
+Open Claude Code in the `novaswarm-trader` directory. The MCP server starts automatically. You'll see 18 trading tools available.
 
 ### Custom Slash Commands (Skills)
 
@@ -462,7 +462,7 @@ All tools are callable by Claude Code natively. Read-only tools are auto-approve
 
 ### Dual-Mode Architecture
 
-SkopaqTrader has two execution paths for the same multi-agent pipeline:
+NovaSwarm Trader has two execution paths for the same multi-agent pipeline:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -485,8 +485,8 @@ SkopaqTrader has two execution paths for the same multi-agent pipeline:
 ┌─────────────────────────────────────────────────────────┐
 │ API Mode (separate LLM calls)                           │
 │                                                         │
-│  skopaq analyze RELIANCE                                │
-│    → SkopaqTradingGraph.analyze()                       │
+│  novaswarm analyze RELIANCE                                │
+│    → NovaSwarmTradingGraph.analyze()                       │
 │    → 4 analyst LLM calls (Gemini Flash)                 │
 │    → Bull/Bear researcher calls (Gemini Flash)          │
 │    → Research Manager call (Claude Opus API)            │
@@ -504,23 +504,23 @@ Both modes use the **same data sources** and the **same agent prompts** — the 
 
 ### Ollama Local Model Fallback
 
-For offline operation or zero-cost inference, SkopaqTrader supports local models via [Ollama](https://ollama.ai):
+For offline operation or zero-cost inference, NovaSwarm Trader supports local models via [Ollama](https://ollama.ai):
 
 ```bash
 # Install Ollama (macOS)
 brew install ollama
 ollama pull mistral    # or any model
 
-# Enable in SkopaqTrader
-export SKOPAQ_OLLAMA_ENABLED=true
-skopaq chat            # Uses local model as fallback when cloud APIs fail
+# Enable in NovaSwarm Trader
+export NOVASWARM_OLLAMA_ENABLED=true
+novaswarm chat            # Uses local model as fallback when cloud APIs fail
 ```
 
 Local models serve as the **last fallback** in the provider chain. Judge roles (research_manager, risk_manager) skip local models to preserve reasoning quality.
 
 ### OpenClaw Integration
 
-SkopaqTrader also integrates with [OpenClaw](https://openclaw.ai) for multi-channel access via WhatsApp, Telegram, and Slack. See `openclaw.json` for configuration.
+NovaSwarm Trader also integrates with [OpenClaw](https://openclaw.ai) for multi-channel access via WhatsApp, Telegram, and Slack. See `openclaw.json` for configuration.
 
 ### Upstream TradingAgents (Direct)
 
@@ -538,7 +538,7 @@ print(decision)
 ## Project Structure
 
 ```
-skopaqtrader/
+novaswarm-trader/
 ├── tradingagents/              # Vendored upstream (TradingAgents v0.2.0)
 │   ├── agents/                 # Analyst, researcher, trader, risk agents
 │   │   ├── analysts/           # Market, news, social, fundamentals + crypto analysts
@@ -550,7 +550,7 @@ skopaqtrader/
 │   ├── dataflows/              # Data vendors (yfinance, INDstocks, crypto APIs)
 │   └── llm_clients/            # LLM factory (OpenAI, Google, Anthropic, etc.)
 │
-├── skopaq/                     # SkopaqTrader extensions
+├── novaswarm/                     # NovaSwarm Trader extensions
 │   ├── agents/                 # Sell analyst (AI exit decisions)
 │   ├── api/                    # FastAPI backend server
 │   ├── blockchain/             # Gas oracle, whale alerts
@@ -559,13 +559,13 @@ skopaqtrader/
 │   ├── cli/                    # Typer CLI (analyze, trade, scan, daemon, monitor, chat)
 │   ├── db/                     # Supabase client + repositories
 │   ├── execution/              # Executor, safety checker, order router, daemon, monitor
-│   ├── graph/                  # SkopaqTradingGraph (upstream wrapper)
+│   ├── graph/                  # NovaSwarmTradingGraph (upstream wrapper)
 │   ├── llm/                    # Multi-model tiering, env bridge, semantic cache, Ollama
 │   ├── memory/                 # BM25-indexed agent memory + trade reflection loop
 │   ├── risk/                   # ATR sizing, regime detection, drawdown, calendar
 │   ├── scanner/                # Multi-model market scanner engine
 │   ├── mcp_server.py           # MCP server (18 tools for Claude Code integration)
-│   ├── config.py               # Pydantic Settings (env_prefix="SKOPAQ_")
+│   ├── config.py               # Pydantic Settings (env_prefix="NOVASWARM_")
 │   └── constants.py            # Immutable safety rules + daemon variants
 │
 ├── frontend/                   # Next.js dashboard (Vercel)
@@ -593,8 +593,8 @@ skopaqtrader/
 ## Security
 
 - **No secrets in the repository.** All API keys, tokens, and credentials are loaded from environment variables via `.env` (gitignored). See [`.env.example`](.env.example) for the full list of configurable keys.
-- **INDstocks tokens** are stored locally in `~/.skopaq/token.json` (gitignored) and validated on every daemon session start.
-- **Immutable safety rules** in `skopaq/constants.py` enforce position limits, order value caps, and rate limits that cannot be overridden at runtime.
+- **INDstocks tokens** are stored locally in `~/.novaswarm/token.json` (gitignored) and validated on every daemon session start.
+- **Immutable safety rules** in `novaswarm/constants.py` enforce position limits, order value caps, and rate limits that cannot be overridden at runtime.
 - **Daemon safety variants** apply tighter limits for unattended operation (fewer positions, lower order caps, slower pace).
 - **Live trading double-gate** — the `trade` and `daemon` CLI commands require an explicit confirmation prompt before executing real orders.
 
@@ -612,7 +612,7 @@ python -m pytest tests/unit/ -v
 python -m pytest tests/integration/ -v -m integration
 
 # All tests with coverage
-python -m pytest --cov=skopaq --cov=tradingagents -v
+python -m pytest --cov=novaswarm --cov=tradingagents -v
 ```
 
 ## Docker
@@ -621,12 +621,12 @@ The fastest way to get started. One image, all services.
 
 ```bash
 # Pull and run (when published to Docker Hub)
-docker pull skopaqtrader/skopaqtrader:latest
+docker pull novaswarm-trader/novaswarm-trader:latest
 
 # Or build locally
-git clone https://github.com/samuelvinay91/skopaqtrader.git
-cd skopaqtrader
-docker build -t skopaqtrader/skopaqtrader .
+git clone https://github.com/samuelvinay91/novaswarm-trader.git
+cd novaswarm-trader
+docker build -t novaswarm-trader/novaswarm-trader .
 ```
 
 ### Quick Start with Docker
@@ -634,14 +634,14 @@ docker build -t skopaqtrader/skopaqtrader .
 ```bash
 # 1. Configure
 cp .env.example .env
-# Edit .env with your API keys (at minimum SKOPAQ_GOOGLE_API_KEY)
+# Edit .env with your API keys (at minimum NOVASWARM_GOOGLE_API_KEY)
 
 # 2. Run any service
-docker run -it --env-file .env skopaqtrader/skopaqtrader chat        # AI chatbot
-docker run -d --env-file .env skopaqtrader/skopaqtrader telegram     # Telegram bot
-docker run -d --env-file .env -p 8000:8000 skopaqtrader/skopaqtrader api  # FastAPI
-docker run --rm --env-file .env skopaqtrader/skopaqtrader scan       # Market scan
-docker run --rm --env-file .env skopaqtrader/skopaqtrader status     # Health check
+docker run -it --env-file .env novaswarm-trader/novaswarm-trader chat        # AI chatbot
+docker run -d --env-file .env novaswarm-trader/novaswarm-trader telegram     # Telegram bot
+docker run -d --env-file .env -p 8000:8000 novaswarm-trader/novaswarm-trader api  # FastAPI
+docker run --rm --env-file .env novaswarm-trader/novaswarm-trader scan       # Market scan
+docker run --rm --env-file .env novaswarm-trader/novaswarm-trader status     # Health check
 ```
 
 ### Docker Compose (recommended)
@@ -657,7 +657,7 @@ docker compose up -d   # Starts API + Telegram bot
 |---------|---------|-------------|
 | `api` | Default | FastAPI backend (port 8000) |
 | `chat` | Interactive | Claude Code-style AI chatbot |
-| `telegram` | Background | Telegram bot (@Skopaq_bot) |
+| `telegram` | Background | Telegram bot (@NovaSwarm_bot) |
 | `mcp` | stdio | MCP server for Claude Code |
 | `daemon` | One-shot | Paper trading session |
 | `daemon-live` | One-shot | LIVE trading session |
@@ -684,7 +684,7 @@ docker compose up -d   # Starts API + Telegram bot
 
 All 34 changes to the vendored `tradingagents/` directory are documented in [`UPSTREAM_CHANGES.md`](UPSTREAM_CHANGES.md).
 
-**Modification philosophy:** Minimal, surgical changes. The upstream graph runs as a black box via `propagate()`. Skopaq wraps it with execution, safety, and multi-model tiering.
+**Modification philosophy:** Minimal, surgical changes. The upstream graph runs as a black box via `propagate()`. NovaSwarm wraps it with execution, safety, and multi-model tiering.
 
 **Categories of modifications:**
 
@@ -719,18 +719,18 @@ name: my-skill
 description: What it does
 argument-hint: <SYMBOL>
 user-invocable: true
-allowed-tools: mcp__skopaq__get_quote mcp__skopaq__get_historical
+allowed-tools: mcp__novaswarm__get_quote mcp__novaswarm__get_historical
 ---
 
 # My Skill
 
 Instructions for Claude Code when this skill is invoked.
-Use MCP tools (mcp__skopaq__*) for data — do NOT write Python code to call broker APIs directly.
+Use MCP tools (mcp__novaswarm__*) for data — do NOT write Python code to call broker APIs directly.
 ```
 
 ### Contributing New MCP Tools
 
-Add tools to `skopaq/mcp_server.py` using the `@mcp.tool()` decorator:
+Add tools to `novaswarm/mcp_server.py` using the `@mcp.tool()` decorator:
 
 ```python
 @mcp.tool()
@@ -744,7 +744,7 @@ Then add the tool name to `.claude/settings.json` permissions for auto-approval.
 
 ## Citation
 
-SkopaqTrader is built on the TradingAgents framework. Please reference the original work:
+NovaSwarm Trader is built on the TradingAgents framework. Please reference the original work:
 
 ```bibtex
 @misc{xiao2025tradingagentsmultiagentsllmfinancial,
@@ -779,7 +779,7 @@ All trademarks are used here solely for identification and interoperability purp
 
 This project is licensed under the [Apache License 2.0](LICENSE).
 
-SkopaqTrader is a derivative work of [TradingAgents](https://github.com/TauricResearch/TradingAgents) by [TauricResearch](https://tauric.ai/), originally released under the Apache License 2.0. All original copyright and attribution notices are retained per the license terms.
+NovaSwarm Trader is a derivative work of [TradingAgents](https://github.com/TauricResearch/TradingAgents) by [TauricResearch](https://tauric.ai/), originally released under the Apache License 2.0. All original copyright and attribution notices are retained per the license terms.
 
 ---
 

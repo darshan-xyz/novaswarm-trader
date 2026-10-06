@@ -1,8 +1,8 @@
-# SkopaqTrader End-to-End (E2E) Test Infrastructure & Methodology Specification
+# NovaSwarm Trader End-to-End (E2E) Test Infrastructure & Methodology Specification
 
 ## 1. Overview & Objectives
 
-This document establishes the authoritative testing methodology, feature inventory, reliability thresholds, and scenario catalog for the **SkopaqTrader Autonomous AI Algorithmic Trading Platform**.
+This document establishes the authoritative testing methodology, feature inventory, reliability thresholds, and scenario catalog for the **NovaSwarm Trader Autonomous AI Algorithmic Trading Platform**.
 
 The E2E test suite operates as an **opaque-box verification system** designed to validate the system through its observable boundaries: REST API endpoints, Server-Sent Events (SSE) data streams, conversational AI interfaces, and frontend web routes.
 
@@ -20,7 +20,7 @@ The E2E test suite operates as an **opaque-box verification system** designed to
 
 ## 2. Testing Methodology
 
-The SkopaqTrader E2E test framework is built upon four rigorous software testing methodologies:
+The NovaSwarm Trader E2E test framework is built upon four rigorous software testing methodologies:
 
 ### 2.1 Category-Partition Method (CPM)
 For each functional area, inputs and system states are decomposed into functional categories, partitioned into distinct equivalence classes, and tested with representative values:
@@ -144,7 +144,7 @@ The test runner utilizes an abstract client interface `E2EClient`:
    [--mode mock]                                     [--mode live]
          ▼                                                 ▼
 ┌────────────────────────────┐               ┌────────────────────────────┐
-│   MockSkopaqServer (ASGI)  │               │   Live FastAPI Backend     │
+│   MockNovaSwarmServer (ASGI)  │               │   Live FastAPI Backend     │
 │   In-process high-fidelity │               │   (http://localhost:8000)  │
 │   router & simulator       │               │   Live Next.js Frontend    │
 │                            │               │   (http://localhost:3000)  │

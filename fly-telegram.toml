@@ -1,4 +1,4 @@
-app = 'skopaq-telegram'
+app = 'novaswarm-telegram'
 primary_region = 'bom'
 
 [build]
@@ -12,7 +12,7 @@ primary_region = 'bom'
   app = "telegram"
 
 [mounts]
-  source = "skopaq_data"
+  source = "novaswarm_data"
   destination = "/data"
 
 [[vm]]

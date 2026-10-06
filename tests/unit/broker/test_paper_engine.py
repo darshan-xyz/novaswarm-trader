@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import pytest
 
-from skopaq.broker.models import (
+from novaswarm.broker.models import (
     Exchange,
     OrderRequest,
     OrderStatus,
@@ -13,7 +13,7 @@ from skopaq.broker.models import (
     Quote,
     Side,
 )
-from skopaq.broker.paper_engine import PaperEngine
+from novaswarm.broker.paper_engine import PaperEngine
 
 
 @pytest.fixture

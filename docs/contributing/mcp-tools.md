@@ -1,6 +1,6 @@
 # Adding MCP Tools
 
-MCP tools are defined in `skopaq/mcp_server.py` using the `@mcp.tool()` decorator from FastMCP. Each tool is an async function that returns a JSON string.
+MCP tools are defined in `novaswarm/mcp_server.py` using the `@mcp.tool()` decorator from FastMCP. Each tool is an async function that returns a JSON string.
 
 ## Anatomy of a Tool
 
@@ -38,7 +38,7 @@ async def my_tool(symbol: str, days: int = 5) -> str:
 
 ### Step 1: Define the Function
 
-Add your tool in the appropriate section of `skopaq/mcp_server.py`:
+Add your tool in the appropriate section of `novaswarm/mcp_server.py`:
 
 ```python
 # ── My New Section ──────────────────────────────────────────────────────────
@@ -99,7 +99,7 @@ This ensures the AI always gets a parseable response.
 Access shared infrastructure via the lazy helpers:
 
 ```python
-config = _get_config()    # SkopaqConfig (cached)
+config = _get_config()    # NovaSwarmConfig (cached)
 router = _get_router()    # OrderRouter + PaperEngine (cached)
 kite = _get_kite()        # KiteClient or None
 ```
@@ -116,9 +116,9 @@ import pytest
 from unittest.mock import AsyncMock, patch
 
 @pytest.mark.asyncio
-@patch("skopaq.mcp_server._get_kite")
+@patch("novaswarm.mcp_server._get_kite")
 async def test_get_option_greeks(mock_kite):
-    from skopaq.mcp_server import get_option_greeks
+    from novaswarm.mcp_server import get_option_greeks
 
     mock_kite.return_value = AsyncMock()
     # ... mock the calculation
@@ -144,7 +144,7 @@ If your tool should be available via a slash command, add it to an existing skil
 ---
 name: greeks
 description: Calculate option Greeks for a contract
-allowed-tools: mcp__skopaq__get_option_greeks mcp__skopaq__get_option_chain
+allowed-tools: mcp__novaswarm__get_option_greeks mcp__novaswarm__get_option_chain
 ---
 ```
 
@@ -226,7 +226,7 @@ return json.dumps({
 
 | File | Purpose |
 |------|---------|
-| `skopaq/mcp_server.py` | All tool definitions (add your tool here) |
-| `skopaq/config.py` | Configuration (if your tool needs new config) |
+| `novaswarm/mcp_server.py` | All tool definitions (add your tool here) |
+| `novaswarm/config.py` | Configuration (if your tool needs new config) |
 | `.claude/.mcp.json` | MCP server registration for Claude Code |
 | `.claude/skills/*/SKILL.md` | Skill files that reference tools |

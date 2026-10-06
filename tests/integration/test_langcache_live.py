@@ -1,9 +1,9 @@
 """Live integration test for Redis LangCache semantic caching.
 
 Requires real credentials in environment:
-    SKOPAQ_LANGCACHE_API_KEY
-    SKOPAQ_LANGCACHE_SERVER_URL
-    SKOPAQ_LANGCACHE_CACHE_ID
+    NOVASWARM_LANGCACHE_API_KEY
+    NOVASWARM_LANGCACHE_SERVER_URL
+    NOVASWARM_LANGCACHE_CACHE_ID
 
 Run with::
 
@@ -24,21 +24,21 @@ pytestmark = pytest.mark.integration
 def _has_langcache_creds() -> bool:
     """Check if all LangCache credentials are available."""
     return all([
-        os.getenv("SKOPAQ_LANGCACHE_API_KEY"),
-        os.getenv("SKOPAQ_LANGCACHE_SERVER_URL"),
-        os.getenv("SKOPAQ_LANGCACHE_CACHE_ID"),
+        os.getenv("NOVASWARM_LANGCACHE_API_KEY"),
+        os.getenv("NOVASWARM_LANGCACHE_SERVER_URL"),
+        os.getenv("NOVASWARM_LANGCACHE_CACHE_ID"),
     ])
 
 
 @pytest.fixture
 def live_cache():
     """Create a real LangCacheSemanticCache connected to Redis Cloud."""
-    from skopaq.llm.cache import LangCacheSemanticCache
+    from novaswarm.llm.cache import LangCacheSemanticCache
 
     cache = LangCacheSemanticCache(
-        api_key=os.environ["SKOPAQ_LANGCACHE_API_KEY"],
-        server_url=os.environ["SKOPAQ_LANGCACHE_SERVER_URL"],
-        cache_id=os.environ["SKOPAQ_LANGCACHE_CACHE_ID"],
+        api_key=os.environ["NOVASWARM_LANGCACHE_API_KEY"],
+        server_url=os.environ["NOVASWARM_LANGCACHE_SERVER_URL"],
+        cache_id=os.environ["NOVASWARM_LANGCACHE_CACHE_ID"],
         threshold=0.85,  # Slightly lenient for testing
     )
     yield cache
@@ -52,7 +52,7 @@ def unique_prompt():
 
 @pytest.mark.skipif(
     not _has_langcache_creds(),
-    reason="SKOPAQ_LANGCACHE_* credentials not set",
+    reason="NOVASWARM_LANGCACHE_* credentials not set",
 )
 class TestLangCacheLive:
     """End-to-end tests against the real Redis LangCache service."""

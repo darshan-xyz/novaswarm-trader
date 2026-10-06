@@ -4,14 +4,14 @@ from __future__ import annotations
 
 
 def test_mcp_server_imports():
-    from skopaq.mcp_server import mcp
+    from novaswarm.mcp_server import mcp
 
     assert mcp is not None
     assert mcp._tool_manager is not None
 
 
 def test_mcp_server_has_all_tools():
-    from skopaq.mcp_server import mcp
+    from novaswarm.mcp_server import mcp
 
     tool_names = {t.name for t in mcp._tool_manager._tools.values()}
     assert len(tool_names) == 36  # Total tool count
@@ -38,12 +38,12 @@ def test_mcp_server_has_all_tools():
 
 
 def test_mcp_server_name():
-    from skopaq.mcp_server import mcp
+    from novaswarm.mcp_server import mcp
 
-    assert mcp.name == "SkopaqTrader"
+    assert mcp.name == "NovaSwarm Trader"
 
 
 def test_mcp_server_has_instructions():
-    from skopaq.mcp_server import mcp
+    from novaswarm.mcp_server import mcp
 
     assert "trading" in mcp.instructions.lower()

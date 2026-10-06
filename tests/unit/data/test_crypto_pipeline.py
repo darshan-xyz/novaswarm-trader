@@ -1,12 +1,12 @@
-"""Unit tests for native crypto data fetching and LangChain tools in skopaq.data.
+"""Unit tests for native crypto data fetching and LangChain tools in novaswarm.data.
 
 Tests:
 - Symbol stripping and chain mapping
 - Blockchain stats and address activity (mocked HTTP)
 - DeFi token fundamentals and chain TVL (mocked HTTP)
 - Derivatives funding rates, open interest, and long/short ratio (mocked HTTP)
-- Crypto LangChain tools registration in skopaq.data.tools
-- Crypto analyst roles in skopaq.intelligence.analysts
+- Crypto LangChain tools registration in novaswarm.data.tools
+- Crypto analyst roles in novaswarm.intelligence.analysts
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from __future__ import annotations
 from unittest.mock import MagicMock, patch
 import pytest
 
-from skopaq.data.crypto import (
+from novaswarm.data.crypto import (
     CHAIN_MAP,
     _strip_coin,
     get_blockchain_stats,
@@ -26,7 +26,7 @@ from skopaq.data.crypto import (
     get_open_interest,
     get_long_short_ratio,
 )
-from skopaq.data.tools import (
+from novaswarm.data.tools import (
     get_blockchain_stats as tool_blockchain_stats,
     get_address_activity as tool_address_activity,
     get_token_fundamentals as tool_token_fundamentals,
@@ -67,7 +67,7 @@ class TestCryptoHelpers:
 
 
 class TestOnchainMetrics:
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_blockchain_stats_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -87,7 +87,7 @@ class TestOnchainMetrics:
         assert "350000" in result
         assert "67500.0" in result
 
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_blockchain_stats_error_handled(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -96,7 +96,7 @@ class TestOnchainMetrics:
         result = get_blockchain_stats("BTCUSDT")
         assert "error" in result.lower() or "failed" in result.lower()
 
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_address_activity_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -122,7 +122,7 @@ class TestOnchainMetrics:
 
 
 class TestDefiMetrics:
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_token_fundamentals_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -139,7 +139,7 @@ class TestDefiMetrics:
         assert "Dexes" in result
         assert "5,500,000,000.00" in result
 
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_defi_tvl_alias(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -155,7 +155,7 @@ class TestDefiMetrics:
         assert "Aave" in result
         assert "12,000,000,000.00" in result
 
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_chain_tvl_overview_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -173,7 +173,7 @@ class TestDefiMetrics:
 
 
 class TestDerivativesMetrics:
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_funding_rates_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -186,7 +186,7 @@ class TestDerivativesMetrics:
         assert "Funding Rates: BTCUSDT" in result
         assert "0.0150%" in result
 
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_open_interest_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client
@@ -198,7 +198,7 @@ class TestDerivativesMetrics:
         assert "Open Interest: BTCUSDT" in result
         assert "85,000.50 contracts" in result
 
-    @patch("skopaq.data.crypto.httpx.Client")
+    @patch("novaswarm.data.crypto.httpx.Client")
     def test_long_short_ratio_success(self, mock_client_cls):
         mock_client = MagicMock()
         mock_client_cls.return_value.__enter__.return_value = mock_client

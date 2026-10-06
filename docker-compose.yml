@@ -1,4 +1,4 @@
-# SkopaqTrader Docker Compose
+# NovaSwarm Trader Docker Compose
 #
 # Quick start:
 #   cp .env.example .env    # Add your API keys

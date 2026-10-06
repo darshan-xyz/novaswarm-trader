@@ -1,0 +1,29 @@
+"""NovaSwarm Intelligence: Executive Risk Committee.
+
+Stage 4 Risk Committee Deliberation (Growth, Preservation, Balanced) and Stage 5
+Chief Risk Officer (CRO) Adjudication.
+"""
+
+from novaswarm.intelligence.risk_committee.chief_risk import (
+    CHIEF_RISK_OFFICER_PROMPT,
+    CHIEF_RISK_OFFICER_SYSTEM_PROMPT,
+)
+from novaswarm.intelligence.risk_committee.perspectives import (
+    BALANCED_PERSPECTIVE_PROMPT,
+    BALANCED_PERSPECTIVE_SYSTEM_PROMPT,
+    GROWTH_PERSPECTIVE_PROMPT,
+    GROWTH_PERSPECTIVE_SYSTEM_PROMPT,
+    PRESERVATION_PERSPECTIVE_PROMPT,
+    PRESERVATION_PERSPECTIVE_SYSTEM_PROMPT,
+)
+
+__all__ = [
+    "GROWTH_PERSPECTIVE_PROMPT",
+    "GROWTH_PERSPECTIVE_SYSTEM_PROMPT",
+    "PRESERVATION_PERSPECTIVE_PROMPT",
+    "PRESERVATION_PERSPECTIVE_SYSTEM_PROMPT",
+    "BALANCED_PERSPECTIVE_PROMPT",
+    "BALANCED_PERSPECTIVE_SYSTEM_PROMPT",
+    "CHIEF_RISK_OFFICER_PROMPT",
+    "CHIEF_RISK_OFFICER_SYSTEM_PROMPT",
+]

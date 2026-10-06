@@ -1,6 +1,6 @@
 # Options Selling
 
-SkopaqTrader includes an AI-powered options selling module that analyzes option chains and selects optimal OTM strikes for theta decay strategies.
+NovaSwarm Trader includes an AI-powered options selling module that analyzes option chains and selects optimal OTM strikes for theta decay strategies.
 
 ## Supported Strategies
 
@@ -12,7 +12,7 @@ SkopaqTrader includes an AI-powered options selling module that analyzes option 
 
 ## How It Works
 
-The options module (`skopaq/options/`) has three components:
+The options module (`novaswarm/options/`) has three components:
 
 1. **Chain Fetcher** (`chain.py`) -- Fetches the full option chain from Kite Connect with calls, puts, strikes, premiums, OI, and volume
 2. **Strategy Selector** (`strategy.py`) -- AI algorithm that picks the optimal strike based on distance from spot, premium yield, liquidity, and risk
@@ -70,7 +70,7 @@ Risk Management:
 
 > Show me the NIFTY option chain for the nearest expiry.
 
-Claude calls `mcp__skopaq__get_option_chain(symbol="NIFTY", expiry_index=0)`.
+Claude calls `mcp__novaswarm__get_option_chain(symbol="NIFTY", expiry_index=0)`.
 
 ## Risk Management
 

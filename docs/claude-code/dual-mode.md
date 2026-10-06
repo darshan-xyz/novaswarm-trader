@@ -1,6 +1,6 @@
 # Dual-Mode Analysis
 
-SkopaqTrader supports two distinct analysis modes. Understanding when to use each is key to getting the best results.
+NovaSwarm Trader supports two distinct analysis modes. Understanding when to use each is key to getting the best results.
 
 ## The Two Modes
 
@@ -112,7 +112,7 @@ You can use both modes in a single session:
 
 ## Configuration
 
-The API mode uses the LLM tier configuration in `skopaq/llm/model_tier.py`:
+The API mode uses the LLM tier configuration in `novaswarm/llm/model_tier.py`:
 
 ```python
 # Each role has a fallback chain

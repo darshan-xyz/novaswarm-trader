@@ -2,7 +2,7 @@
 
 import pytest
 
-from skopaq.scanner.watchlist import NIFTY_50, Watchlist
+from novaswarm.scanner.watchlist import NIFTY_50, Watchlist
 
 
 class TestWatchlist:

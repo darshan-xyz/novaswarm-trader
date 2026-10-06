@@ -1,13 +1,13 @@
 # Ollama Local Models
 
-SkopaqTrader supports Ollama as a local LLM fallback. When cloud API keys are unavailable or you want to run analysis offline, Ollama provides a self-hosted alternative.
+NovaSwarm Trader supports Ollama as a local LLM fallback. When cloud API keys are unavailable or you want to run analysis offline, Ollama provides a self-hosted alternative.
 
 ## How It Works
 
 Ollama is the last option in each agent's fallback chain. If all cloud providers fail (missing keys, rate limits, errors), the system automatically falls back to a local Ollama model.
 
 ```python
-# skopaq/llm/model_tier.py — fallback chain per role
+# novaswarm/llm/model_tier.py — fallback chain per role
 "market_analyst":  [("google", "gemini-3-flash-preview"), ("ollama", "auto")]
 "social_analyst":  [("openrouter", "x-ai/grok-3-mini"), ..., ("ollama", "auto")]
 "trader":          [("google", "gemini-3-flash-preview"), ("ollama", "auto")]
@@ -21,7 +21,7 @@ Ollama is the last option in each agent's fallback chain. If all cloud providers
 Ollama is opt-in. Set the environment variable:
 
 ```bash
-SKOPAQ_OLLAMA_ENABLED=true
+NOVASWARM_OLLAMA_ENABLED=true
 ```
 
 Without this, Ollama is never checked, even if it is running locally.
@@ -54,26 +54,26 @@ ollama serve
 
 Ollama runs at `http://localhost:11434` by default.
 
-### Step 4: Configure SkopaqTrader
+### Step 4: Configure NovaSwarm Trader
 
 ```bash
 # Required: opt-in to Ollama
-SKOPAQ_OLLAMA_ENABLED=true
+NOVASWARM_OLLAMA_ENABLED=true
 
 # Optional: custom base URL
-SKOPAQ_OLLAMA_BASE_URL=http://localhost:11434
+NOVASWARM_OLLAMA_BASE_URL=http://localhost:11434
 
 # Optional: specify model (otherwise auto-detected)
-SKOPAQ_OLLAMA_MODEL=mistral
+NOVASWARM_OLLAMA_MODEL=mistral
 ```
 
 ## Model Auto-Detection
 
-When `SKOPAQ_OLLAMA_MODEL` is not set (or set to `auto`), the system auto-detects the best available model:
+When `NOVASWARM_OLLAMA_MODEL` is not set (or set to `auto`), the system auto-detects the best available model:
 
 ```python
 def _get_ollama_model() -> str:
-    # 1. Check SKOPAQ_OLLAMA_MODEL env var
+    # 1. Check NOVASWARM_OLLAMA_MODEL env var
     # 2. Query Ollama API for installed models
     # 3. Use the first available model
     # 4. Default to "mistral" if nothing found
@@ -87,7 +87,7 @@ On first use, the system pings the Ollama API to check if it is running:
 
 ```python
 def _is_ollama_available() -> bool:
-    # 1. Check SKOPAQ_OLLAMA_ENABLED is set
+    # 1. Check NOVASWARM_OLLAMA_ENABLED is set
     # 2. HTTP GET to /api/tags
     # 3. Cache the result for the session
 ```
@@ -119,14 +119,14 @@ market_analyst:
   1. Try Google (Gemini 3 Flash Preview)
      → GOOGLE_API_KEY set? → Use it
   2. Try Ollama (auto)
-     → SKOPAQ_OLLAMA_ENABLED=true AND Ollama running? → Use it
+     → NOVASWARM_OLLAMA_ENABLED=true AND Ollama running? → Use it
   3. No provider available → Error
 ```
 
 Ollama will activate if:
 
 - All cloud API keys for that role's chain are missing or empty
-- `SKOPAQ_OLLAMA_ENABLED=true` is set
+- `NOVASWARM_OLLAMA_ENABLED=true` is set
 - Ollama is running and responds to the health check
 
 ## Supported Models
@@ -148,13 +148,13 @@ Any model available through Ollama works. Recommended models for trading analysi
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `SKOPAQ_OLLAMA_ENABLED` | `false` | Opt-in flag (must be `true`, `1`, or `yes`) |
-| `SKOPAQ_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama server URL |
-| `SKOPAQ_OLLAMA_MODEL` | `auto` | Model name or `auto` for auto-detection |
+| `NOVASWARM_OLLAMA_ENABLED` | `false` | Opt-in flag (must be `true`, `1`, or `yes`) |
+| `NOVASWARM_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama server URL |
+| `NOVASWARM_OLLAMA_MODEL` | `auto` | Model name or `auto` for auto-detection |
 
 ## File Reference
 
 | File | Purpose |
 |------|---------|
-| `skopaq/llm/model_tier.py` | Fallback chains, Ollama detection, model creation |
+| `novaswarm/llm/model_tier.py` | Fallback chains, Ollama detection, model creation |
 | `tests/unit/llm/test_ollama.py` | Unit tests for Ollama integration |

@@ -1,5 +1,5 @@
 -- ============================================================================
--- SkopaqTrader — Agent Memory Persistence + Trade Lifecycle
+-- NovaSwarm Trader — Agent Memory Persistence + Trade Lifecycle
 -- ============================================================================
 -- Applied via: supabase db push  (or Supabase dashboard SQL editor)
 -- Adds persistent storage for agent memories (self-evolution) and

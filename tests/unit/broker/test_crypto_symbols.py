@@ -2,7 +2,7 @@
 
 import pytest
 
-from skopaq.broker.crypto_symbols import (
+from novaswarm.broker.crypto_symbols import (
     CRYPTO_TOP_20,
     from_binance_pair,
     to_binance_pair,

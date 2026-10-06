@@ -1,6 +1,6 @@
 """Tests for confidence extraction from the risk debate state.
 
-Covers the 4-priority extraction pipeline in ``skopaq.graph.skopaq_graph``:
+Covers the 4-priority extraction pipeline in ``novaswarm.graph.novaswarm_graph``:
 1. Parse ``CONFIDENCE: N`` from judge_decision text
 2. Explicit dict keys (forward-compatible)
 3. Debater agreement heuristic
@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import pytest
 
-from skopaq.graph.skopaq_graph import _extract_confidence, _estimate_agreement
+from novaswarm.graph.novaswarm_graph import _extract_confidence, _estimate_agreement
 
 
 # ── Priority 1: Parse from judge_decision text ─────────────────────────

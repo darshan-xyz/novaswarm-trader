@@ -1,4 +1,4 @@
-"""Unit tests for skopaq/api/performance_router.py."""
+"""Unit tests for novaswarm/api/performance_router.py."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.performance_router import router
-from skopaq.db.models import DailySnapshotRecord
+from novaswarm.api.performance_router import router
+from novaswarm.db.models import DailySnapshotRecord
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def client():
 
 def test_get_performance_metrics(client):
     """GET /api/performance/metrics returns valid portfolio statistics."""
-    with patch("skopaq.api.performance_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.performance_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/performance/metrics")
         assert resp.status_code == 200
         data = resp.json()
@@ -37,7 +37,7 @@ def test_get_performance_metrics(client):
 
 def test_get_daily_snapshots_fallback(client):
     """When DB has no snapshots, endpoint generates baseline sequence for visual chart."""
-    with patch("skopaq.api.performance_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.performance_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/performance/daily-snapshots?days=7")
         assert resp.status_code == 200
         data = resp.json()
@@ -63,8 +63,8 @@ def test_get_daily_snapshots_with_db(client):
         max_drawdown_pct=Decimal("0.8"),
     )
     mock_client = MagicMock()
-    with patch("skopaq.api.performance_router.get_safe_supabase", return_value=mock_client), \
-         patch("skopaq.api.performance_router.SnapshotRepository.get_range", return_value=[mock_snap]):
+    with patch("novaswarm.api.performance_router.get_safe_supabase", return_value=mock_client), \
+         patch("novaswarm.api.performance_router.SnapshotRepository.get_range", return_value=[mock_snap]):
         resp = client.get("/api/performance/daily-snapshots?days=30")
         assert resp.status_code == 200
         data = resp.json()
@@ -76,7 +76,7 @@ def test_get_daily_snapshots_with_db(client):
 
 def test_get_model_accuracy(client):
     """GET /api/performance/models returns breakdown for primary LLMs."""
-    with patch("skopaq.api.performance_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.performance_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/performance/models")
         assert resp.status_code == 200
         data = resp.json()

@@ -20,10 +20,10 @@ from uuid import UUID, uuid4
 
 import pytest
 
-from skopaq.broker.models import Exchange, ExecutionResult, TradingSignal
-from skopaq.db.models import TradeRecord
-from skopaq.graph.skopaq_graph import AnalysisResult
-from skopaq.memory.lifecycle import TradeLifecycleManager, _format_returns
+from novaswarm.broker.models import Exchange, ExecutionResult, TradingSignal
+from novaswarm.db.models import TradeRecord
+from novaswarm.graph.novaswarm_graph import AnalysisResult
+from novaswarm.memory.lifecycle import TradeLifecycleManager, _format_returns
 
 
 # ── Fixtures ─────────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ def trade_repo():
 
 @pytest.fixture
 def graph():
-    """Mock SkopaqTradingGraph with reflect() method."""
+    """Mock NovaSwarmTradingGraph with reflect() method."""
     g = MagicMock()
     g.reflect.return_value = None
     return g

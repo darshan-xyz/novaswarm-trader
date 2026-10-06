@@ -76,7 +76,7 @@ export default function ChatPage() {
       id: "welcome",
       role: "assistant",
       content:
-        "Hello! I am **SkopaqTrader AI**, your autonomous Indian equities assistant. Ask me to scan momentum candidates, inspect active positions, analyze technical setups, or evaluate risk rules.",
+        "Hello! I am **NovaSwarm Trader AI**, your autonomous Indian equities assistant. Ask me to scan momentum candidates, inspect active positions, analyze technical setups, or evaluate risk rules.",
       timestamp: new Date().toISOString(),
     },
   ]);

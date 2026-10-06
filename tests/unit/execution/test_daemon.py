@@ -19,7 +19,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from skopaq.execution.daemon import (
+from novaswarm.execution.daemon import (
     DaemonPhase,
     DaemonSessionReport,
     TradingDaemon,
@@ -83,9 +83,9 @@ def daemon(config):
 
 def test_daemon_config_defaults():
     """Daemon config fields exist with correct defaults."""
-    from skopaq.config import SkopaqConfig
+    from novaswarm.config import NovaSwarmConfig
 
-    cfg = SkopaqConfig()
+    cfg = NovaSwarmConfig()
     assert cfg.daemon_max_trades_per_session == 3
     assert cfg.daemon_max_candidates_to_analyze == 5
     assert cfg.daemon_pre_open_minutes == 5
@@ -101,7 +101,7 @@ def test_daemon_config_defaults():
 
 def test_daemon_safety_rules_tighter():
     """Daemon safety rules are tighter than defaults."""
-    from skopaq.constants import DAEMON_SAFETY_RULES, SAFETY_RULES
+    from novaswarm.constants import DAEMON_SAFETY_RULES, SAFETY_RULES
 
     assert DAEMON_SAFETY_RULES.max_open_positions < SAFETY_RULES.max_open_positions
     assert DAEMON_SAFETY_RULES.max_order_value_inr < SAFETY_RULES.max_order_value_inr
@@ -110,7 +110,7 @@ def test_daemon_safety_rules_tighter():
 
 def test_daemon_paper_safety_rules_relaxed():
     """Daemon paper rules relax timing for testing."""
-    from skopaq.constants import DAEMON_PAPER_SAFETY_RULES
+    from novaswarm.constants import DAEMON_PAPER_SAFETY_RULES
 
     assert DAEMON_PAPER_SAFETY_RULES.market_hours_only is False
     assert DAEMON_PAPER_SAFETY_RULES.require_stop_loss is False
@@ -166,7 +166,7 @@ def test_session_report_accumulates():
 @pytest.mark.asyncio
 async def test_pre_open_validates_token(daemon):
     """PRE_OPEN fails if token is invalid."""
-    with patch("skopaq.broker.token_manager.TokenManager") as MockTM:
+    with patch("novaswarm.broker.token_manager.TokenManager") as MockTM:
         mock_health = MagicMock()
         mock_health.valid = False
         mock_health.warning = "Token expired"
@@ -186,7 +186,7 @@ async def test_scan_returns_candidates(daemon):
     mock_candidate.symbol = "RELIANCE"
     mock_candidate.urgency = "high"
 
-    with patch("skopaq.cli.main._run_scan", new_callable=AsyncMock) as mock_scan:
+    with patch("novaswarm.cli.main._run_scan", new_callable=AsyncMock) as mock_scan:
         mock_scan.return_value = [mock_candidate]
         result = await daemon._phase_scan()
 
@@ -197,7 +197,7 @@ async def test_scan_returns_candidates(daemon):
 @pytest.mark.asyncio
 async def test_scan_returns_empty_on_failure(daemon):
     """Scanner phase returns empty list if scanner raises."""
-    with patch("skopaq.cli.main._run_scan", new_callable=AsyncMock) as mock_scan:
+    with patch("novaswarm.cli.main._run_scan", new_callable=AsyncMock) as mock_scan:
         mock_scan.side_effect = RuntimeError("Scanner crash")
         result = await daemon._phase_scan()
 
@@ -245,8 +245,8 @@ async def test_analyze_respects_max_trades(daemon):
 
     report = DaemonSessionReport()
 
-    with patch("skopaq.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
-        with patch("skopaq.cli.main._inject_paper_quote", new_callable=AsyncMock):
+    with patch("novaswarm.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
+        with patch("novaswarm.cli.main._inject_paper_quote", new_callable=AsyncMock):
             buys = await daemon._phase_analyze_and_trade(candidates, report)
 
     assert report.trades_opened == 1  # Only 1 trade, despite 2 candidates
@@ -266,7 +266,7 @@ async def test_analyze_stops_on_stop_event(config):
     candidates = [MagicMock(symbol="AAA", urgency="high")]
     report = DaemonSessionReport()
 
-    with patch("skopaq.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
+    with patch("novaswarm.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
         buys = await d._phase_analyze_and_trade(candidates, report)
 
     assert buys == []
@@ -290,8 +290,8 @@ async def test_analyze_skips_hold_signals(daemon):
     candidates = [MagicMock(symbol="AAA", urgency="high")]
     report = DaemonSessionReport()
 
-    with patch("skopaq.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
-        with patch("skopaq.cli.main._inject_paper_quote", new_callable=AsyncMock):
+    with patch("novaswarm.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
+        with patch("novaswarm.cli.main._inject_paper_quote", new_callable=AsyncMock):
             buys = await daemon._phase_analyze_and_trade(candidates, report)
 
     assert report.holds == 1
@@ -324,8 +324,8 @@ async def test_analyze_handles_errors_gracefully(daemon):
     ]
     report = DaemonSessionReport()
 
-    with patch("skopaq.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
-        with patch("skopaq.cli.main._inject_paper_quote", new_callable=AsyncMock):
+    with patch("novaswarm.cli.main._compute_risk_scales", return_value=(1.0, 1.0)):
+        with patch("novaswarm.cli.main._inject_paper_quote", new_callable=AsyncMock):
             buys = await daemon._phase_analyze_and_trade(candidates, report)
 
     assert report.candidates_analyzed == 2
@@ -344,7 +344,7 @@ async def test_monitor_receives_positions(daemon):
     daemon._router = MagicMock()
     daemon._llm_map = {"sell_analyst": MagicMock()}
 
-    from skopaq.execution.position_monitor import MonitorResult
+    from novaswarm.execution.position_monitor import MonitorResult
 
     mock_result = MonitorResult(
         positions_monitored=1,
@@ -354,7 +354,7 @@ async def test_monitor_receives_positions(daemon):
     )
 
     with patch(
-        "skopaq.execution.position_monitor.PositionMonitor",
+        "novaswarm.execution.position_monitor.PositionMonitor",
     ) as MockMonitor:
         mock_instance = AsyncMock()
         mock_instance.run = AsyncMock(return_value=mock_result)
@@ -408,7 +408,7 @@ async def test_closing_force_sells(daemon):
 @pytest.mark.asyncio
 async def test_wait_for_market_open_already_past(daemon):
     """Returns immediately if already past pre-open time."""
-    with patch("skopaq.execution.daemon.datetime") as mock_dt:
+    with patch("novaswarm.execution.daemon.datetime") as mock_dt:
         # Simulate 10:00 IST — well past 09:10
         mock_now = datetime(2026, 3, 4, 10, 0, tzinfo=_IST)
         mock_dt.now.return_value = mock_now
@@ -443,9 +443,9 @@ async def test_dry_run_skips_trading(daemon):
 
 def test_min_profit_gate_config_exists():
     """Config has min profit threshold fields for the daemon."""
-    from skopaq.config import SkopaqConfig
+    from novaswarm.config import NovaSwarmConfig
 
-    cfg = SkopaqConfig()
+    cfg = NovaSwarmConfig()
     assert hasattr(cfg, "daemon_min_profit_threshold_pct")
     assert hasattr(cfg, "daemon_min_profit_threshold_inr")
     assert cfg.daemon_min_profit_threshold_pct > 0
@@ -455,7 +455,7 @@ def test_min_profit_gate_config_exists():
 def test_sell_analyst_accepts_min_profit_params():
     """analyze_exit() accepts min_profit_threshold_pct and estimated_round_trip_brokerage."""
     import inspect
-    from skopaq.agents.sell_analyst import analyze_exit
+    from novaswarm.agents.sell_analyst import analyze_exit
 
     sig = inspect.signature(analyze_exit)
     params = list(sig.parameters.keys())

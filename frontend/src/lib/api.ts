@@ -1,5 +1,5 @@
 /**
- * SkopaqTrader Typed API Client
+ * NovaSwarm Trader Typed API Client
  * Clean, modular, robust HTTP client connecting to FastAPI backend routers.
  * Matching contracts defined in PROJECT.md.
  */
@@ -177,7 +177,7 @@ export const systemApi = {
       systemApi.getStrategies().then((strategies) => ({
         active_version: strategies.find((s) => s.is_active)?.version || "v1.0.0",
         history: strategies,
-        yaml: "# SkopaqTrader Strategy DNA\nversion: 1.0.0\nrisk_mode: balanced\nmax_portfolio_risk_pct: 2.0\n",
+        yaml: "# NovaSwarm Trader Strategy DNA\nversion: 1.0.0\nrisk_mode: balanced\nmax_portfolio_risk_pct: 2.0\n",
       }))
     ),
   getHealingEvents: () =>

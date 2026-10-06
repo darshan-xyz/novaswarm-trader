@@ -15,16 +15,16 @@ from typing import Optional
 
 import pytest
 
-from skopaq.broker.models import Exchange, ExecutionResult, TradingSignal
-from skopaq.db.models import TradeRecord
-from skopaq.graph.skopaq_graph import AnalysisResult
+from novaswarm.broker.models import Exchange, ExecutionResult, TradingSignal
+from novaswarm.db.models import TradeRecord
+from novaswarm.graph.novaswarm_graph import AnalysisResult
 
 
 # Import the function under test — it's a module-level function in main.py
 def _import_build_trade_record():
     """Lazy import to avoid heavy CLI dependencies in tests."""
     import importlib
-    mod = importlib.import_module("skopaq.cli.main")
+    mod = importlib.import_module("novaswarm.cli.main")
     return mod._build_trade_record
 
 
@@ -98,7 +98,7 @@ class TestBuildTradeRecord:
         assert record.brokerage == Decimal("5.0")
         assert record.is_paper is True
         assert record.status == "COMPLETE"
-        assert record.signal_source == "skopaq-ai"
+        assert record.signal_source == "novaswarm-ai"
         assert record.consensus_score == 75
 
     def test_sell_creates_valid_record(self):

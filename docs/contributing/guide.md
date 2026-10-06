@@ -1,14 +1,14 @@
 # Contributing Guide
 
-SkopaqTrader is built on vendored TradingAgents (Apache 2.0) with a custom `skopaq/` layer. Contributions to the `skopaq/` layer are welcome.
+NovaSwarm Trader is built on vendored TradingAgents (Apache 2.0) with a custom `novaswarm/` layer. Contributions to the `novaswarm/` layer are welcome.
 
 ## Getting Started
 
 ### Step 1: Fork and Clone
 
 ```bash
-git clone https://github.com/your-username/skopaqtrader.git
-cd skopaqtrader
+git clone https://github.com/your-username/novaswarm-trader.git
+cd novaswarm-trader
 ```
 
 ### Step 2: Set Up Environment
@@ -61,7 +61,7 @@ Branch naming conventions:
 
 Follow these guidelines:
 
-- **Edit `skopaq/` only** -- Avoid modifying `tradingagents/` unless absolutely necessary
+- **Edit `novaswarm/` only** -- Avoid modifying `tradingagents/` unless absolutely necessary
 - **Write tests** -- Every new feature needs unit tests in `tests/unit/`
 - **Type hints** -- Use type annotations on all function signatures
 - **Docstrings** -- Document all public functions and classes
@@ -74,7 +74,7 @@ Follow these guidelines:
 python3 -m pytest tests/unit/ -x -q
 
 # Run with coverage
-python3 -m pytest tests/unit/ --cov=skopaq --cov-report=term-missing
+python3 -m pytest tests/unit/ --cov=novaswarm --cov-report=term-missing
 ```
 
 All unit tests must pass before submitting a PR.
@@ -95,18 +95,18 @@ Know where to put your code:
 
 | Directory | What Goes Here |
 |-----------|---------------|
-| `skopaq/agents/` | AI agent logic (sell analyst, etc.) |
-| `skopaq/api/` | FastAPI endpoints |
-| `skopaq/broker/` | Broker integrations (Kite, INDstocks) |
-| `skopaq/cli/` | CLI commands and display |
-| `skopaq/db/` | Database clients and repositories |
-| `skopaq/execution/` | Order execution, safety, monitoring |
-| `skopaq/graph/` | LangGraph pipeline wrapper |
-| `skopaq/llm/` | LLM tiering, caching, env bridging |
-| `skopaq/memory/` | Agent memory and reflection |
-| `skopaq/options/` | Options chain, strategies, GTT |
-| `skopaq/risk/` | Risk management (ATR sizing, regime) |
-| `skopaq/scanner/` | Market scanner engine |
+| `novaswarm/agents/` | AI agent logic (sell analyst, etc.) |
+| `novaswarm/api/` | FastAPI endpoints |
+| `novaswarm/broker/` | Broker integrations (Kite, INDstocks) |
+| `novaswarm/cli/` | CLI commands and display |
+| `novaswarm/db/` | Database clients and repositories |
+| `novaswarm/execution/` | Order execution, safety, monitoring |
+| `novaswarm/graph/` | LangGraph pipeline wrapper |
+| `novaswarm/llm/` | LLM tiering, caching, env bridging |
+| `novaswarm/memory/` | Agent memory and reflection |
+| `novaswarm/options/` | Options chain, strategies, GTT |
+| `novaswarm/risk/` | Risk management (ATR sizing, regime) |
+| `novaswarm/scanner/` | Market scanner engine |
 
 ## Testing Patterns
 
@@ -119,7 +119,7 @@ Know where to put your code:
 ```python
 from unittest.mock import AsyncMock, patch
 
-@patch("skopaq.broker.client.INDstocksClient")
+@patch("novaswarm.broker.client.INDstocksClient")
 async def test_get_quote(mock_client):
     mock_client.return_value.get_quote.return_value = Quote(
         symbol="TCS", ltp=3800.0, ...
@@ -145,10 +145,10 @@ async def test_async_function():
 
     ```python
     # Correct
-    @patch("skopaq.cli.main._run_scan")
+    @patch("novaswarm.cli.main._run_scan")
 
     # Wrong — this patches a different reference
-    @patch("skopaq.execution.daemon._run_scan")
+    @patch("novaswarm.execution.daemon._run_scan")
     ```
 
 ## Upstream Changes
@@ -165,7 +165,7 @@ If you must modify `tradingagents/`:
 1. **Safety rules are immutable** -- Never modify `SafetyRules` at runtime
 2. **Paper mode is default** -- All new features must default to paper trading
 3. **No secrets in code** -- All credentials via environment variables
-4. **Rich output** -- CLI display uses Rich tables/panels via `skopaq/cli/display.py`
+4. **Rich output** -- CLI display uses Rich tables/panels via `novaswarm/cli/display.py`
 5. **Pydantic v2** -- Use Pydantic v2 models with attribute access
 
 ## Commit Messages

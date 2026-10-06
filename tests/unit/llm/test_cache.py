@@ -24,7 +24,7 @@ def _make_config(
     cache_id: str = "test-cache-id",
     threshold: float = 0.90,
 ):
-    """Create a mock SkopaqConfig with langcache fields."""
+    """Create a mock NovaSwarmConfig with langcache fields."""
     from pydantic import SecretStr
 
     config = MagicMock()
@@ -44,7 +44,7 @@ class TestSerialization:
     """Tests for Generation serialisation/deserialisation round-trip."""
 
     def test_roundtrip_simple(self):
-        from skopaq.llm.cache import _serialize_generations, _deserialize_generations
+        from novaswarm.llm.cache import _serialize_generations, _deserialize_generations
 
         original = _make_generations("Test response")
         serialized = _serialize_generations(original)
@@ -55,7 +55,7 @@ class TestSerialization:
         assert restored[0].generation_info == {"model": "test"}
 
     def test_roundtrip_multiple(self):
-        from skopaq.llm.cache import _serialize_generations, _deserialize_generations
+        from novaswarm.llm.cache import _serialize_generations, _deserialize_generations
 
         original = [
             Generation(text="First", generation_info={"idx": 0}),
@@ -69,7 +69,7 @@ class TestSerialization:
         assert restored[1].generation_info is None
 
     def test_serialized_is_valid_json(self):
-        from skopaq.llm.cache import _serialize_generations
+        from novaswarm.llm.cache import _serialize_generations
 
         gens = _make_generations("JSON test")
         data = _serialize_generations(gens)
@@ -83,28 +83,28 @@ class TestModelHash:
     """Tests for LLM string hashing (model partitioning)."""
 
     def test_deterministic(self):
-        from skopaq.llm.cache import _model_hash
+        from novaswarm.llm.cache import _model_hash
 
         h1 = _model_hash("google:gemini-3-flash")
         h2 = _model_hash("google:gemini-3-flash")
         assert h1 == h2
 
     def test_different_models_different_hashes(self):
-        from skopaq.llm.cache import _model_hash
+        from novaswarm.llm.cache import _model_hash
 
         h1 = _model_hash("google:gemini-3-flash")
         h2 = _model_hash("anthropic:claude-opus-4-6")
         assert h1 != h2
 
     def test_hash_length(self):
-        from skopaq.llm.cache import _model_hash
+        from novaswarm.llm.cache import _model_hash
 
         h = _model_hash("any-llm-string")
         assert len(h) == 16  # Truncated SHA-256
 
     def test_namespace_prompt_raw_includes_hash_and_prompt(self):
         """Non-JSON prompt uses raw fallback with model hash + content hash."""
-        from skopaq.llm.cache import _namespace_prompt, _model_hash
+        from novaswarm.llm.cache import _namespace_prompt, _model_hash
         import hashlib
 
         text = "Analyze RELIANCE"
@@ -116,7 +116,7 @@ class TestModelHash:
 
     def test_namespace_prompt_langchain_json_extracts_human(self):
         """LangChain-serialized JSON extracts the human message content."""
-        from skopaq.llm.cache import _namespace_prompt, _model_hash
+        from novaswarm.llm.cache import _namespace_prompt, _model_hash
         import json
 
         messages = [
@@ -140,7 +140,7 @@ class TestModelHash:
 
     def test_namespace_prompt_different_system_prompts(self):
         """Different system prompts produce different cache keys."""
-        from skopaq.llm.cache import _namespace_prompt
+        from novaswarm.llm.cache import _namespace_prompt
         import json
 
         def make_prompt(system: str, human: str) -> str:
@@ -163,7 +163,7 @@ class TestModelHash:
         in the prompt must cause a cache miss so the agent uses its new
         lessons instead of serving stale pre-learning responses.
         """
-        from skopaq.llm.cache import _namespace_prompt
+        from novaswarm.llm.cache import _namespace_prompt
 
         # Simulate a long agent prompt where memories are appended at the end
         base = "You are a Bull Analyst. " + "A" * 500  # Role + market data
@@ -178,7 +178,7 @@ class TestModelHash:
 
     def test_namespace_prompt_same_content_same_key(self):
         """Identical prompts must produce identical cache keys (cache hit)."""
-        from skopaq.llm.cache import _namespace_prompt
+        from novaswarm.llm.cache import _namespace_prompt
 
         prompt = "You are a Bull Analyst. " + "data " * 100
         ns1 = _namespace_prompt(prompt, "gemini")
@@ -186,21 +186,21 @@ class TestModelHash:
         assert ns1 == ns2
 
     def test_namespace_prompt_different_models(self):
-        from skopaq.llm.cache import _namespace_prompt
+        from novaswarm.llm.cache import _namespace_prompt
 
         ns1 = _namespace_prompt("same prompt", "google:gemini-3-flash")
         ns2 = _namespace_prompt("same prompt", "anthropic:claude-opus-4-6")
         assert ns1 != ns2
 
     def test_namespace_prompt_truncates_long_prompts(self):
-        from skopaq.llm.cache import _namespace_prompt, _MAX_PROMPT_LEN
+        from novaswarm.llm.cache import _namespace_prompt, _MAX_PROMPT_LEN
 
         long_prompt = "A" * 5000
         ns = _namespace_prompt(long_prompt, "google:gemini-3-flash")
         assert len(ns) == _MAX_PROMPT_LEN
 
     def test_namespace_prompt_short_prompt_unchanged(self):
-        from skopaq.llm.cache import _namespace_prompt, _model_hash, _MAX_PROMPT_LEN
+        from novaswarm.llm.cache import _namespace_prompt, _model_hash, _MAX_PROMPT_LEN
         import hashlib
 
         short = "Analyze RELIANCE"
@@ -219,7 +219,7 @@ class TestCacheStats:
     """Tests for the CacheStats dataclass."""
 
     def test_initial_values(self):
-        from skopaq.llm.cache import CacheStats
+        from novaswarm.llm.cache import CacheStats
 
         stats = CacheStats()
         assert stats.hits == 0
@@ -228,19 +228,19 @@ class TestCacheStats:
         assert stats.hit_rate_pct == 0.0
 
     def test_hit_rate_calculation(self):
-        from skopaq.llm.cache import CacheStats
+        from novaswarm.llm.cache import CacheStats
 
         stats = CacheStats(hits=3, misses=7)
         assert stats.hit_rate_pct == 30.0
 
     def test_hit_rate_all_hits(self):
-        from skopaq.llm.cache import CacheStats
+        from novaswarm.llm.cache import CacheStats
 
         stats = CacheStats(hits=10, misses=0)
         assert stats.hit_rate_pct == 100.0
 
     def test_reset(self):
-        from skopaq.llm.cache import CacheStats
+        from novaswarm.llm.cache import CacheStats
 
         stats = CacheStats(hits=5, misses=3, errors=1, store_count=8)
         stats.reset()
@@ -260,7 +260,7 @@ class TestLangCacheSemanticCache:
     @patch("langcache.LangCache")
     def _make_cache(self, MockLangCache, threshold=0.90):
         """Create a cache instance with a mocked LangCache SDK client."""
-        from skopaq.llm.cache import LangCacheSemanticCache
+        from novaswarm.llm.cache import LangCacheSemanticCache
 
         mock_client = MagicMock()
         MockLangCache.return_value = mock_client
@@ -286,7 +286,7 @@ class TestLangCacheSemanticCache:
 
     def test_lookup_hit(self):
         """When SDK returns a match, lookup returns deserialized Generations."""
-        from skopaq.llm.cache import _serialize_generations
+        from novaswarm.llm.cache import _serialize_generations
 
         cache, mock_client = self._make_cache()
 
@@ -332,7 +332,7 @@ class TestLangCacheSemanticCache:
 
     def test_update_stores_correctly(self):
         """update() calls SDK set() with namespaced prompt (no attributes)."""
-        from skopaq.llm.cache import _namespace_prompt
+        from novaswarm.llm.cache import _namespace_prompt
 
         cache, mock_client = self._make_cache()
         gens = _make_generations("Response to store")
@@ -358,7 +358,7 @@ class TestLangCacheSemanticCache:
 
     def test_model_partitioning(self):
         """Different llm_string values produce different prompt namespaces."""
-        from skopaq.llm.cache import _namespace_prompt
+        from novaswarm.llm.cache import _namespace_prompt
 
         cache, mock_client = self._make_cache()
         mock_client.search.return_value = None
@@ -381,7 +381,7 @@ class TestLangCacheSemanticCache:
 
     def test_stats_accumulate(self):
         """Stats accumulate across multiple operations."""
-        from skopaq.llm.cache import _serialize_generations
+        from novaswarm.llm.cache import _serialize_generations
 
         cache, mock_client = self._make_cache()
 
@@ -418,7 +418,7 @@ class TestInitLangcache:
     def test_disabled_returns_in_memory(self):
         from langchain_core.caches import InMemoryCache
 
-        from skopaq.llm.cache import init_langcache
+        from novaswarm.llm.cache import init_langcache
 
         config = _make_config(enabled=False)
         cache = init_langcache(config)
@@ -427,7 +427,7 @@ class TestInitLangcache:
     def test_missing_api_key_returns_in_memory(self):
         from langchain_core.caches import InMemoryCache
 
-        from skopaq.llm.cache import init_langcache
+        from novaswarm.llm.cache import init_langcache
 
         config = _make_config(api_key="")
         cache = init_langcache(config)
@@ -436,7 +436,7 @@ class TestInitLangcache:
     def test_missing_server_url_returns_in_memory(self):
         from langchain_core.caches import InMemoryCache
 
-        from skopaq.llm.cache import init_langcache
+        from novaswarm.llm.cache import init_langcache
 
         config = _make_config(server_url="")
         cache = init_langcache(config)
@@ -445,7 +445,7 @@ class TestInitLangcache:
     def test_missing_cache_id_returns_in_memory(self):
         from langchain_core.caches import InMemoryCache
 
-        from skopaq.llm.cache import init_langcache
+        from novaswarm.llm.cache import init_langcache
 
         config = _make_config(cache_id="")
         cache = init_langcache(config)
@@ -453,7 +453,7 @@ class TestInitLangcache:
 
     @patch("langcache.LangCache")
     def test_success_returns_cache(self, MockLangCache):
-        from skopaq.llm.cache import init_langcache
+        from novaswarm.llm.cache import init_langcache
 
         config = _make_config()
         cache = init_langcache(config)
@@ -469,7 +469,7 @@ class TestInitLangcache:
     def test_sdk_import_error_returns_in_memory(self, MockLangCache):
         from langchain_core.caches import InMemoryCache
 
-        from skopaq.llm.cache import init_langcache
+        from novaswarm.llm.cache import init_langcache
 
         MockLangCache.side_effect = ImportError("No module named 'langcache'")
         config = _make_config()
@@ -479,7 +479,7 @@ class TestInitLangcache:
 
     @patch("langcache.LangCache")
     def test_threshold_passed_correctly(self, MockLangCache):
-        from skopaq.llm.cache import init_langcache, LangCacheSemanticCache
+        from novaswarm.llm.cache import init_langcache, LangCacheSemanticCache
 
         config = _make_config(threshold=0.85)
         cache = init_langcache(config)
@@ -498,7 +498,7 @@ class TestLangChainIntegration:
     @patch("langcache.LangCache")
     def test_set_llm_cache_accepts_our_cache(self, MockLangCache):
         from langchain_core.globals import set_llm_cache, get_llm_cache
-        from skopaq.llm.cache import LangCacheSemanticCache
+        from novaswarm.llm.cache import LangCacheSemanticCache
 
         cache = LangCacheSemanticCache(
             api_key="k",

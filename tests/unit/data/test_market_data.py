@@ -1,4 +1,4 @@
-"""Unit tests for the Unified Market Data Pipeline (skopaq.data).
+"""Unit tests for the Unified Market Data Pipeline (novaswarm.data).
 
 Tests:
 - UnifiedMarketData orchestrator with primary INDstocks and fallback yfinance
@@ -15,9 +15,9 @@ from unittest.mock import MagicMock, patch
 import pandas as pd
 import pytest
 
-from skopaq.data.models import CompanyFundamentals, NewsArticle, QuoteData, validate_ohlcv_dataframe
-from skopaq.data.pipeline import MarketDataError, UnifiedMarketData
-from skopaq.data.symbols import normalize_symbol, to_yfinance_symbol
+from novaswarm.data.models import CompanyFundamentals, NewsArticle, QuoteData, validate_ohlcv_dataframe
+from novaswarm.data.pipeline import MarketDataError, UnifiedMarketData
+from novaswarm.data.symbols import normalize_symbol, to_yfinance_symbol
 
 
 # ── Symbol Normalization Tests ────────────────────────────────────────────────
@@ -107,8 +107,8 @@ class TestUnifiedMarketDataOHLCV:
 
     def test_ohlcv_token_is_none_falls_back_to_yfinance(self, mock_ohlcv_df, tmp_path):
         """Regression test for Issue 1: config.indstocks_token = None must not raise AttributeError."""
-        from skopaq.config import SkopaqConfig
-        cfg = SkopaqConfig()
+        from novaswarm.config import NovaSwarmConfig
+        cfg = NovaSwarmConfig()
         cfg.indstocks_token = None  # type: ignore[assignment]
         market_data = UnifiedMarketData(config=cfg, cache_dir=tmp_path)
         with patch.object(market_data.yfinance_provider, "get_historical", return_value=mock_ohlcv_df) as mock_yf:
@@ -120,8 +120,8 @@ class TestUnifiedMarketDataOHLCV:
 
     def test_ohlcv_token_is_raw_string_handled(self, mock_ohlcv_df, tmp_path):
         """Regression test for Issue 1: config.indstocks_token as raw str must be handled safely."""
-        from skopaq.config import SkopaqConfig
-        cfg = SkopaqConfig()
+        from novaswarm.config import NovaSwarmConfig
+        cfg = NovaSwarmConfig()
         cfg.indstocks_token = "raw_api_token"  # type: ignore[assignment]
         market_data = UnifiedMarketData(config=cfg, cache_dir=tmp_path)
         with patch.object(market_data.indstocks_provider, "get_historical", return_value=mock_ohlcv_df) as mock_ind:

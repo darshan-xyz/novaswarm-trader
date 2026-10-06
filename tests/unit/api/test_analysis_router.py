@@ -1,4 +1,4 @@
-"""Unit tests for skopaq/api/analysis_router.py and analysis_manager.py."""
+"""Unit tests for novaswarm/api/analysis_router.py and analysis_manager.py."""
 
 from __future__ import annotations
 
@@ -11,13 +11,13 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.analysis_manager import (
+from novaswarm.api.analysis_manager import (
     AnalysisJob,
     AnalysisJobManager,
     execute_analysis_worker,
 )
-from skopaq.api.analysis_models import DecisionCard
-from skopaq.api.analysis_router import router
+from novaswarm.api.analysis_models import DecisionCard
+from novaswarm.api.analysis_router import router
 
 
 @pytest.fixture(autouse=True)

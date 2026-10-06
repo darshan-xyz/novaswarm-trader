@@ -1,6 +1,6 @@
 # Kite Connect Integration
 
-SkopaqTrader integrates with Zerodha's [Kite Connect](https://kite.trade/) API for live market data, order execution, and portfolio management. The integration is in `skopaq/broker/kite_client.py`.
+NovaSwarm Trader integrates with Zerodha's [Kite Connect](https://kite.trade/) API for live market data, order execution, and portfolio management. The integration is in `novaswarm/broker/kite_client.py`.
 
 ## Architecture
 
@@ -9,7 +9,7 @@ User Browser
       │
       │ GET /api/kite/login
       ▼
-  FastAPI Server (skopaq/api/server.py)
+  FastAPI Server (novaswarm/api/server.py)
       │
       │ Redirect to Zerodha
       ▼
@@ -21,7 +21,7 @@ User Browser
       │
       │ Exchange for access_token
       ▼
-  KiteClient (skopaq/broker/kite_client.py)
+  KiteClient (novaswarm/broker/kite_client.py)
       │
       │ Store token (memory + file + env var)
       ▼
@@ -58,8 +58,8 @@ async def kite_callback(request_token: str, status: str):
 The access token is stored in three places for maximum reliability:
 
 1. **Module-level cache** (`_access_token`) -- Fastest access
-2. **File** (`/data/skopaq_kite_token.json` or `/tmp/...`) -- Survives module reloads
-3. **Environment variable** (`SKOPAQ_KITE_ACCESS_TOKEN`) -- Subprocess access
+2. **File** (`/data/novaswarm_kite_token.json` or `/tmp/...`) -- Survives module reloads
+3. **Environment variable** (`NOVASWARM_KITE_ACCESS_TOKEN`) -- Subprocess access
 
 Token retrieval priority:
 
@@ -67,8 +67,8 @@ Token retrieval priority:
 def get_access_token() -> str:
     # 1. Module cache (fastest)
     # 2. Persisted file (/data or /tmp)
-    # 3. SKOPAQ_KITE_ACCESS_TOKEN env var
-    # 4. SkopaqConfig (from .env)
+    # 3. NOVASWARM_KITE_ACCESS_TOKEN env var
+    # 4. NovaSwarmConfig (from .env)
 ```
 
 !!! warning "Daily token expiry"
@@ -87,7 +87,7 @@ The `KiteClient` wraps the `kiteconnect` Python SDK to match the same interface 
 | `get_orders()` | `kite.orders()` | `list[OrderResponse]` |
 | `place_order(order)` | `kite.place_order(...)` | `ExecutionResult` |
 
-Both `KiteClient` and `INDstocksClient` return the same Pydantic v2 models (`Quote`, `Position`, `Funds`, etc.) defined in `skopaq/broker/models.py`. This allows the `OrderRouter` to switch between brokers transparently.
+Both `KiteClient` and `INDstocksClient` return the same Pydantic v2 models (`Quote`, `Position`, `Funds`, etc.) defined in `novaswarm/broker/models.py`. This allows the `OrderRouter` to switch between brokers transparently.
 
 ## API Endpoints
 
@@ -107,11 +107,11 @@ Required environment variables:
 
 ```bash
 # Kite Connect credentials (from developer console)
-SKOPAQ_KITE_API_KEY=your_api_key
-SKOPAQ_KITE_API_SECRET=your_api_secret
+NOVASWARM_KITE_API_KEY=your_api_key
+NOVASWARM_KITE_API_SECRET=your_api_secret
 
 # Optional: pre-set access token (useful for testing)
-SKOPAQ_KITE_ACCESS_TOKEN=your_token
+NOVASWARM_KITE_ACCESS_TOKEN=your_token
 ```
 
 ## Instrument Format
@@ -156,7 +156,7 @@ https://your-deployment.fly.dev/api/kite/postback
 
 | File | Purpose |
 |------|---------|
-| `skopaq/broker/kite_client.py` | KiteClient class, token management |
-| `skopaq/api/server.py` | OAuth endpoints (`/api/kite/*`) |
-| `skopaq/broker/models.py` | Shared Pydantic models (Quote, Position, etc.) |
-| `skopaq/mcp_server.py` | `_get_kite()` helper for MCP tools |
+| `novaswarm/broker/kite_client.py` | KiteClient class, token management |
+| `novaswarm/api/server.py` | OAuth endpoints (`/api/kite/*`) |
+| `novaswarm/broker/models.py` | Shared Pydantic models (Quote, Position, etc.) |
+| `novaswarm/mcp_server.py` | `_get_kite()` helper for MCP tools |

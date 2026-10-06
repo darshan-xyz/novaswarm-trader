@@ -1,14 +1,14 @@
-# Contributing to SkopaqTrader
+# Contributing to NovaSwarm Trader
 
-Thank you for your interest in contributing to SkopaqTrader! This document provides guidelines for contributing to the project.
+Thank you for your interest in contributing to NovaSwarm Trader! This document provides guidelines for contributing to the project.
 
 ## Getting Started
 
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/<your-username>/skopaqtrader.git
-   cd skopaqtrader
+   git clone https://github.com/<your-username>/novaswarm-trader.git
+   cd novaswarm-trader
    ```
 3. **Set up** the development environment:
    ```bash
@@ -36,7 +36,7 @@ Thank you for your interest in contributing to SkopaqTrader! This document provi
 
 ### Project Organization
 
-- **`skopaq/`** — All new SkopaqTrader code goes here
+- **`novaswarm/`** — All new NovaSwarm Trader code goes here
 - **`tradingagents/`** — Vendored upstream code. Modify only when necessary, and document every change in `UPSTREAM_CHANGES.md`
 - **`tests/unit/`** — Unit tests (no external API calls)
 - **`tests/integration/`** — Integration tests (require API keys, marked with `@pytest.mark.integration`)
@@ -46,7 +46,7 @@ Thank you for your interest in contributing to SkopaqTrader! This document provi
 The `tradingagents/` directory is vendored from [TradingAgents v0.2.0](https://github.com/TauricResearch/TradingAgents). Changes to this directory must:
 
 1. Be **minimal and surgical** — prefer wrapping over modifying
-2. Be **backward compatible** — upstream behavior unchanged when Skopaq extensions are absent
+2. Be **backward compatible** — upstream behavior unchanged when NovaSwarm extensions are absent
 3. Be **documented** in `UPSTREAM_CHANGES.md` with: what changed, why, and backward compatibility status
 
 ### Testing

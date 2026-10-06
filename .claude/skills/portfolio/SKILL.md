@@ -17,7 +17,7 @@ Run these commands to get portfolio data:
 ```bash
 python3 -c "
 import asyncio, json
-from skopaq.mcp_server import get_positions, get_holdings, get_funds
+from novaswarm.mcp_server import get_positions, get_holdings, get_funds
 async def main():
     p = json.loads(await get_positions())
     h = json.loads(await get_holdings())

@@ -1,4 +1,4 @@
-"""Comprehensive offline unit test suite for Skopaq Pure-Python Orchestration Engine.
+"""Comprehensive offline unit test suite for NovaSwarm Pure-Python Orchestration Engine.
 
 Tests:
 1. Pydantic V2 state models (AnalysisContext, ThesisDebateContext, RiskDeliberationContext, OrderPlan).
@@ -24,10 +24,10 @@ from langchain_core.messages import AIMessage, AIMessageChunk, BaseMessage
 from langchain_core.outputs import ChatGeneration, ChatResult
 from langchain_core.language_models import BaseChatModel
 
-from skopaq.api.analysis_models import DecisionCard
-from skopaq.broker.models import Exchange, TradingSignal
-from skopaq.memory.episodic import EpisodicLessonStore
-from skopaq.orchestration.context import (
+from novaswarm.api.analysis_models import DecisionCard
+from novaswarm.broker.models import Exchange, TradingSignal
+from novaswarm.memory.episodic import EpisodicLessonStore
+from novaswarm.orchestration.context import (
     AnalysisContext,
     DebateTurn,
     OrderPlan,
@@ -35,9 +35,9 @@ from skopaq.orchestration.context import (
     RiskPerspectiveTurn,
     ThesisDebateContext,
 )
-from skopaq.orchestration.engine import NovaPipeline
-from skopaq.orchestration.reflection import PostTradeReflector
-from skopaq.orchestration.signal_extraction import DecisionExtractor
+from novaswarm.orchestration.engine import NovaPipeline
+from novaswarm.orchestration.reflection import PostTradeReflector
+from novaswarm.orchestration.signal_extraction import DecisionExtractor
 
 
 # ─────────────────────────────────────────────────────────────────────────────

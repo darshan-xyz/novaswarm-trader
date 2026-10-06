@@ -1,4 +1,4 @@
-"""Opaque-box E2E Client for SkopaqTrader.
+"""Opaque-box E2E Client for NovaSwarm Trader.
 
 Supports dual-mode execution:
 - 'mock': Dispatches requests to in-process FastAPI mock ASGI server.
@@ -41,7 +41,7 @@ class E2EResponse:
 
 
 class E2EClient:
-    """Opaque-box unified API client for SkopaqTrader E2E tests."""
+    """Opaque-box unified API client for NovaSwarm Trader E2E tests."""
 
     def __init__(
         self,

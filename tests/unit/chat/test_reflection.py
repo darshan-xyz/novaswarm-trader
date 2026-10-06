@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from skopaq.memory.reflection import (
+from novaswarm.memory.reflection import (
     format_lessons_for_prompt,
     generate_reflection,
 )

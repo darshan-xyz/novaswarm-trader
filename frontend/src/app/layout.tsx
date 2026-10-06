@@ -3,7 +3,7 @@ import "./globals.css";
 import AppShell from "@/components/layout/app-shell";
 
 export const metadata: Metadata = {
-  title: "SkopaqTrader - Autonomous AI Trading Platform",
+  title: "NovaSwarm Trader - Autonomous AI Trading Platform",
   description:
     "Autonomous AI multi-agent algorithmic trading platform for Indian equities (NSE)",
 };

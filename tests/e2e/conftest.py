@@ -1,4 +1,4 @@
-"""Pytest configuration and fixtures for SkopaqTrader E2E tests."""
+"""Pytest configuration and fixtures for NovaSwarm Trader E2E tests."""
 
 from __future__ import annotations
 

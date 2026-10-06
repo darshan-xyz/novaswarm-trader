@@ -1,6 +1,6 @@
 # Equity Analysis
 
-SkopaqTrader uses a 15-agent pipeline to produce BUY/SELL/HOLD recommendations. This page explains how the pipeline works and how to run an analysis.
+NovaSwarm Trader uses a 15-agent pipeline to produce BUY/SELL/HOLD recommendations. This page explains how the pipeline works and how to run an analysis.
 
 ## The 15-Agent Pipeline
 
@@ -74,7 +74,7 @@ This runs the Claude-native version where Claude plays all 15 roles.
 ### Via CLI
 
 ```bash
-skopaq analyze RELIANCE
+novaswarm analyze RELIANCE
 ```
 
 This runs the full multi-LLM pipeline (API mode).
@@ -85,16 +85,16 @@ Ask Claude:
 
 > Run a full analysis on TCS
 
-Claude calls `mcp__skopaq__analyze_stock(symbol="TCS")` which invokes the multi-LLM pipeline.
+Claude calls `mcp__novaswarm__analyze_stock(symbol="TCS")` which invokes the multi-LLM pipeline.
 
 ### Via Python
 
 ```python
-from skopaq.graph.skopaq_graph import SkopaqTradingGraph
-from skopaq.llm import build_llm_map
+from novaswarm.graph.novaswarm_graph import NovaSwarmTradingGraph
+from novaswarm.llm import build_llm_map
 
 llm_map = build_llm_map()
-graph = SkopaqTradingGraph(upstream_config, executor, selected_analysts=analysts)
+graph = NovaSwarmTradingGraph(upstream_config, executor, selected_analysts=analysts)
 result = await graph.analyze("RELIANCE", "2026-04-06")
 ```
 
@@ -163,11 +163,11 @@ Memory roles: `bull_memory`, `bear_memory`, `trader_memory`, `invest_judge_memor
 Select which analysts to include via config:
 
 ```bash
-export SKOPAQ_SELECTED_ANALYSTS="market_analyst,news_analyst,fundamentals_analyst,social_analyst"
+export NOVASWARM_SELECTED_ANALYSTS="market_analyst,news_analyst,fundamentals_analyst,social_analyst"
 ```
 
 Or in `.env`:
 
 ```
-SKOPAQ_SELECTED_ANALYSTS=market_analyst,news_analyst,fundamentals_analyst
+NOVASWARM_SELECTED_ANALYSTS=market_analyst,news_analyst,fundamentals_analyst
 ```

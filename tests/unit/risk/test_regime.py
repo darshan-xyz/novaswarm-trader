@@ -6,7 +6,7 @@ and position scale matrix lookup.
 
 import pytest
 
-from skopaq.risk.regime import (
+from novaswarm.risk.regime import (
     MarketRegime,
     RegimeDetector,
     VIX_HIGH_THRESHOLD,

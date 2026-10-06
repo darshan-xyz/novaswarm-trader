@@ -1,4 +1,4 @@
-"""Unit tests for the native INDstocks data provider (skopaq.data.indstocks).
+"""Unit tests for the native INDstocks data provider (novaswarm.data.indstocks).
 
 Tests:
 - Async-to-sync runner bridge (_run_async)
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import pytest
 
-from skopaq.data.indstocks import (
+from novaswarm.data.indstocks import (
     INDstocksError,
     INDstocksAuthError,
     INDstocksSymbolNotFoundError,

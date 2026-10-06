@@ -1,15 +1,15 @@
 # Notification System
 
-SkopaqTrader has a centralized notification system (`skopaq/notifications.py`) that routes trading events to all configured channels. Currently, Telegram is the primary channel with console logging as fallback.
+NovaSwarm Trader has a centralized notification system (`novaswarm/notifications.py`) that routes trading events to all configured channels. Currently, Telegram is the primary channel with console logging as fallback.
 
 ## Architecture
 
 ```
-Any SkopaqTrader module
+Any NovaSwarm Trader module
         │
         │  await notify("message")
         ▼
-  skopaq/notifications.py
+  novaswarm/notifications.py
         │
         ├── Console log (always)
         ├── Telegram Bot API (if configured)
@@ -23,7 +23,7 @@ Any SkopaqTrader module
 The primary function. Sends a message to all registered channels.
 
 ```python
-from skopaq.notifications import notify
+from novaswarm.notifications import notify
 
 await notify("Order filled: BUY 10x RELIANCE @ Rs 2,485")
 ```
@@ -89,10 +89,10 @@ Notifications are sent to all registered Telegram chat IDs. Registration happens
 
 1. User sends `/start` to the Telegram bot
 2. Code calls `register_chat(chat_id)`
-3. The default chat ID is set via `SKOPAQ_TELEGRAM_CHAT_ID`
+3. The default chat ID is set via `NOVASWARM_TELEGRAM_CHAT_ID`
 
 ```python
-from skopaq.notifications import register_chat, set_default_chat
+from novaswarm.notifications import register_chat, set_default_chat
 
 register_chat(123456789)        # Register a specific chat
 set_default_chat(123456789)     # Set as default + register
@@ -102,8 +102,8 @@ set_default_chat(123456789)     # Set as default + register
 
 | Variable | Purpose |
 |----------|---------|
-| `SKOPAQ_TELEGRAM_BOT_TOKEN` | Bot token from BotFather |
-| `SKOPAQ_TELEGRAM_CHAT_ID` | Default chat ID for notifications |
+| `NOVASWARM_TELEGRAM_BOT_TOKEN` | Bot token from BotFather |
+| `NOVASWARM_TELEGRAM_CHAT_ID` | Default chat ID for notifications |
 
 If neither is set, notifications are logged to console only.
 
@@ -117,7 +117,7 @@ async def notify(message: str) -> None:
     if not chat_ids:
         return  # No registered chats
 
-    token = os.environ.get("SKOPAQ_TELEGRAM_BOT_TOKEN", "")
+    token = os.environ.get("NOVASWARM_TELEGRAM_BOT_TOKEN", "")
     if not token:
         return  # No bot token
 
@@ -133,7 +133,7 @@ Each notification creates a new `Bot` instance. Failed sends are logged but do n
 To add a new notification channel (e.g., Slack, email):
 
 1. Add the delivery logic inside `notify()`
-2. Add configuration variables to `SkopaqConfig`
+2. Add configuration variables to `NovaSwarmConfig`
 3. The event-specific functions (`notify_trade_event`, etc.) all call `notify()`, so they automatically get the new channel
 
 ```python
@@ -151,8 +151,8 @@ async def notify(message: str) -> None:
 
 | File | Purpose |
 |------|---------|
-| `skopaq/notifications.py` | Core notification functions |
-| `skopaq/telegram_bot.py` | Telegram bot (also sends notifications) |
-| `skopaq/execution/daemon.py` | Daemon sends trade/scan notifications |
-| `skopaq/execution/position_monitor.py` | Position alerts |
-| `skopaq/options/gtt.py` | GTT event notifications |
+| `novaswarm/notifications.py` | Core notification functions |
+| `novaswarm/telegram_bot.py` | Telegram bot (also sends notifications) |
+| `novaswarm/execution/daemon.py` | Daemon sends trade/scan notifications |
+| `novaswarm/execution/position_monitor.py` | Position alerts |
+| `novaswarm/options/gtt.py` | GTT event notifications |

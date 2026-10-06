@@ -1,4 +1,4 @@
-"""Unit tests for skopaq.llm.gateway and skopaq.llm.client_factory.
+"""Unit tests for novaswarm.llm.gateway and novaswarm.llm.client_factory.
 
 Tests provider dispatch, parameter adaptation, reasoning model normalization,
 legacy adapter backward compatibility, and clean-room decoupling. All external API calls are mocked.
@@ -10,7 +10,7 @@ import os
 from unittest.mock import MagicMock, patch
 import pytest
 
-from skopaq.llm.gateway import (
+from novaswarm.llm.gateway import (
     LLMGateway,
     LLMProvider,
     ModelConfig,
@@ -20,7 +20,7 @@ from skopaq.llm.gateway import (
     extract_clean_text,
     strip_reasoning_tags,
 )
-from skopaq.llm.client_factory import (
+from novaswarm.llm.client_factory import (
     LegacyLLMClientAdapter,
     create_llm_client,
     instantiate_model,
@@ -256,7 +256,7 @@ class TestCleanRoomDecoupling:
         from pathlib import Path
 
         for fname in ["gateway.py", "client_factory.py", "model_tier.py", "__init__.py"]:
-            py_file = Path("skopaq/llm") / fname
+            py_file = Path("novaswarm/llm") / fname
             content = py_file.read_text(encoding="utf-8")
             assert "tradingagents" not in content.lower(), f"Found 'tradingagents' in {py_file}"
 

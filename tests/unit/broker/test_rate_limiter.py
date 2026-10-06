@@ -5,7 +5,7 @@ import time
 
 import pytest
 
-from skopaq.broker.rate_limiter import RateLimiter
+from novaswarm.broker.rate_limiter import RateLimiter
 
 
 @pytest.mark.asyncio

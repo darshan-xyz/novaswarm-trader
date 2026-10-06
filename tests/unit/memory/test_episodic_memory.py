@@ -1,4 +1,4 @@
-"""Unit tests for skopaq.memory.episodic (EpisodicLessonStore).
+"""Unit tests for novaswarm.memory.episodic (EpisodicLessonStore).
 
 Verifies Robertson-Spärck Jones BM25 mathematical accuracy, continuous exponential
 recency decay, boundary handling, dual-compatibility string subclass, agent node loops,
@@ -12,7 +12,7 @@ from pathlib import Path
 import time
 import pytest
 
-from skopaq.memory.episodic import (
+from novaswarm.memory.episodic import (
     EpisodicLessonMatch,
     EpisodicLessonStore,
     InvertedIndex,
@@ -329,7 +329,7 @@ class TestCleanRoomDecoupling:
     """Verifies complete decoupling from rank_bm25 and tradingagents."""
 
     def test_zero_rank_bm25_in_episodic(self):
-        content = Path("skopaq/memory/episodic.py").read_text(encoding="utf-8")
+        content = Path("novaswarm/memory/episodic.py").read_text(encoding="utf-8")
         assert "rank_bm25" not in content
         assert "tradingagents" not in content
 

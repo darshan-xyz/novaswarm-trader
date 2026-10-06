@@ -4,8 +4,8 @@ import pytest
 import httpx
 from unittest.mock import AsyncMock, patch, MagicMock
 
-from skopaq.broker.binance_client import BinanceClient, BinanceError
-from skopaq.broker.models import Exchange, Quote
+from novaswarm.broker.binance_client import BinanceClient, BinanceError
+from novaswarm.broker.models import Exchange, Quote
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────────
@@ -176,7 +176,7 @@ class TestBinanceClientRateLimits:
                 )
             )
 
-            with caplog.at_level(logging.WARNING, logger="skopaq.broker.binance_client"):
+            with caplog.at_level(logging.WARNING, logger="novaswarm.broker.binance_client"):
                 await client.get_price("BTCUSDT")
 
             assert any("rate limit" in r.message.lower() for r in caplog.records)

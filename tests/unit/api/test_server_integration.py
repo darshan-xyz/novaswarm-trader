@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from skopaq.api.server import app
+from novaswarm.api.server import app
 
 
 @pytest.fixture(scope="module")

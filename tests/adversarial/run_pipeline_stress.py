@@ -22,9 +22,9 @@ import warnings
 from typing import Any, Dict, List, Optional
 from unittest.mock import patch
 
-from skopaq.api.analysis_models import DecisionCard
-from skopaq.orchestration.context import AnalysisContext
-from skopaq.orchestration.engine import NovaPipeline
+from novaswarm.api.analysis_models import DecisionCard
+from novaswarm.orchestration.context import AnalysisContext
+from novaswarm.orchestration.engine import NovaPipeline
 from tests.adversarial.test_nova_pipeline_stress import AdversarialMockLLM
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")

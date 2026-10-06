@@ -1,4 +1,4 @@
-"""Unit tests for skopaq/api/system_router.py."""
+"""Unit tests for novaswarm/api/system_router.py."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.system_router import router
-from skopaq.db.models import HealingEventRecord, StrategyVersionRecord
+from novaswarm.api.system_router import router
+from novaswarm.db.models import HealingEventRecord, StrategyVersionRecord
 
 
 @pytest.fixture
@@ -50,17 +50,17 @@ def test_get_model_mappings(client):
 
 def test_get_strategies_fallback(client):
     """GET /api/system/strategies returns default Strategy DNA when DB has no versions."""
-    with patch("skopaq.api.system_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.system_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/system/strategies")
         assert resp.status_code == 200
         data = resp.json()
         assert "dna_yaml" in data
-        assert "SkopaqMultiAgentTrendBreakout" in data["dna_yaml"]
+        assert "NovaSwarmMultiAgentTrendBreakout" in data["dna_yaml"]
 
 
 def test_get_healing_events_offline(client):
     """GET /api/system/healing returns empty list when offline."""
-    with patch("skopaq.api.system_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.system_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/system/healing")
         assert resp.status_code == 200
         data = resp.json()

@@ -276,4 +276,4 @@ if onchain_report or defi_report or funding_report:
 
 **Lines changed:** ~4 lines added to the prompt deliverables section.
 
-**Backward compatible:** Yes — the prompt addition is purely additive. If the LLM ignores it, downstream parsing in `skopaq/graph/skopaq_graph.py` falls back to a debater-agreement heuristic (35–85 range) or the previous default of 50.
+**Backward compatible:** Yes — the prompt addition is purely additive. If the LLM ignores it, downstream parsing in `novaswarm/graph/novaswarm_graph.py` falls back to a debater-agreement heuristic (35–85 range) or the previous default of 50.

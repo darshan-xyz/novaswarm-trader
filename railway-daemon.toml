@@ -11,6 +11,6 @@ builder = "dockerfile"
 dockerfilePath = "docker/Dockerfile"
 
 [deploy]
-startCommand = "python -m skopaq.cli.main daemon --once"
+startCommand = "python -m novaswarm.cli.main daemon --once"
 cronSchedule = "40 3 * * 1-5"
 restartPolicyType = "never"

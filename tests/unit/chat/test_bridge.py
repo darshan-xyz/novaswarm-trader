@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 from fastapi.testclient import TestClient
 
-from skopaq.chat.bridge import _sessions, router
+from novaswarm.chat.bridge import _sessions, router
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def clear_sessions():
     _sessions.clear()
 
 
-@patch("skopaq.chat.bridge._get_or_create_session")
+@patch("novaswarm.chat.bridge._get_or_create_session")
 def test_send_message_returns_response(mock_session, client):
     session = MagicMock()
     session.id = "test-session-123"
@@ -62,15 +62,15 @@ def test_send_message_empty_body(client):
     assert response.status_code == 422  # Validation error (min_length=1)
 
 
-@patch("skopaq.chat.bridge._get_or_create_session")
+@patch("novaswarm.chat.bridge._get_or_create_session")
 def test_tool_call_endpoint(mock_session, client):
     session = MagicMock()
     session.id = "test-session-456"
     session.ensure_infra.return_value = MagicMock()
     mock_session.return_value = session
 
-    with patch("skopaq.chat.tools.get_all_tools") as mock_tools, \
-         patch("skopaq.chat.tools.init_tools"):
+    with patch("novaswarm.chat.tools.get_all_tools") as mock_tools, \
+         patch("novaswarm.chat.tools.init_tools"):
         mock_tool = MagicMock()
         mock_tool.name = "get_portfolio"
         mock_tool.ainvoke = AsyncMock(return_value="Portfolio: ₹1,00,000")
@@ -85,15 +85,15 @@ def test_tool_call_endpoint(mock_session, client):
         assert "Portfolio" in data["result"]
 
 
-@patch("skopaq.chat.bridge._get_or_create_session")
+@patch("novaswarm.chat.bridge._get_or_create_session")
 def test_tool_call_unknown_tool(mock_session, client):
     session = MagicMock()
     session.id = "test-session-789"
     session.ensure_infra.return_value = MagicMock()
     mock_session.return_value = session
 
-    with patch("skopaq.chat.tools.get_all_tools") as mock_tools, \
-         patch("skopaq.chat.tools.init_tools"):
+    with patch("novaswarm.chat.tools.get_all_tools") as mock_tools, \
+         patch("novaswarm.chat.tools.init_tools"):
         mock_tool = MagicMock()
         mock_tool.name = "get_portfolio"
         mock_tools.return_value = [mock_tool]

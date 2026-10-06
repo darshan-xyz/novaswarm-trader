@@ -1,12 +1,12 @@
-"""Empirical runner for adversarial stress testing on SkopaqTrader."""
+"""Empirical runner for adversarial stress testing on NovaSwarm Trader."""
 
 from __future__ import annotations
 
 import json
 import time
 from fastapi.testclient import TestClient
-from skopaq.api.server import app
-from skopaq.api.analysis_manager import AnalysisJobManager, AnalysisJob
+from novaswarm.api.server import app
+from novaswarm.api.analysis_manager import AnalysisJobManager, AnalysisJob
 import asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -15,7 +15,7 @@ def run_adversarial_suite():
     results = {}
 
     print("================================================================================")
-    print("  RUNNING ADVERSARIAL STRESS SUITE (SKOPAQTRADER LIVE APP)")
+    print("  RUNNING ADVERSARIAL STRESS SUITE (NOVASWARM_TRADER LIVE APP)")
     print("================================================================================")
 
     # 1. Invalid Symbol Formats & Injections

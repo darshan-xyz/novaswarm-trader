@@ -106,7 +106,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
             <div className="flex flex-col">
               <span className="text-base font-bold tracking-tight text-white">
-                Skopaq<span className="text-blue-400">Trader</span>
+                NovaSwarm<span className="text-blue-400">Trader</span>
               </span>
               <span className="text-[10px] text-gray-400 font-medium tracking-wide">
                 AI Autonomous Swarm

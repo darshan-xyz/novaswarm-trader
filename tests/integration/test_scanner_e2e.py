@@ -6,7 +6,7 @@ Tests the full scanner cycle:
     3. Send to Gemini Flash for candidate selection
     4. Parse LLM response into ScannerCandidate objects
 
-Requires: SKOPAQ_INDSTOCKS_TOKEN and GOOGLE_API_KEY in .env
+Requires: NOVASWARM_INDSTOCKS_TOKEN and GOOGLE_API_KEY in .env
 
 Run:  python3 -m pytest tests/integration/test_scanner_e2e.py -v -m integration -s
 """
@@ -34,19 +34,19 @@ logger = logging.getLogger(__name__)
 
 def _skip_unless_ready():
     """Skip if either INDstocks token or Google API key is missing."""
-    if not os.environ.get("SKOPAQ_INDSTOCKS_TOKEN"):
-        pytest.skip("SKOPAQ_INDSTOCKS_TOKEN not set")
+    if not os.environ.get("NOVASWARM_INDSTOCKS_TOKEN"):
+        pytest.skip("NOVASWARM_INDSTOCKS_TOKEN not set")
     if not os.environ.get("GOOGLE_API_KEY"):
         pytest.skip("GOOGLE_API_KEY not set")
 
 
 def _get_client():
     """Create a one-shot INDstocks REST client."""
-    from skopaq.config import SkopaqConfig
-    from skopaq.broker.client import INDstocksClient
-    from skopaq.broker.token_manager import TokenManager
+    from novaswarm.config import NovaSwarmConfig
+    from novaswarm.broker.client import INDstocksClient
+    from novaswarm.broker.token_manager import TokenManager
 
-    config = SkopaqConfig()
+    config = NovaSwarmConfig()
     token_mgr = TokenManager()
     return INDstocksClient(config, token_mgr)
 
@@ -132,7 +132,7 @@ async def indstocks_quote_fetcher(symbols: list[str]) -> list[dict[str, Any]]:
 async def gemini_flash_screener(prompt: str) -> str:
     """Send the screening prompt to Gemini 3 Flash and return the response."""
     from langchain_google_genai import ChatGoogleGenerativeAI
-    from skopaq.llm import extract_text
+    from novaswarm.llm import extract_text
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-3-flash-preview",
@@ -187,8 +187,8 @@ class TestLlmScreener:
     def test_gemini_returns_json(self):
         """Verify Gemini Flash can parse metrics and return JSON candidates."""
         _skip_unless_ready()
-        from skopaq.scanner.screen import build_screen_prompt
-        from skopaq.scanner.models import ScannerMetrics
+        from novaswarm.scanner.screen import build_screen_prompt
+        from novaswarm.scanner.models import ScannerMetrics
 
         # Build a small metrics list
         metrics = [
@@ -208,7 +208,7 @@ class TestLlmScreener:
         print(f"\n  Gemini response:\n  {response}")
 
         # Should be parseable JSON
-        from skopaq.scanner.screen import parse_screen_response
+        from novaswarm.scanner.screen import parse_screen_response
         candidates = parse_screen_response(response)
         print(f"\n  Parsed {len(candidates)} candidates:")
         for c in candidates:
@@ -224,8 +224,8 @@ class TestScannerE2E:
     def test_scan_once_produces_candidates(self):
         """Full scan cycle with real data and real LLM."""
         _skip_unless_ready()
-        from skopaq.scanner.engine import ScannerEngine
-        from skopaq.scanner.watchlist import Watchlist
+        from novaswarm.scanner.engine import ScannerEngine
+        from novaswarm.scanner.watchlist import Watchlist
 
         # Use small watchlist
         watchlist = Watchlist(symbols=TEST_WATCHLIST)
@@ -254,8 +254,8 @@ class TestScannerE2E:
     def test_scan_once_full_nifty(self):
         """Scan with a larger subset of NIFTY stocks (10 stocks)."""
         _skip_unless_ready()
-        from skopaq.scanner.engine import ScannerEngine
-        from skopaq.scanner.watchlist import Watchlist
+        from novaswarm.scanner.engine import ScannerEngine
+        from novaswarm.scanner.watchlist import Watchlist
 
         # Larger watchlist — still not all 51 to keep API calls reasonable
         symbols = [

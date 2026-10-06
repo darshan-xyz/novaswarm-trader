@@ -1,4 +1,4 @@
-"""Empirical stress-test suite for skopaq/indicators/formulas.py and skopaq/indicators/engine.py.
+"""Empirical stress-test suite for novaswarm/indicators/formulas.py and novaswarm/indicators/engine.py.
 
 Stress dimensions covered:
 1. Extreme prices (e.g. 1e-8, 1e8, 1e-12, 1e12, extreme swings).
@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from skopaq.indicators.formulas import (
+from novaswarm.indicators.formulas import (
     compute_all_indicators,
     compute_atr,
     compute_bollinger_bands,
@@ -30,7 +30,7 @@ from skopaq.indicators.formulas import (
     compute_supertrend,
     compute_vwma,
 )
-from skopaq.indicators.engine import (
+from novaswarm.indicators.engine import (
     calculate_indicator_series,
     get_indicators,
 )

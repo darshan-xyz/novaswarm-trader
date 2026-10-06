@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from skopaq.risk.drawdown import DrawdownTracker
+from novaswarm.risk.drawdown import DrawdownTracker
 
 
 # ── Mock Supabase client ──────────────────────────────────────────────────────

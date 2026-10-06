@@ -1,4 +1,4 @@
-"""Unit tests for skopaq/api/trades_router.py."""
+"""Unit tests for novaswarm/api/trades_router.py."""
 
 from __future__ import annotations
 
@@ -10,8 +10,8 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from skopaq.api.trades_router import router
-from skopaq.db.models import ModelPredictionRecord, TradeRecord
+from novaswarm.api.trades_router import router
+from novaswarm.db.models import ModelPredictionRecord, TradeRecord
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def client():
 
 def test_list_trades_offline(client):
     """When Supabase is not configured, list_trades returns HTTP 200 with an empty list."""
-    with patch("skopaq.api.trades_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/trades?limit=25&offset=5")
         assert resp.status_code == 200
         data = resp.json()
@@ -61,7 +61,7 @@ def test_list_trades_with_data(client):
     mock_client = MagicMock()
     mock_client.table.return_value.select.return_value = mock_query
 
-    with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client):
+    with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client):
         resp = client.get("/api/trades?symbol=RELIANCE&side=BUY&status=COMPLETE&is_paper=true&strategy=v1")
         assert resp.status_code == 200
         data = resp.json()
@@ -73,7 +73,7 @@ def test_list_trades_with_data(client):
 
 def test_get_trade_stats_offline(client):
     """Stats endpoint gracefully returns zero-state defaults when offline."""
-    with patch("skopaq.api.trades_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=None):
         resp = client.get("/api/trades/summary/stats")
         assert resp.status_code == 200
         data = resp.json()
@@ -98,7 +98,7 @@ def test_get_trade_stats_with_data(client):
     mock_client = MagicMock()
     mock_client.table.return_value.select.return_value = mock_query
 
-    with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client):
+    with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client):
         resp = client.get("/api/trades/summary/stats")
         assert resp.status_code == 200
         data = resp.json()
@@ -124,7 +124,7 @@ def test_get_trade_by_id_invalid_uuid(client):
 
 def test_get_trade_by_id_not_found(client):
     t_id = str(uuid4())
-    with patch("skopaq.api.trades_router.get_safe_supabase", return_value=None):
+    with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=None):
         resp = client.get(f"/api/trades/{t_id}")
         assert resp.status_code == 404
 
@@ -148,9 +148,9 @@ def test_get_trade_by_id_success(client):
     )
 
     mock_client = MagicMock()
-    with patch("skopaq.api.trades_router.get_safe_supabase", return_value=mock_client), \
-         patch("skopaq.api.trades_router.TradeRepository.get_by_id", return_value=mock_trade), \
-         patch("skopaq.api.trades_router.PredictionRepository.get_by_trade", return_value=[mock_pred]):
+    with patch("novaswarm.api.trades_router.get_safe_supabase", return_value=mock_client), \
+         patch("novaswarm.api.trades_router.TradeRepository.get_by_id", return_value=mock_trade), \
+         patch("novaswarm.api.trades_router.PredictionRepository.get_by_trade", return_value=[mock_pred]):
         resp = client.get(f"/api/trades/{t_id}")
         assert resp.status_code == 200
         data = resp.json()

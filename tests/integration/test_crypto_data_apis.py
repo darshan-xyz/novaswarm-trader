@@ -9,7 +9,7 @@ Tests real API calls to free, public crypto endpoints (no authentication needed)
 
 import pytest
 
-from skopaq.data.crypto import (
+from novaswarm.data.crypto import (
     get_blockchain_stats,
     get_address_activity,
     get_token_fundamentals,

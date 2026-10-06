@@ -13,9 +13,9 @@ Add to `~/.claude.json`:
 ```json
 {
   "mcpServers": {
-    "skopaq": {
+    "novaswarm": {
       "command": "python3",
-      "args": ["-m", "skopaq.mcp_server"]
+      "args": ["-m", "novaswarm.mcp_server"]
     }
   }
 }
@@ -23,7 +23,7 @@ Add to `~/.claude.json`:
 
 ### Step 2: Restart Claude Code
 
-Open Claude Code in the `skopaqtrader` directory. You'll see 23 trading tools available.
+Open Claude Code in the `novaswarm-trader` directory. You'll see 23 trading tools available.
 
 ### Step 3: Trade
 
@@ -46,7 +46,7 @@ Or just talk naturally:
 ## Option 2: Interactive Chat
 
 ```bash
-skopaq chat
+novaswarm chat
 ```
 
 This launches a Claude Code-style REPL with:
@@ -60,24 +60,24 @@ This launches a Claude Code-style REPL with:
 
 ```bash
 # Analyze (no execution)
-skopaq analyze RELIANCE
+novaswarm analyze RELIANCE
 
 # Analyze + execute (paper mode)
-skopaq trade RELIANCE
+novaswarm trade RELIANCE
 
 # Market scan
-skopaq scan --max-candidates 10
+novaswarm scan --max-candidates 10
 
 # Autonomous daemon
-skopaq daemon --once --paper
+novaswarm daemon --once --paper
 
 # Position monitor
-skopaq monitor
+novaswarm monitor
 ```
 
 ## Option 4: Telegram Bot
 
-1. Search `@Skopaq_bot` on Telegram
+1. Search `@NovaSwarm_bot` on Telegram
 2. Send `/start`
 3. Chat naturally: "what's TCS at?" or "show my portfolio"
 
@@ -99,12 +99,12 @@ skopaq monitor
 === "CLI"
 
     ```bash
-    skopaq trade RELIANCE
+    novaswarm trade RELIANCE
     ```
 
 === "Telegram"
 
-    Send to @Skopaq_bot:
+    Send to @NovaSwarm_bot:
     ```
     trade RELIANCE
     ```
@@ -116,8 +116,8 @@ skopaq monitor
 
 ```bash
 # Set in .env
-SKOPAQ_TRADING_MODE=live
+NOVASWARM_TRADING_MODE=live
 
 # For Kite Connect, login at:
-# https://skopaq-trader.fly.dev/api/kite/login
+# https://novaswarm-trader.fly.dev/api/kite/login
 ```

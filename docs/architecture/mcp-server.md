@@ -1,6 +1,6 @@
 # MCP Server Architecture
 
-The MCP (Model Context Protocol) server is how SkopaqTrader integrates with Claude Code and other AI assistants. It exposes 23 tools via the FastMCP framework over stdio transport.
+The MCP (Model Context Protocol) server is how NovaSwarm Trader integrates with Claude Code and other AI assistants. It exposes 23 tools via the FastMCP framework over stdio transport.
 
 ## What Is MCP?
 
@@ -11,7 +11,7 @@ AI Assistant (Claude Code)
        │
        │  MCP Protocol (stdio)
        ▼
-  skopaq/mcp_server.py
+  novaswarm/mcp_server.py
        │
        ├── Broker APIs (Kite Connect, INDstocks)
        ├── LLM Providers (Gemini, Claude, Grok)
@@ -27,8 +27,8 @@ The server uses [FastMCP](https://github.com/jlowin/fastmcp), a Python framework
 from mcp.server import FastMCP
 
 mcp = FastMCP(
-    name="SkopaqTrader",
-    instructions="SkopaqTrader MCP server for Indian equity trading...",
+    name="NovaSwarm Trader",
+    instructions="NovaSwarm Trader MCP server for Indian equity trading...",
 )
 
 @mcp.tool()
@@ -52,9 +52,9 @@ The server uses **stdio transport** -- it reads requests from stdin and writes r
 // .claude/.mcp.json
 {
   "mcpServers": {
-    "skopaq": {
+    "novaswarm": {
       "command": "python3",
-      "args": ["-m", "skopaq.mcp_server"]
+      "args": ["-m", "novaswarm.mcp_server"]
     }
   }
 }
@@ -71,9 +71,9 @@ _infra_cache: dict = {}
 
 def _get_config():
     if "config" not in _infra_cache:
-        from skopaq.config import SkopaqConfig
-        from skopaq.llm import bridge_env_vars
-        config = SkopaqConfig()
+        from novaswarm.config import NovaSwarmConfig
+        from novaswarm.llm import bridge_env_vars
+        config = NovaSwarmConfig()
         bridge_env_vars(config)
         _infra_cache["config"] = config
     return _infra_cache["config"]
@@ -81,8 +81,8 @@ def _get_config():
 
 The first tool call triggers initialization of:
 
-1. `SkopaqConfig` -- Loads `.env` and validates all settings
-2. `bridge_env_vars()` -- Copies `SKOPAQ_*` to standard env vars for upstream compatibility
+1. `NovaSwarmConfig` -- Loads `.env` and validates all settings
+2. `bridge_env_vars()` -- Copies `NOVASWARM_*` to standard env vars for upstream compatibility
 3. `OrderRouter` + `PaperEngine` -- Paper trading infrastructure
 4. `KiteClient` -- Kite Connect client (if credentials available)
 
@@ -141,23 +141,23 @@ This ensures Claude always gets a parseable response, even on failure.
 For debugging, run the server directly:
 
 ```bash
-python -m skopaq.mcp_server
+python -m novaswarm.mcp_server
 ```
 
 It will start and wait for MCP messages on stdin. You can also run it inside Docker:
 
 ```bash
-docker run -it --env-file .env samuelvinay91/skopaq:latest mcp
+docker run -it --env-file .env samuelvinay91/novaswarm:latest mcp
 ```
 
 ## File Reference
 
 | File | Purpose |
 |------|---------|
-| `skopaq/mcp_server.py` | MCP server with all 23 tool definitions |
+| `novaswarm/mcp_server.py` | MCP server with all 23 tool definitions |
 | `.claude/.mcp.json` | Claude Code MCP server configuration |
-| `skopaq/config.py` | Configuration loaded by `_get_config()` |
-| `skopaq/llm/env_bridge.py` | Environment variable bridging |
-| `skopaq/broker/kite_client.py` | Kite Connect broker client |
-| `skopaq/options/chain.py` | Option chain fetcher |
-| `skopaq/options/gtt.py` | GTT order management |
+| `novaswarm/config.py` | Configuration loaded by `_get_config()` |
+| `novaswarm/llm/env_bridge.py` | Environment variable bridging |
+| `novaswarm/broker/kite_client.py` | Kite Connect broker client |
+| `novaswarm/options/chain.py` | Option chain fetcher |
+| `novaswarm/options/gtt.py` | GTT order management |

@@ -1,4 +1,4 @@
-"""Adversarial stress and boundary correctness test suite for SkopaqTrader Episodic Memory.
+"""Adversarial stress and boundary correctness test suite for NovaSwarm Trader Episodic Memory.
 
 Milestone 2 Challenge Suite:
 - Extreme corpus scaling (10,000 situations) with strict <50ms query latency SLA.
@@ -17,7 +17,7 @@ import random
 import time
 import pytest
 
-from skopaq.memory.episodic import (
+from novaswarm.memory.episodic import (
     EpisodicLessonMatch,
     EpisodicLessonStore,
     InvertedIndex,

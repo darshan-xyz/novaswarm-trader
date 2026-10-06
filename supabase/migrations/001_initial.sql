@@ -1,5 +1,5 @@
 -- ============================================================================
--- SkopaqTrader — Initial Database Schema
+-- NovaSwarm Trader — Initial Database Schema
 -- ============================================================================
 -- Applied via: supabase db push  (or Supabase dashboard SQL editor)
 -- All tables use RLS.  Backend uses service_role key to bypass RLS.

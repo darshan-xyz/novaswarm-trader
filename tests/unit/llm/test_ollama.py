@@ -13,33 +13,33 @@ class TestOllamaDetection:
 
     def setup_method(self):
         """Reset the cached availability before each test."""
-        import skopaq.llm.model_tier as mt
+        import novaswarm.llm.model_tier as mt
 
         mt._ollama_available = None
 
     def test_ollama_disabled_by_default(self):
-        from skopaq.llm.model_tier import _is_ollama_available
+        from novaswarm.llm.model_tier import _is_ollama_available
 
         # Ensure the env var is NOT set
-        os.environ.pop("SKOPAQ_OLLAMA_ENABLED", None)
+        os.environ.pop("NOVASWARM_OLLAMA_ENABLED", None)
         assert _is_ollama_available() is False
 
     def test_ollama_enabled_but_not_running(self):
-        from skopaq.llm.model_tier import _is_ollama_available
+        from novaswarm.llm.model_tier import _is_ollama_available
 
-        os.environ["SKOPAQ_OLLAMA_ENABLED"] = "true"
+        os.environ["NOVASWARM_OLLAMA_ENABLED"] = "true"
         # Patch urllib to simulate Ollama not running
         with patch("urllib.request.urlopen", side_effect=ConnectionError):
-            import skopaq.llm.model_tier as mt
+            import novaswarm.llm.model_tier as mt
 
             mt._ollama_available = None
             assert _is_ollama_available() is False
-        os.environ.pop("SKOPAQ_OLLAMA_ENABLED", None)
+        os.environ.pop("NOVASWARM_OLLAMA_ENABLED", None)
 
     def test_ollama_enabled_and_running(self):
-        from skopaq.llm.model_tier import _is_ollama_available
+        from novaswarm.llm.model_tier import _is_ollama_available
 
-        os.environ["SKOPAQ_OLLAMA_ENABLED"] = "true"
+        os.environ["NOVASWARM_OLLAMA_ENABLED"] = "true"
 
         mock_response = MagicMock()
         mock_response.status = 200
@@ -47,29 +47,29 @@ class TestOllamaDetection:
         mock_response.__exit__ = MagicMock(return_value=False)
 
         with patch("urllib.request.urlopen", return_value=mock_response):
-            import skopaq.llm.model_tier as mt
+            import novaswarm.llm.model_tier as mt
 
             mt._ollama_available = None
             assert _is_ollama_available() is True
-        os.environ.pop("SKOPAQ_OLLAMA_ENABLED", None)
+        os.environ.pop("NOVASWARM_OLLAMA_ENABLED", None)
 
 
 class TestOllamaModelDetection:
     """Tests for auto-detecting the best Ollama model."""
 
     def test_configured_model_takes_priority(self):
-        from skopaq.llm.model_tier import _get_ollama_model
+        from novaswarm.llm.model_tier import _get_ollama_model
 
-        os.environ["SKOPAQ_OLLAMA_MODEL"] = "llama3.2"
+        os.environ["NOVASWARM_OLLAMA_MODEL"] = "llama3.2"
         assert _get_ollama_model() == "llama3.2"
-        os.environ.pop("SKOPAQ_OLLAMA_MODEL", None)
+        os.environ.pop("NOVASWARM_OLLAMA_MODEL", None)
 
     def test_auto_detect_returns_first_model(self):
         import json
 
-        from skopaq.llm.model_tier import _get_ollama_model
+        from novaswarm.llm.model_tier import _get_ollama_model
 
-        os.environ.pop("SKOPAQ_OLLAMA_MODEL", None)
+        os.environ.pop("NOVASWARM_OLLAMA_MODEL", None)
 
         mock_response = MagicMock()
         mock_response.read.return_value = json.dumps({
@@ -82,9 +82,9 @@ class TestOllamaModelDetection:
             assert _get_ollama_model() == "mistral:latest"
 
     def test_fallback_to_mistral(self):
-        from skopaq.llm.model_tier import _get_ollama_model
+        from novaswarm.llm.model_tier import _get_ollama_model
 
-        os.environ.pop("SKOPAQ_OLLAMA_MODEL", None)
+        os.environ.pop("NOVASWARM_OLLAMA_MODEL", None)
 
         with patch("urllib.request.urlopen", side_effect=ConnectionError):
             assert _get_ollama_model() == "mistral"
@@ -94,7 +94,7 @@ class TestOllamaLLMCreation:
     """Tests for creating ChatOllama instances."""
 
     def test_create_ollama_llm(self):
-        from skopaq.llm.model_tier import _create_ollama_llm
+        from novaswarm.llm.model_tier import _create_ollama_llm
 
         mock_module = MagicMock()
         with patch.dict("sys.modules", {"langchain_ollama": mock_module}):
@@ -106,11 +106,11 @@ class TestOllamaLLMCreation:
             )
 
     def test_create_ollama_llm_auto_model(self):
-        from skopaq.llm.model_tier import _create_ollama_llm
+        from novaswarm.llm.model_tier import _create_ollama_llm
 
         mock_module = MagicMock()
         with patch.dict("sys.modules", {"langchain_ollama": mock_module}), \
-             patch("skopaq.llm.model_tier._get_ollama_model", return_value="qwen2.5-coder:7b"):
+             patch("novaswarm.llm.model_tier._get_ollama_model", return_value="qwen2.5-coder:7b"):
             _create_ollama_llm("auto")
             mock_module.ChatOllama.assert_called_once_with(
                 model="qwen2.5-coder:7b",
@@ -123,7 +123,7 @@ class TestOllamaInRolePreferences:
     """Tests that Ollama appears as fallback in role preferences."""
 
     def test_analyst_roles_have_ollama_fallback(self):
-        from skopaq.llm.model_tier import _ROLE_PREFERENCES
+        from novaswarm.llm.model_tier import _ROLE_PREFERENCES
 
         roles_with_ollama = [
             role for role, prefs in _ROLE_PREFERENCES.items()
@@ -135,7 +135,7 @@ class TestOllamaInRolePreferences:
         assert "trader" in roles_with_ollama
 
     def test_judge_roles_skip_ollama(self):
-        from skopaq.llm.model_tier import _ROLE_PREFERENCES
+        from novaswarm.llm.model_tier import _ROLE_PREFERENCES
 
         # Judge roles (research_manager, risk_manager) need cloud quality
         for role in ("research_manager", "risk_manager"):

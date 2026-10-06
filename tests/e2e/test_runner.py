@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SkopaqTrader Standalone E2E Test Runner.
+"""NovaSwarm Trader Standalone E2E Test Runner.
 
 Executes all 4 tiers of opaque-box E2E test suites with dual-mode support:
 - --mode mock (default): In-process high-fidelity mock ASGI application
@@ -174,7 +174,7 @@ def format_table_row(col1: str, col2: str, col3: str, col4: str, widths: Tuple[i
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="SkopaqTrader E2E Test Runner")
+    parser = argparse.ArgumentParser(description="NovaSwarm Trader E2E Test Runner")
     parser.add_argument(
         "--mode",
         choices=["mock", "live"],
@@ -227,7 +227,7 @@ def main() -> int:
     args = parser.parse_args()
 
     print("=" * 80)
-    print("  SKOPAQTRADER END-TO-END (E2E) TEST RUNNER")
+    print("  NOVASWARM_TRADER END-TO-END (E2E) TEST RUNNER")
     print(f"  Mode: {args.mode.upper()} | Tier: {args.tier.upper()} | Feature Filter: {args.feature or 'None'}")
     print(f"  Backend: {args.backend_url} | Frontend: {args.frontend_url}")
     print(f"  Timestamp: {datetime.now(timezone.utc).isoformat()}")

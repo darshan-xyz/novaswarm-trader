@@ -7,15 +7,15 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from skopaq.broker.models import (
+from novaswarm.broker.models import (
     ExecutionResult,
     OrderRequest,
     OrderResponse,
     Side,
     TradingSignal,
 )
-from skopaq.broker.paper_engine import PaperEngine
-from skopaq.execution.order_router import OrderRouter
+from novaswarm.broker.paper_engine import PaperEngine
+from novaswarm.execution.order_router import OrderRouter
 
 
 def _make_config(mode: str = "paper") -> MagicMock:
@@ -71,7 +71,7 @@ class TestLiveRouting:
         config = _make_config("live")
         paper = PaperEngine(initial_capital=1_000_000)
         # Inject a quote so paper fill works
-        from skopaq.broker.models import Quote
+        from novaswarm.broker.models import Quote
         paper.update_quote(Quote(symbol="RELIANCE", ltp=1800.0))
 
         router = OrderRouter(config, paper, live_client=None)
@@ -96,7 +96,7 @@ class TestLiveRouting:
         order = _buy_order(security_id="")  # Empty — needs resolution
 
         with patch(
-            "skopaq.execution.order_router.resolve_security_id",
+            "novaswarm.execution.order_router.resolve_security_id",
             new_callable=AsyncMock,
             return_value="10604",
         ) as mock_resolve:
@@ -122,7 +122,7 @@ class TestLiveRouting:
         order = _buy_order(security_id="10604")
 
         with patch(
-            "skopaq.execution.order_router.resolve_security_id",
+            "novaswarm.execution.order_router.resolve_security_id",
             new_callable=AsyncMock,
         ) as mock_resolve:
             result = await router.execute(order, _signal())

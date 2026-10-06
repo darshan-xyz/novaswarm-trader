@@ -18,7 +18,7 @@ Run this command to get the quote for **$ARGUMENTS**:
 ```bash
 python3 -c "
 import asyncio, json
-from skopaq.mcp_server import get_quote
+from novaswarm.mcp_server import get_quote
 result = asyncio.run(get_quote('$ARGUMENTS'))
 print(result)
 " 2>/dev/null

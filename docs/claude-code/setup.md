@@ -1,16 +1,16 @@
 # Claude Code Setup
 
-SkopaqTrader integrates directly with Claude Code via a Model Context Protocol (MCP) server. Once connected, all 23 trading tools are available inside your Claude Code session.
+NovaSwarm Trader integrates directly with Claude Code via a Model Context Protocol (MCP) server. Once connected, all 23 trading tools are available inside your Claude Code session.
 
 ## Prerequisites
 
 - Python 3.12+ installed
-- SkopaqTrader cloned and dependencies installed
+- NovaSwarm Trader cloned and dependencies installed
 - A valid `.env` file with at least one LLM API key
 
 ## Register the MCP Server
 
-Add the SkopaqTrader MCP server to your Claude Code project configuration.
+Add the NovaSwarm Trader MCP server to your Claude Code project configuration.
 
 **Option 1 — Project-level config** (recommended):
 
@@ -19,9 +19,9 @@ Create or edit `.claude/.mcp.json` in your project root:
 ```json
 {
   "mcpServers": {
-    "skopaq": {
+    "novaswarm": {
       "command": "python3",
-      "args": ["-m", "skopaq.mcp_server"]
+      "args": ["-m", "novaswarm.mcp_server"]
     }
   }
 }
@@ -48,16 +48,16 @@ After saving the config, restart Claude Code. You should see the tools loaded in
 
 Or ask Claude directly:
 
-> What is the current status of the SkopaqTrader system?
+> What is the current status of the NovaSwarm Trader system?
 
-Claude will call `mcp__skopaq__system_status` and show version, trading mode, connected LLMs, and token health.
+Claude will call `mcp__novaswarm__system_status` and show version, trading mode, connected LLMs, and token health.
 
 ## How It Works
 
-The MCP server (`skopaq/mcp_server.py`) runs as a child process using **stdio transport**. Claude Code launches it automatically and communicates over stdin/stdout. No network ports are needed.
+The MCP server (`novaswarm/mcp_server.py`) runs as a child process using **stdio transport**. Claude Code launches it automatically and communicates over stdin/stdout. No network ports are needed.
 
 ```
-Claude Code  ──stdin/stdout──  python -m skopaq.mcp_server
+Claude Code  ──stdin/stdout──  python -m novaswarm.mcp_server
                                    │
                                    ├── INDstocks / Kite Connect (broker)
                                    ├── LLM providers (Gemini, Claude, Grok)
@@ -70,9 +70,9 @@ Claude Code  ──stdin/stdout──  python -m skopaq.mcp_server
 |---------|----------|
 | Tools not appearing | Restart Claude Code after editing `.mcp.json` |
 | `ModuleNotFoundError` | Run `pip install -e .` in the project root |
-| Broker errors | Ensure `.env` has valid `SKOPAQ_INDSTOCKS_*` or `SKOPAQ_KITE_*` keys |
-| LLM failures | Check that at least `SKOPAQ_GOOGLE_API_KEY` is set |
-| MCP server crashes | Run `python -m skopaq.mcp_server` standalone to see errors |
+| Broker errors | Ensure `.env` has valid `NOVASWARM_INDSTOCKS_*` or `NOVASWARM_KITE_*` keys |
+| LLM failures | Check that at least `NOVASWARM_GOOGLE_API_KEY` is set |
+| MCP server crashes | Run `python -m novaswarm.mcp_server` standalone to see errors |
 
 !!! warning "Environment Variables"
     The MCP server reads from your shell environment. If you use `direnv` or a `.env` loader, make sure variables are exported before Claude Code launches.

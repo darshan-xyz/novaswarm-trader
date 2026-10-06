@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from skopaq.chat.agent import GATED_TOOLS, SYSTEM_PROMPT_TEMPLATE, create_chat_agent
-from skopaq.chat.session import Infrastructure
+from novaswarm.chat.agent import GATED_TOOLS, SYSTEM_PROMPT_TEMPLATE, create_chat_agent
+from novaswarm.chat.session import Infrastructure
 
 
 @pytest.fixture
@@ -64,7 +64,7 @@ def test_gated_tools_contains_trade():
     assert "trade_stock" in GATED_TOOLS
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_returns_tuple(mock_create, mock_infra):
     mock_agent = MagicMock()
     mock_create.return_value = mock_agent
@@ -77,7 +77,7 @@ def test_create_agent_returns_tuple(mock_create, mock_infra):
     assert agent is mock_agent
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_binds_tools(mock_create, mock_infra):
     mock_create.return_value = MagicMock()
 
@@ -89,7 +89,7 @@ def test_create_agent_binds_tools(mock_create, mock_infra):
     assert len(tools) == 12
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_has_checkpointer(mock_create, mock_infra):
     mock_create.return_value = MagicMock()
 
@@ -100,7 +100,7 @@ def test_create_agent_has_checkpointer(mock_create, mock_infra):
     assert call_kwargs["checkpointer"] is not None
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_has_interrupt_before(mock_create, mock_infra):
     mock_create.return_value = MagicMock()
 
@@ -111,7 +111,7 @@ def test_create_agent_has_interrupt_before(mock_create, mock_infra):
     assert call_kwargs["interrupt_before"] == ["tools"]
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_uses_chat_brain(mock_create, mock_infra):
     mock_create.return_value = MagicMock()
 
@@ -122,7 +122,7 @@ def test_create_agent_uses_chat_brain(mock_create, mock_infra):
     assert model is mock_infra.llm_map["chat_brain"]
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_falls_back_to_research_manager(mock_create):
     infra = MagicMock()
     infra.config.trading_mode = "paper"
@@ -141,7 +141,7 @@ def test_create_agent_falls_back_to_research_manager(mock_create):
     assert model is infra.llm_map["research_manager"]
 
 
-@patch("skopaq.chat.agent.create_react_agent")
+@patch("novaswarm.chat.agent.create_react_agent")
 def test_create_agent_falls_back_to_default(mock_create):
     infra = MagicMock()
     infra.config.trading_mode = "paper"

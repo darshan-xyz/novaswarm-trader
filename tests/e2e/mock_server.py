@@ -1,4 +1,4 @@
-"""High-fidelity mock ASGI application for SkopaqTrader E2E opaque-box testing.
+"""High-fidelity mock ASGI application for NovaSwarm Trader E2E opaque-box testing.
 
 Implements all REST and SSE interface contracts defined in PROJECT.md and TEST_INFRA.md:
 - Trades Router (/api/trades)
@@ -70,8 +70,8 @@ class ChatToolRequest(BaseModel):
 
 
 def create_mock_app() -> FastAPI:
-    """Create a fully functional mock FastAPI app matching all Skopaq contracts."""
-    app = FastAPI(title="SkopaqTrader Mock API Server", version="0.1.0")
+    """Create a fully functional mock FastAPI app matching all NovaSwarm contracts."""
+    app = FastAPI(title="NovaSwarm Trader Mock API Server", version="0.1.0")
 
     app.add_middleware(
         CORSMiddleware,
@@ -106,7 +106,7 @@ def create_mock_app() -> FastAPI:
             "order_id": "ord_rel_001",
             "status": "COMPLETE",
             "is_paper": True,
-            "signal_source": "skopaq-swarm",
+            "signal_source": "novaswarm-swarm",
             "consensus_score": 88,
             "entry_reason": "Golden cross 50/200 SMA + robust retail margins",
             "exit_reason": "Target 1 achieved (+4.2%)",
@@ -133,7 +133,7 @@ def create_mock_app() -> FastAPI:
             "order_id": "ord_tcs_002",
             "status": "COMPLETE",
             "is_paper": True,
-            "signal_source": "skopaq-swarm",
+            "signal_source": "novaswarm-swarm",
             "consensus_score": 79,
             "entry_reason": "IT sector momentum + solid Q3 guidance",
             "exit_reason": "Stop loss hit on macro gap down",
@@ -160,7 +160,7 @@ def create_mock_app() -> FastAPI:
             "order_id": "ord_infy_003",
             "status": "OPEN",
             "is_paper": True,
-            "signal_source": "skopaq-swarm",
+            "signal_source": "novaswarm-swarm",
             "consensus_score": 82,
             "entry_reason": "Breakout above 1800 resistance",
             "exit_reason": None,
@@ -1025,7 +1025,7 @@ def create_mock_app() -> FastAPI:
             })
             assistant_reply = "Safety simulation passed! Order value ₹38,000 complies with the 15% position limit."
         else:
-            assistant_reply = f"I am your Skopaq AI Trading Assistant. How can I assist you with Indian equity trading today?"
+            assistant_reply = f"I am your NovaSwarm AI Trading Assistant. How can I assist you with Indian equity trading today?"
 
         history.append({"role": "assistant", "content": assistant_reply})
 
@@ -1088,7 +1088,7 @@ def create_mock_app() -> FastAPI:
         def make_handler(title: str):
             async def handler():
                 html_content = (
-                    f"<!DOCTYPE html><html><head><title>SkopaqTrader - {title}</title></head>"
+                    f"<!DOCTYPE html><html><head><title>NovaSwarm Trader - {title}</title></head>"
                     f"<body class='dark bg-gray-950 text-gray-100'><div id='__next'><h1>{title}</h1></div></body></html>"
                 )
                 return HTMLResponse(content=html_content, status_code=200)

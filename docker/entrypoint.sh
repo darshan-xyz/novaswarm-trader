@@ -3,43 +3,43 @@ set -e
 
 SERVICE="${1:-api}"
 
-echo "SkopaqTrader — Starting service: $SERVICE"
+echo "NovaSwarm Trader — Starting service: $SERVICE"
 
 case "$SERVICE" in
     api)
         echo "Starting FastAPI server on port 8000..."
-        exec python -m skopaq.cli.main serve --host 0.0.0.0 --port 8000
+        exec python -m novaswarm.cli.main serve --host 0.0.0.0 --port 8000
         ;;
     chat)
         echo "Starting interactive AI chatbot..."
-        exec python -m skopaq.cli.main chat
+        exec python -m novaswarm.cli.main chat
         ;;
     telegram)
         echo "Starting Telegram bot..."
-        exec python -m skopaq.telegram_bot
+        exec python -m novaswarm.telegram_bot
         ;;
     mcp)
         echo "Starting MCP server (stdio)..."
-        exec python -m skopaq.mcp_server
+        exec python -m novaswarm.mcp_server
         ;;
     daemon)
         echo "Starting autonomous trading daemon..."
-        exec python -m skopaq.cli.main daemon --once --paper
+        exec python -m novaswarm.cli.main daemon --once --paper
         ;;
     daemon-live)
         echo "Starting LIVE autonomous trading daemon..."
-        exec python -m skopaq.cli.main daemon --once --live --confirm-live
+        exec python -m novaswarm.cli.main daemon --once --live --confirm-live
         ;;
     monitor)
         echo "Starting position monitor..."
-        exec python -m skopaq.cli.main monitor
+        exec python -m novaswarm.cli.main monitor
         ;;
     scan)
         echo "Running market scan..."
-        exec python -m skopaq.cli.main scan
+        exec python -m novaswarm.cli.main scan
         ;;
     status)
-        exec python -m skopaq.cli.main status
+        exec python -m novaswarm.cli.main status
         ;;
     shell)
         exec /bin/bash

@@ -1,6 +1,6 @@
 # Scheduled Jobs
 
-The Telegram bot runs three scheduled jobs daily during market hours. These are configured in `skopaq/telegram_bot.py` using `python-telegram-bot`'s built-in job queue.
+The Telegram bot runs three scheduled jobs daily during market hours. These are configured in `novaswarm/telegram_bot.py` using `python-telegram-bot`'s built-in job queue.
 
 ## Job Schedule
 
@@ -18,7 +18,7 @@ Sends a reminder to connect to Zerodha if the Kite access token is not set.
 
 1. Checks if `get_access_token()` returns a valid token
 2. If connected: sends "Kite connected -- ready for market open"
-3. If not connected: sends login link `https://skopaq-trader.fly.dev/api/kite/login`
+3. If not connected: sends login link `https://novaswarm-trader.fly.dev/api/kite/login`
 
 **Why 09:00?**
 
@@ -67,7 +67,7 @@ Reply 'trade SYMBOL' to execute
 Prices settle about 10 minutes after market open (09:15). Scanning at 09:25 gives enough data for meaningful volume and direction signals.
 
 !!! note "Customizing the watchlist"
-    The scanned stocks are hardcoded in the `job_market_scan` function. To customize, edit the `symbols` list in `skopaq/telegram_bot.py`.
+    The scanned stocks are hardcoded in the `job_market_scan` function. To customize, edit the `symbols` list in `novaswarm/telegram_bot.py`.
 
 ## EOD Summary (15:35 IST)
 
@@ -145,7 +145,7 @@ If no chat IDs are registered, scheduled jobs run silently (no errors, just no o
 
 ## Adding Custom Jobs
 
-To add a new scheduled job, follow this pattern in `skopaq/telegram_bot.py`:
+To add a new scheduled job, follow this pattern in `novaswarm/telegram_bot.py`:
 
 ```python
 async def job_custom(context: ContextTypes.DEFAULT_TYPE) -> None:

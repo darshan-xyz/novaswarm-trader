@@ -1,17 +1,17 @@
-# SkopaqTrader — Multi-service Docker image
+# NovaSwarm Trader — Multi-service Docker image
 #
-# Services (select via SKOPAQ_SERVICE env var):
+# Services (select via NOVASWARM_SERVICE env var):
 #   api       — FastAPI backend (default)
 #   chat      — Interactive AI chatbot REPL
-#   telegram  — Telegram bot (@Skopaq_bot)
+#   telegram  — Telegram bot (@NovaSwarm_bot)
 #   mcp       — MCP server (stdio transport)
 #   daemon    — Autonomous trading session
 #   monitor   — Position monitor
 #
 # Quick start:
-#   docker run -it --env-file .env skopaqtrader/skopaqtrader chat
-#   docker run -d --env-file .env skopaqtrader/skopaqtrader telegram
-#   docker run -d --env-file .env -p 8000:8000 skopaqtrader/skopaqtrader api
+#   docker run -it --env-file .env novaswarm-trader/novaswarm-trader chat
+#   docker run -d --env-file .env novaswarm-trader/novaswarm-trader telegram
+#   docker run -d --env-file .env -p 8000:8000 novaswarm-trader/novaswarm-trader api
 #
 # Or use docker-compose.yml for all services at once.
 
@@ -38,8 +38,8 @@ COPY . .
 RUN pip install --no-cache-dir -e .
 
 # Create non-root user
-RUN useradd -m -s /bin/bash skopaq
-USER skopaq
+RUN useradd -m -s /bin/bash novaswarm
+USER novaswarm
 
 EXPOSE 8000
 
@@ -51,7 +51,7 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 COPY docker/entrypoint.sh /entrypoint.sh
 USER root
 RUN chmod +x /entrypoint.sh
-USER skopaq
+USER novaswarm
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["api"]

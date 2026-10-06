@@ -49,18 +49,18 @@ class TestEnvBridge:
         key = os.environ.get("ANTHROPIC_API_KEY", "")
         assert len(key) > 10, f"ANTHROPIC_API_KEY not set or too short ({len(key)} chars)"
 
-    def test_bridge_populates_from_skopaq_prefix(self):
-        """bridge_env_vars should read SKOPAQ_ prefixed keys from config."""
-        from skopaq.llm.env_bridge import bridge_env_vars
+    def test_bridge_populates_from_novaswarm_prefix(self):
+        """bridge_env_vars should read NOVASWARM_ prefixed keys from config."""
+        from novaswarm.llm.env_bridge import bridge_env_vars
 
-        # Clear standard vars, let bridge re-populate from SKOPAQ_ variants
+        # Clear standard vars, let bridge re-populate from NOVASWARM_ variants
         saved = {}
         for var in ["GOOGLE_API_KEY", "ANTHROPIC_API_KEY"]:
             saved[var] = os.environ.pop(var, None)
 
         try:
             bridged = bridge_env_vars()
-            # At least google should be bridged from SKOPAQ_GOOGLE_API_KEY
+            # At least google should be bridged from NOVASWARM_GOOGLE_API_KEY
             assert "GOOGLE_API_KEY" in bridged or os.environ.get("GOOGLE_API_KEY"), \
                 "Bridge did not populate GOOGLE_API_KEY"
         finally:
@@ -120,7 +120,7 @@ class TestModelTierBuilder:
     """Test that build_llm_map creates usable LLM instances from real keys."""
 
     def test_build_llm_map_succeeds(self):
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         llm_map = build_llm_map()
         assert "_default" in llm_map, "No _default key in llm_map"
@@ -128,7 +128,7 @@ class TestModelTierBuilder:
         print(f"  LLM map has {len(llm_map)} entries: {list(llm_map.keys())}")
 
     def test_default_model_responds(self):
-        from skopaq.llm.model_tier import build_llm_map
+        from novaswarm.llm.model_tier import build_llm_map
 
         llm_map = build_llm_map()
         default_llm = llm_map["_default"]

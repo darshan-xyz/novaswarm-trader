@@ -1,6 +1,6 @@
 # Custom Slash Commands
 
-SkopaqTrader ships 6 custom skills for Claude Code, defined in `.claude/skills/`. These are slash commands you type directly in the Claude Code prompt.
+NovaSwarm Trader ships 6 custom skills for Claude Code, defined in `.claude/skills/`. These are slash commands you type directly in the Claude Code prompt.
 
 ## Available Commands
 
@@ -21,7 +21,7 @@ Get a live market quote with LTP, day range, bid/ask, and volume.
 /quote RELIANCE
 ```
 
-Claude fetches the quote via `mcp__skopaq__get_quote` and presents:
+Claude fetches the quote via `mcp__novaswarm__get_quote` and presents:
 
 ```
 RELIANCE (NSE)
@@ -126,7 +126,7 @@ AI-powered options selling analysis. Fetches the option chain, selects the optim
 The output includes strike selection, premium, max profit/loss, margin, stop-loss, and win probability estimate.
 
 !!! tip "Requires Kite Connect"
-    Options data comes from Zerodha's option chain API. Login via the Telegram bot (`/login`) or visit `https://skopaq-trader.fly.dev/api/kite/login`.
+    Options data comes from Zerodha's option chain API. Login via the Telegram bot (`/login`) or visit `https://novaswarm-trader.fly.dev/api/kite/login`.
 
 ## How Skills Work
 

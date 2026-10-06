@@ -16,9 +16,9 @@ from typing import Any, Dict, List
 import pytest
 from pydantic import ValidationError
 
-from skopaq.api.analysis_models import DecisionCard
-from skopaq.broker.models import Exchange, TradingSignal
-from skopaq.intelligence import (
+from novaswarm.api.analysis_models import DecisionCard
+from novaswarm.broker.models import Exchange, TradingSignal
+from novaswarm.intelligence import (
     ALL_PROMPT_ROLES,
     ROLE_PROMPTS,
     AgentRole,
@@ -43,14 +43,14 @@ from skopaq.intelligence import (
     get_valuation_analyst_prompt,
     resolve_role,
 )
-from skopaq.intelligence.base import SafeFormatDict
-from skopaq.orchestration.context import (
+from novaswarm.intelligence.base import SafeFormatDict
+from novaswarm.orchestration.context import (
     AnalysisContext,
     OrderPlan,
     RiskDeliberationContext,
     ThesisDebateContext,
 )
-from skopaq.orchestration.signal_extraction import DecisionExtractor
+from novaswarm.orchestration.signal_extraction import DecisionExtractor
 
 
 # ─────────────────────────────────────────────────────────────────────────────

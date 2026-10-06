@@ -6,8 +6,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from skopaq.chat.repl import _handle_slash_command
-from skopaq.chat.session import ChatSession
+from novaswarm.chat.repl import _handle_slash_command
+from novaswarm.chat.session import ChatSession
 
 
 @pytest.fixture
@@ -72,7 +72,7 @@ async def test_slash_mode_switch_paper(session):
 @pytest.mark.asyncio
 async def test_slash_mode_switch_live_denied(session):
     """Live switch should be denied when confirmation fails."""
-    with patch("skopaq.chat.repl._prompt_confirm", new_callable=AsyncMock) as mock_confirm:
+    with patch("novaswarm.chat.repl._prompt_confirm", new_callable=AsyncMock) as mock_confirm:
         mock_confirm.return_value = False
         result = await _handle_slash_command("/mode live", session)
         assert result is False
@@ -86,7 +86,7 @@ async def test_slash_unknown_command(session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_scan(mock_run, session):
     result = await _handle_slash_command("/scan", session)
     assert result is False
@@ -94,7 +94,7 @@ async def test_slash_scan(mock_run, session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_scan_with_count(mock_run, session):
     result = await _handle_slash_command("/scan 10", session)
     assert result is False
@@ -102,7 +102,7 @@ async def test_slash_scan_with_count(mock_run, session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_portfolio(mock_run, session):
     result = await _handle_slash_command("/portfolio", session)
     assert result is False
@@ -110,7 +110,7 @@ async def test_slash_portfolio(mock_run, session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_positions_alias(mock_run, session):
     result = await _handle_slash_command("/positions", session)
     assert result is False
@@ -118,7 +118,7 @@ async def test_slash_positions_alias(mock_run, session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_orders(mock_run, session):
     result = await _handle_slash_command("/orders", session)
     assert result is False
@@ -126,7 +126,7 @@ async def test_slash_orders(mock_run, session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_status(mock_run, session):
     result = await _handle_slash_command("/status", session)
     assert result is False
@@ -134,7 +134,7 @@ async def test_slash_status(mock_run, session):
 
 
 @pytest.mark.asyncio
-@patch("skopaq.chat.repl._run_slash_tool", new_callable=AsyncMock)
+@patch("novaswarm.chat.repl._run_slash_tool", new_callable=AsyncMock)
 async def test_slash_quote(mock_run, session):
     result = await _handle_slash_command("/quote RELIANCE", session)
     assert result is False
