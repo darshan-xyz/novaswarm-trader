@@ -1,0 +1,251 @@
+{
+  "timestamp": 1790493408.883581,
+  "platform": "win32",
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "benchmarks": {
+    "corpus_scaling": [
+      {
+        "size": 100,
+        "indexing_time_ms": 20.52,
+        "rebuild_time_ms": 2.41,
+        "memory_peak_mb": 0.31,
+        "latency_p50_ms": 0.265,
+        "latency_p95_ms": 0.735,
+        "latency_p99_ms": 8.813,
+        "latency_max_ms": 8.813,
+        "latency_min_ms": 0.198,
+        "latency_sla_passed": true
+      },
+      {
+        "size": 1000,
+        "indexing_time_ms": 279.03,
+        "rebuild_time_ms": 75.95,
+        "memory_peak_mb": 2.83,
+        "latency_p50_ms": 3.129,
+        "latency_p95_ms": 13.279,
+        "latency_p99_ms": 25.157,
+        "latency_max_ms": 25.157,
+        "latency_min_ms": 2.143,
+        "latency_sla_passed": true
+      },
+      {
+        "size": 5000,
+        "indexing_time_ms": 1599.62,
+        "rebuild_time_ms": 212.48,
+        "memory_peak_mb": 14.41,
+        "latency_p50_ms": 17.467,
+        "latency_p95_ms": 34.789,
+        "latency_p99_ms": 40.191,
+        "latency_max_ms": 40.191,
+        "latency_min_ms": 6.849,
+        "latency_sla_passed": true
+      },
+      {
+        "size": 10000,
+        "indexing_time_ms": 2702.66,
+        "rebuild_time_ms": 446.86,
+        "memory_peak_mb": 28.98,
+        "latency_p50_ms": 37.874,
+        "latency_p95_ms": 63.115,
+        "latency_p99_ms": 72.305,
+        "latency_max_ms": 72.305,
+        "latency_min_ms": 30.728,
+        "latency_sla_passed": false
+      }
+    ],
+    "degenerate_queries": [
+      {
+        "test": "empty_string",
+        "query_length": 0,
+        "matches_returned": 0,
+        "elapsed_ms": 0.02,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "whitespace_spaces",
+        "query_length": 6,
+        "matches_returned": 0,
+        "elapsed_ms": 0.041,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "whitespace_tabs_newlines",
+        "query_length": 9,
+        "matches_returned": 0,
+        "elapsed_ms": 0.006,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "punctuation_ascii",
+        "query_length": 31,
+        "matches_returned": 0,
+        "elapsed_ms": 0.005,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "pure_non_ascii_devanagari",
+        "query_length": 35,
+        "matches_returned": 0,
+        "elapsed_ms": 0.014,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "mixed_devanagari_ascii_digits",
+        "query_length": 25,
+        "matches_returned": 1,
+        "elapsed_ms": 0.066,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "non_ascii_cjk",
+        "query_length": 20,
+        "matches_returned": 0,
+        "elapsed_ms": 0.017,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "non_ascii_emoji",
+        "query_length": 9,
+        "matches_returned": 0,
+        "elapsed_ms": 0.012,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "currency_symbols",
+        "query_length": 11,
+        "matches_returned": 0,
+        "elapsed_ms": 0.008,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "control_chars",
+        "query_length": 10,
+        "matches_returned": 0,
+        "elapsed_ms": 0.005,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "single_char_punctuation",
+        "query_length": 1,
+        "matches_returned": 0,
+        "elapsed_ms": 0.004,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "repetitive_10k_tokens",
+        "query_length": 90000,
+        "matches_returned": 1,
+        "elapsed_ms": 9.083,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "unique_10k_tokens",
+        "query_length": 108889,
+        "matches_returned": 0,
+        "elapsed_ms": 10.613,
+        "passed": true,
+        "error": null
+      },
+      {
+        "test": "mixed_10k_tokens_with_nifty",
+        "query_length": 118883,
+        "matches_returned": 1,
+        "elapsed_ms": 13.056,
+        "passed": true,
+        "error": null
+      }
+    ],
+    "boundary_tests": [
+      {
+        "name": "zero_documents",
+        "passed": true
+      },
+      {
+        "name": "single_document",
+        "passed": true
+      },
+      {
+        "name": "1000_identical_duplicates",
+        "passed": true
+      },
+      {
+        "name": "zero_word_documents",
+        "passed": true
+      }
+    ],
+    "recency_stress": [
+      {
+        "case": "recency_weight=0.0",
+        "passed": true
+      },
+      {
+        "case": "recency_weight=1.0",
+        "passed": true
+      },
+      {
+        "case": "recency_weight=-0.5",
+        "passed": true
+      },
+      {
+        "case": "recency_weight=1.5",
+        "passed": true
+      },
+      {
+        "case": "n_matches=0",
+        "passed": true
+      },
+      {
+        "case": "n_matches=-5",
+        "passed": true
+      },
+      {
+        "case": "recency_lambda=0.0",
+        "passed": true
+      }
+    ],
+    "mutation_fuzzing": [
+      {
+        "name": "standard_in_place_assignment",
+        "passed": true
+      },
+      {
+        "name": "mismatched_lengths_docs_longer",
+        "passed": true
+      },
+      {
+        "name": "500_step_randomized_fuzzing",
+        "passed": false,
+        "error_count": 5,
+        "errors": [
+          "Step 86 op roundtrip failed: ",
+          "Step 87 op roundtrip failed: ",
+          "Step 96 op roundtrip failed: ",
+          "Step 134 op roundtrip failed: ",
+          "Step 135 op roundtrip failed: "
+        ]
+      }
+    ],
+    "concurrency_stress": {
+      "threads": 20,
+      "ops_per_thread": 100,
+      "total_ops": 2000,
+      "total_successes": 2000,
+      "elapsed_ms": 14731.22,
+      "errors": [],
+      "passed": true
+    }
+  },
+  "verdict": "REQUEST_CHANGES"
+}

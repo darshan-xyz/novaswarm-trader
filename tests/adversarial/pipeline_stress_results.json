@@ -1,0 +1,40 @@
+{
+  "concurrency_stress": {
+    "concurrency": 10,
+    "elapsed_seconds": 9.094,
+    "peak_active_llm_calls": 40,
+    "total_llm_calls": 120,
+    "success_rate_pct": 100.0,
+    "all_passed": true
+  },
+  "partial_failure_stress": {
+    "total_analysts": 7,
+    "failed_analysts": 3,
+    "successful_analysts": 4,
+    "pipeline_completed": true,
+    "reports_aggregated": 7,
+    "downstream_succeeded": true,
+    "final_action": "BUY",
+    "final_confidence": 85
+  },
+  "cancellation_stress": {
+    "cancelled_at_event": "agent_status",
+    "unawaited_coroutines_count": 4,
+    "warnings": [
+      "coroutine 'NovaPipeline._run_analyst_worker' was never awaited",
+      "coroutine 'NovaPipeline._run_analyst_worker' was never awaited",
+      "coroutine 'NovaPipeline._run_analyst_worker' was never awaited",
+      "coroutine 'NovaPipeline._run_analyst_worker' was never awaited"
+    ],
+    "has_coroutine_leak": true
+  },
+  "large_payload_stress": {
+    "event_count": 43,
+    "total_bytes": 2402057,
+    "total_mb": 2.29,
+    "elapsed_seconds": 0.156,
+    "throughput_mb_s": 14.68,
+    "completed": true
+  },
+  "verdict": "REQUEST_CHANGES"
+}

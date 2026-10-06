@@ -1,0 +1,229 @@
+{
+  "symbol_boundaries": [
+    {
+      "input": "INVALID$$%%^^",
+      "description": "Special characters/symbols",
+      "status_code": 202,
+      "expected_422": false,
+      "response": {
+        "job_id": "b13419dd-acf8-4c20-9763-0348bf5df39c",
+        "symbol": "INVALID$$%%^^",
+        "status": "running",
+        "created_at": "2026-09-23T08:07:27.030594+00:00"
+      }
+    },
+    {
+      "input": "TCS'; DROP TABLE trades;--",
+      "description": "SQL Injection pattern",
+      "status_code": 202,
+      "expected_422": false,
+      "response": {
+        "job_id": "4b8af1b1-1139-4131-a9ad-a796853b6726",
+        "symbol": "TCS'; DROP TABLE TRADES;--",
+        "status": "running",
+        "created_at": "2026-09-23T08:07:27.043835+00:00"
+      }
+    },
+    {
+      "input": "<script>alert(1)</script>",
+      "description": "XSS HTML pattern",
+      "status_code": 202,
+      "expected_422": false,
+      "response": {
+        "job_id": "007de173-7290-4d28-a8c9-c866b6462054",
+        "symbol": "<SCRIPT>ALERT(1)</SCRIPT>",
+        "status": "running",
+        "created_at": "2026-09-23T08:07:27.055991+00:00"
+      }
+    },
+    {
+      "input": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "description": "100-character excessive length",
+      "status_code": 422,
+      "expected_422": true,
+      "response": {
+        "detail": [
+          {
+            "type": "string_too_long",
+            "loc": [
+              "body",
+              "symbol"
+            ],
+            "msg": "String should have at most 30 characters",
+            "input": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "ctx": {
+              "max_length": 30
+            }
+          }
+        ]
+      }
+    },
+    {
+      "input": "   ",
+      "description": "Whitespace only",
+      "status_code": 202,
+      "expected_422": false,
+      "response": {
+        "job_id": "699d352f-c375-48c5-990a-2d684b95abf8",
+        "symbol": "",
+        "status": "running",
+        "created_at": "2026-09-23T08:07:27.071203+00:00"
+      }
+    }
+  ],
+  "lookback_boundaries": [
+    {
+      "lookback_days": -5,
+      "description": "Negative days (-5)",
+      "status_code": 202,
+      "expected": 422,
+      "passed": false
+    },
+    {
+      "lookback_days": 0,
+      "description": "Zero days (0)",
+      "status_code": 202,
+      "expected": 422,
+      "passed": false
+    },
+    {
+      "lookback_days": 400,
+      "description": "Excessive days (400 > 365)",
+      "status_code": 202,
+      "expected": 422,
+      "passed": false
+    },
+    {
+      "lookback_days": 30,
+      "description": "Valid lookback (30)",
+      "status_code": 202,
+      "expected": 202,
+      "passed": true
+    }
+  ],
+  "concurrency": {
+    "num_jobs": 25,
+    "elapsed_seconds": 0.3346233000047505,
+    "all_accepted": true,
+    "unique_job_ids": true
+  },
+  "rapid_disconnect": {
+    "cycles": 30,
+    "errors": 0,
+    "remaining_subscribers": 0
+  },
+  "safety_boundaries": [
+    {
+      "name": "Negative Price",
+      "request": {
+        "symbol": "INFY",
+        "action": "BUY",
+        "quantity": 1,
+        "price": -100.0,
+        "stop_loss": 90.0
+      },
+      "expect": "HTTP_422",
+      "passed": true,
+      "outcome": "status 422"
+    },
+    {
+      "name": "Zero Price",
+      "request": {
+        "symbol": "INFY",
+        "action": "BUY",
+        "quantity": 1,
+        "price": 0.0,
+        "stop_loss": 90.0
+      },
+      "expect": "HTTP_422",
+      "passed": true,
+      "outcome": "status 422"
+    },
+    {
+      "name": "Zero Quantity",
+      "request": {
+        "symbol": "INFY",
+        "action": "BUY",
+        "quantity": 0,
+        "price": 100.0,
+        "stop_loss": 90.0
+      },
+      "expect": "HTTP_422",
+      "passed": true,
+      "outcome": "status 422"
+    },
+    {
+      "name": "Huge Quantity (1,000,000 shares)",
+      "request": {
+        "symbol": "INFY",
+        "action": "BUY",
+        "quantity": 1000000,
+        "price": 1800.0,
+        "stop_loss": 1700.0
+      },
+      "expect": "REJECTED_PASSED_FALSE",
+      "passed": true,
+      "outcome": "passed=False, rejections=['Position size 180000.0% exceeds max 15%', 'Order value INR 1,800,000,000 exceeds max INR 500,000', 'Quantity 1000000 exceeds max 5 per position', 'Sector IT concentration 180000% would exceed 40% limit (existing=0 + new=1,800,000,000)', 'Insufficient margin: need INR 1,800,000,000, available INR 1,000,000']"
+    },
+    {
+      "name": "Exceeding Max Order Value Ceiling (INR 500,000)",
+      "request": {
+        "symbol": "RELIANCE",
+        "action": "BUY",
+        "quantity": 250,
+        "price": 2800.0,
+        "stop_loss": 2700.0
+      },
+      "expect": "REJECTED_PASSED_FALSE",
+      "passed": true,
+      "outcome": "passed=False, rejections=['Position size 70.0% exceeds max 15%', 'Order value INR 700,000 exceeds max INR 500,000', 'Quantity 250 exceeds max 5 per position', 'Sector OIL_GAS concentration 70% would exceed 40% limit (existing=0 + new=700,000)']"
+    },
+    {
+      "name": "Inverted Stop-Loss (BUY with stop_loss > entry price)",
+      "request": {
+        "symbol": "INFY",
+        "action": "BUY",
+        "quantity": 2,
+        "price": 1800.0,
+        "stop_loss": 1850.0
+      },
+      "expect": "REJECTED_INVERTED_SL",
+      "passed": false,
+      "outcome": "passed=True, rejections=[]"
+    },
+    {
+      "name": "Inverted Stop-Loss (SELL with stop_loss < entry price)",
+      "request": {
+        "symbol": "INFY",
+        "action": "SELL",
+        "quantity": 2,
+        "price": 1800.0,
+        "stop_loss": 1750.0
+      },
+      "expect": "REJECTED_INVERTED_SL",
+      "passed": false,
+      "outcome": "passed=True, rejections=[]"
+    },
+    {
+      "name": "Overly Tight Stop-Loss (0.05% < 2% min requirement)",
+      "request": {
+        "symbol": "INFY",
+        "action": "BUY",
+        "quantity": 2,
+        "price": 1800.0,
+        "stop_loss": 1799.0
+      },
+      "expect": "REJECTED_TIGHT_SL",
+      "passed": false,
+      "outcome": "passed=True, rejections=[]"
+    }
+  ],
+  "sse_durability": {
+    "late_joiner_event_count": 50,
+    "late_joiner_complete": true,
+    "mid_flight_race_has_duplicates": true,
+    "duplicated_events": [
+      "event_2"
+    ]
+  }
+}

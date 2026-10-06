@@ -1,0 +1,899 @@
+{
+  "timestamp": "2026-09-23T07:41:17.629522+00:00",
+  "mode": "mock",
+  "suite_duration_seconds": 2.024,
+  "summary": {
+    "total": 96,
+    "passed": 96,
+    "failed": 0,
+    "pass_rate_pct": 100.0
+  },
+  "tier_breakdown": {
+    "1": {
+      "total": 45,
+      "passed": 45,
+      "failed": 0
+    },
+    "2": {
+      "total": 40,
+      "passed": 40,
+      "failed": 0
+    },
+    "3": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "4": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "results": [
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_trades",
+      "feature": "trades",
+      "test": "test_filter_trades_by_side",
+      "passed": true,
+      "duration_ms": 20.16,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_trades",
+      "feature": "trades",
+      "test": "test_filter_trades_by_status",
+      "passed": true,
+      "duration_ms": 22.49,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_trades",
+      "feature": "trades",
+      "test": "test_filter_trades_by_symbol",
+      "passed": true,
+      "duration_ms": 4.93,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_trades",
+      "feature": "trades",
+      "test": "test_get_trade_detail_by_id",
+      "passed": true,
+      "duration_ms": 9.93,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_trades",
+      "feature": "trades",
+      "test": "test_list_trades_default_pagination",
+      "passed": true,
+      "duration_ms": 4.08,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_trades",
+      "feature": "trades",
+      "test": "test_trade_summary_statistics",
+      "passed": true,
+      "duration_ms": 4.98,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_analysis_sse",
+      "feature": "analysis_sse",
+      "test": "test_get_analysis_job_status",
+      "passed": true,
+      "duration_ms": 9.45,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_analysis_sse",
+      "feature": "analysis_sse",
+      "test": "test_start_analysis_job_success",
+      "passed": true,
+      "duration_ms": 4.06,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_analysis_sse",
+      "feature": "analysis_sse",
+      "test": "test_stream_analysis_sse_decision_card",
+      "passed": true,
+      "duration_ms": 137.26,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_analysis_sse",
+      "feature": "analysis_sse",
+      "test": "test_stream_analysis_sse_job_completed_and_heartbeat",
+      "passed": true,
+      "duration_ms": 146.89,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_analysis_sse",
+      "feature": "analysis_sse",
+      "test": "test_stream_analysis_sse_job_started",
+      "passed": true,
+      "duration_ms": 140.27,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_analysis_sse",
+      "feature": "analysis_sse",
+      "test": "test_stream_analysis_sse_reports_and_chunks",
+      "passed": true,
+      "duration_ms": 141.56,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_memory",
+      "feature": "memory",
+      "test": "test_filter_reflections_by_symbol",
+      "passed": true,
+      "duration_ms": 6.38,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_memory",
+      "feature": "memory",
+      "test": "test_get_memory_by_role_entries",
+      "passed": true,
+      "duration_ms": 3.78,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_memory",
+      "feature": "memory",
+      "test": "test_get_memory_roles_returns_canonical_five",
+      "passed": true,
+      "duration_ms": 3.9,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_memory",
+      "feature": "memory",
+      "test": "test_get_trade_reflections",
+      "passed": true,
+      "duration_ms": 3.65,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_memory",
+      "feature": "memory",
+      "test": "test_query_bm25_memory_situation",
+      "passed": true,
+      "duration_ms": 4.8,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_performance",
+      "feature": "performance",
+      "test": "test_get_daily_snapshots_days_filter",
+      "passed": true,
+      "duration_ms": 5.0,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_performance",
+      "feature": "performance",
+      "test": "test_get_daily_snapshots_time_series",
+      "passed": true,
+      "duration_ms": 5.76,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_performance",
+      "feature": "performance",
+      "test": "test_get_model_prediction_accuracy",
+      "passed": true,
+      "duration_ms": 5.06,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_performance",
+      "feature": "performance",
+      "test": "test_get_performance_learning_insights",
+      "passed": true,
+      "duration_ms": 4.65,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_performance",
+      "feature": "performance",
+      "test": "test_get_performance_metrics_schema",
+      "passed": true,
+      "duration_ms": 4.46,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_safety",
+      "feature": "safety",
+      "test": "test_get_frozen_safety_rules",
+      "passed": true,
+      "duration_ms": 3.57,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_safety",
+      "feature": "safety",
+      "test": "test_get_safety_status_intraday",
+      "passed": true,
+      "duration_ms": 4.56,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_safety",
+      "feature": "safety",
+      "test": "test_simulate_safety_compliant_order_passes",
+      "passed": true,
+      "duration_ms": 5.49,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_safety",
+      "feature": "safety",
+      "test": "test_simulate_safety_missing_or_small_stop_loss_rejected",
+      "passed": true,
+      "duration_ms": 3.97,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_safety",
+      "feature": "safety",
+      "test": "test_simulate_safety_oversized_position_rejected",
+      "passed": true,
+      "duration_ms": 3.92,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_system",
+      "feature": "system",
+      "test": "test_get_self_healing_events",
+      "passed": true,
+      "duration_ms": 4.89,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_system",
+      "feature": "system",
+      "test": "test_get_strategy_dna_versions",
+      "passed": true,
+      "duration_ms": 4.68,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_system",
+      "feature": "system",
+      "test": "test_get_system_config_secrets_masked",
+      "passed": true,
+      "duration_ms": 3.72,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_system",
+      "feature": "system",
+      "test": "test_get_system_model_mappings",
+      "passed": true,
+      "duration_ms": 4.39,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_system",
+      "feature": "system",
+      "test": "test_log_manual_healing_event",
+      "passed": true,
+      "duration_ms": 4.92,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_chat",
+      "feature": "chat",
+      "test": "test_chat_direct_tool_execution",
+      "passed": true,
+      "duration_ms": 4.84,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_chat",
+      "feature": "chat",
+      "test": "test_chat_message_auto_triggers_analysis_tool",
+      "passed": true,
+      "duration_ms": 5.75,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_chat",
+      "feature": "chat",
+      "test": "test_chat_message_auto_triggers_portfolio_tool",
+      "passed": true,
+      "duration_ms": 3.58,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_chat",
+      "feature": "chat",
+      "test": "test_chat_session_continuity",
+      "passed": true,
+      "duration_ms": 6.31,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_chat",
+      "feature": "chat",
+      "test": "test_send_chat_message_turnaround",
+      "passed": true,
+      "duration_ms": 3.37,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_analysis",
+      "passed": true,
+      "duration_ms": 3.82,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_analytics",
+      "passed": true,
+      "duration_ms": 3.59,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_chat",
+      "passed": true,
+      "duration_ms": 3.91,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_overview_dashboard",
+      "passed": true,
+      "duration_ms": 3.69,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_portfolio",
+      "passed": true,
+      "duration_ms": 3.64,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_scanner",
+      "passed": true,
+      "duration_ms": 3.93,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_settings",
+      "passed": true,
+      "duration_ms": 4.63,
+      "error": null
+    },
+    {
+      "tier": "1",
+      "module": "tests.e2e.tier1_features.test_frontend_routes",
+      "feature": "frontend_routes",
+      "test": "test_frontend_route_trades",
+      "passed": true,
+      "duration_ms": 3.91,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_trades_boundaries",
+      "feature": "trades",
+      "test": "test_trade_extreme_offset_returns_empty_list",
+      "passed": true,
+      "duration_ms": 3.97,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_trades_boundaries",
+      "feature": "trades",
+      "test": "test_trade_limit_exceeding_max_returns_422",
+      "passed": true,
+      "duration_ms": 3.84,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_trades_boundaries",
+      "feature": "trades",
+      "test": "test_trade_non_existent_symbol_returns_empty",
+      "passed": true,
+      "duration_ms": 3.68,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_trades_boundaries",
+      "feature": "trades",
+      "test": "test_trade_not_found_returns_404",
+      "passed": true,
+      "duration_ms": 3.33,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_trades_boundaries",
+      "feature": "trades",
+      "test": "test_trade_zero_limit_returns_422",
+      "passed": true,
+      "duration_ms": 3.97,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_analysis_boundaries",
+      "feature": "analysis",
+      "test": "test_analysis_job_not_found_status_404",
+      "passed": true,
+      "duration_ms": 3.12,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_analysis_boundaries",
+      "feature": "analysis",
+      "test": "test_analysis_job_not_found_stream_404",
+      "passed": true,
+      "duration_ms": 3.35,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_analysis_boundaries",
+      "feature": "analysis",
+      "test": "test_analysis_start_invalid_lookback_days_422",
+      "passed": true,
+      "duration_ms": 6.01,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_analysis_boundaries",
+      "feature": "analysis",
+      "test": "test_analysis_start_invalid_symbol_422",
+      "passed": true,
+      "duration_ms": 6.2,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_analysis_boundaries",
+      "feature": "analysis",
+      "test": "test_analysis_stream_replay_buffer_finished_job",
+      "passed": true,
+      "duration_ms": 261.25,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_memory_boundaries",
+      "feature": "memory",
+      "test": "test_memory_query_negative_top_k_returns_422",
+      "passed": true,
+      "duration_ms": 6.52,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_memory_boundaries",
+      "feature": "memory",
+      "test": "test_memory_query_top_k_boundaries",
+      "passed": true,
+      "duration_ms": 9.9,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_memory_boundaries",
+      "feature": "memory",
+      "test": "test_memory_query_unknown_role_returns_404",
+      "passed": true,
+      "duration_ms": 4.59,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_memory_boundaries",
+      "feature": "memory",
+      "test": "test_memory_unknown_role_returns_404",
+      "passed": true,
+      "duration_ms": 3.85,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_memory_boundaries",
+      "feature": "memory",
+      "test": "test_reflections_untraded_symbol_returns_empty_and_zero_limit_422",
+      "passed": true,
+      "duration_ms": 6.3,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_performance_boundaries",
+      "feature": "performance",
+      "test": "test_daily_snapshots_inverted_date_range_returns_422",
+      "passed": true,
+      "duration_ms": 3.78,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_performance_boundaries",
+      "feature": "performance",
+      "test": "test_daily_snapshots_large_days_capped",
+      "passed": true,
+      "duration_ms": 5.87,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_performance_boundaries",
+      "feature": "performance",
+      "test": "test_daily_snapshots_negative_days_returns_422",
+      "passed": true,
+      "duration_ms": 5.73,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_performance_boundaries",
+      "feature": "performance",
+      "test": "test_daily_snapshots_zero_days_returns_422",
+      "passed": true,
+      "duration_ms": 3.47,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_performance_boundaries",
+      "feature": "performance",
+      "test": "test_performance_metrics_numerical_integrity",
+      "passed": true,
+      "duration_ms": 3.32,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_safety_boundaries",
+      "feature": "safety",
+      "test": "test_safety_invalid_action_returns_422",
+      "passed": true,
+      "duration_ms": 3.81,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_safety_boundaries",
+      "feature": "safety",
+      "test": "test_safety_inverted_stop_loss_rejected",
+      "passed": true,
+      "duration_ms": 3.55,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_safety_boundaries",
+      "feature": "safety",
+      "test": "test_safety_negative_price_returns_422",
+      "passed": true,
+      "duration_ms": 3.45,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_safety_boundaries",
+      "feature": "safety",
+      "test": "test_safety_order_value_exceeding_500k_ceiling_rejected",
+      "passed": true,
+      "duration_ms": 3.83,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_safety_boundaries",
+      "feature": "safety",
+      "test": "test_safety_zero_quantity_returns_422",
+      "passed": true,
+      "duration_ms": 3.72,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_system_boundaries",
+      "feature": "system",
+      "test": "test_system_config_strict_masking_audit",
+      "passed": true,
+      "duration_ms": 3.57,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_system_boundaries",
+      "feature": "system",
+      "test": "test_system_healing_limit_boundaries",
+      "passed": true,
+      "duration_ms": 3.75,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_system_boundaries",
+      "feature": "system",
+      "test": "test_system_healing_log_complex_metadata",
+      "passed": true,
+      "duration_ms": 3.89,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_system_boundaries",
+      "feature": "system",
+      "test": "test_system_healing_log_missing_fields_returns_422",
+      "passed": true,
+      "duration_ms": 4.05,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_system_boundaries",
+      "feature": "system",
+      "test": "test_system_healing_non_existent_component_returns_empty",
+      "passed": true,
+      "duration_ms": 3.79,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_chat_boundaries",
+      "feature": "chat",
+      "test": "test_chat_message_empty_body_returns_422",
+      "passed": true,
+      "duration_ms": 3.74,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_chat_boundaries",
+      "feature": "chat",
+      "test": "test_chat_message_massive_payload_stress",
+      "passed": true,
+      "duration_ms": 3.67,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_chat_boundaries",
+      "feature": "chat",
+      "test": "test_chat_session_fresh_initialization",
+      "passed": true,
+      "duration_ms": 3.78,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_chat_boundaries",
+      "feature": "chat",
+      "test": "test_chat_tool_empty_args_succeeds",
+      "passed": true,
+      "duration_ms": 3.78,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_chat_boundaries",
+      "feature": "chat",
+      "test": "test_chat_tool_unknown_tool_returns_400",
+      "passed": true,
+      "duration_ms": 3.47,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_frontend_boundaries",
+      "feature": "frontend",
+      "test": "test_frontend_analysis_xss_query_sanitization",
+      "passed": true,
+      "duration_ms": 3.73,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_frontend_boundaries",
+      "feature": "frontend",
+      "test": "test_frontend_analytics_invalid_range_query",
+      "passed": true,
+      "duration_ms": 3.52,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_frontend_boundaries",
+      "feature": "frontend",
+      "test": "test_frontend_non_existent_route_returns_404",
+      "passed": true,
+      "duration_ms": 3.5,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_frontend_boundaries",
+      "feature": "frontend",
+      "test": "test_frontend_rapid_route_switching",
+      "passed": true,
+      "duration_ms": 23.15,
+      "error": null
+    },
+    {
+      "tier": "2",
+      "module": "tests.e2e.tier2_boundaries.test_frontend_boundaries",
+      "feature": "frontend",
+      "test": "test_frontend_trades_invalid_pagination_query",
+      "passed": true,
+      "duration_ms": 3.28,
+      "error": null
+    },
+    {
+      "tier": "3",
+      "module": "tests.e2e.tier3_combinations.test_cross_feature_combinations",
+      "feature": "cross_feature_combinations",
+      "test": "test_cross_feature_analysis_to_safety_simulation",
+      "passed": true,
+      "duration_ms": 130.14,
+      "error": null
+    },
+    {
+      "tier": "3",
+      "module": "tests.e2e.tier3_combinations.test_cross_feature_combinations",
+      "feature": "cross_feature_combinations",
+      "test": "test_cross_feature_chat_assistant_triggers_analysis_and_trade",
+      "passed": true,
+      "duration_ms": 3.84,
+      "error": null
+    },
+    {
+      "tier": "3",
+      "module": "tests.e2e.tier3_combinations.test_cross_feature_combinations",
+      "feature": "cross_feature_combinations",
+      "test": "test_cross_feature_safety_rejection_to_healing_event_logging",
+      "passed": true,
+      "duration_ms": 9.81,
+      "error": null
+    },
+    {
+      "tier": "3",
+      "module": "tests.e2e.tier3_combinations.test_cross_feature_combinations",
+      "feature": "cross_feature_combinations",
+      "test": "test_cross_feature_scanner_to_analysis_pipeline",
+      "passed": true,
+      "duration_ms": 135.94,
+      "error": null
+    },
+    {
+      "tier": "3",
+      "module": "tests.e2e.tier3_combinations.test_cross_feature_combinations",
+      "feature": "cross_feature_combinations",
+      "test": "test_cross_feature_trade_closure_to_performance_analytics",
+      "passed": true,
+      "duration_ms": 5.93,
+      "error": null
+    },
+    {
+      "tier": "3",
+      "module": "tests.e2e.tier3_combinations.test_cross_feature_combinations",
+      "feature": "cross_feature_combinations",
+      "test": "test_cross_feature_trade_logging_to_memory_reflection",
+      "passed": true,
+      "duration_ms": 9.23,
+      "error": null
+    },
+    {
+      "tier": "4",
+      "module": "tests.e2e.tier4_scenarios.test_real_world_scenarios",
+      "feature": "real_world_scenarios",
+      "test": "test_scenario_complete_breakout_trading_lifecycle",
+      "passed": true,
+      "duration_ms": 157.58,
+      "error": null
+    },
+    {
+      "tier": "4",
+      "module": "tests.e2e.tier4_scenarios.test_real_world_scenarios",
+      "feature": "real_world_scenarios",
+      "test": "test_scenario_multi_model_disagreement_and_consensus_resolution",
+      "passed": true,
+      "duration_ms": 15.88,
+      "error": null
+    },
+    {
+      "tier": "4",
+      "module": "tests.e2e.tier4_scenarios.test_real_world_scenarios",
+      "feature": "real_world_scenarios",
+      "test": "test_scenario_network_interruption_and_stream_reconnection",
+      "passed": true,
+      "duration_ms": 277.52,
+      "error": null
+    },
+    {
+      "tier": "4",
+      "module": "tests.e2e.tier4_scenarios.test_real_world_scenarios",
+      "feature": "real_world_scenarios",
+      "test": "test_scenario_risk_containment_and_circuit_breaker_workflow",
+      "passed": true,
+      "duration_ms": 13.37,
+      "error": null
+    },
+    {
+      "tier": "4",
+      "module": "tests.e2e.tier4_scenarios.test_real_world_scenarios",
+      "feature": "real_world_scenarios",
+      "test": "test_scenario_strategy_adaptation_and_reflection_workflow",
+      "passed": true,
+      "duration_ms": 14.41,
+      "error": null
+    }
+  ]
+}
