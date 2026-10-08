@@ -49,25 +49,22 @@ import {
 } from "lucide-react";
 
 
-const SEED_STRATEGIES: StrategyVersionRecord[] = [
-  {
-    version: "v1.0.0",
-    name: "Production Multi-Agent Swarm (Active)",
-    description: "Multi-model consensus with Bull/Bear adversary debate, 16 frozen safety checks, and Kelly sizing",
-    is_active: true,
-    sharpe: 2.38,
-    win_rate: 0.684,
-    max_drawdown: 2.15,
-    created_at: "2026-09-01T00:00:00Z",
-    dna_yaml: `# NovaSwarm Trader Strategy DNA v1.0.0 (Production)
-version: "1.0.0"
+const DEFAULT_STRATEGY: StrategyVersionRecord = {
+  version: "v1.0.0",
+  name: "NovaSwarm Multi-Agent Trend Breakout (Active)",
+  description: "Autonomous multi-agent consensus with Bull/Bear adversary debate, 16 frozen risk safety checks, and Kelly/ATR sizing",
+  is_active: true,
+  created_at: new Date().toISOString(),
+  dna_yaml: `# NovaSwarm Trader Strategy DNA v1.0.0 (Production)
+version: "v1.0.0"
+strategy_name: "NovaSwarmMultiAgentTrendBreakout"
 risk_mode: "balanced"
 universe: "NIFTY50_EXPANDED"
 max_portfolio_risk_pct: 2.0
 max_single_position_pct: 10.0
 max_sector_concentration_pct: 25.0
 intraday_kill_switch_drawdown_pct: 3.0
-trailing_stop_loss_atr_mult: 1.8
+trailing_stop_loss_atr_mult: 2.0
 profit_target_risk_reward_ratio: 2.5
 consensus_threshold: 0.70
 min_model_quorum: 3
@@ -75,43 +72,13 @@ timeframes:
   trend: "1d"
   setup: "1h"
   trigger: "15m"`,
-  },
-  {
-    version: "v0.9.5",
-    name: "Adversary Debate Candidate",
-    description: "Introduced Bull vs Bear adversarial debate with Sonar Pro catalyst analysis",
-    is_active: false,
-    sharpe: 2.12,
-    win_rate: 0.642,
-    max_drawdown: 2.65,
-    created_at: "2026-08-15T00:00:00Z",
-    dna_yaml: `# NovaSwarm Trader Strategy DNA v0.9.5
-version: "0.9.5"
-risk_mode: "moderate"
-max_portfolio_risk_pct: 2.5
-consensus_threshold: 0.65`,
-  },
-  {
-    version: "v0.9.0",
-    name: "Baseline Momentum Engine",
-    description: "Initial single-agent breakout detection with basic trailing stop loss",
-    is_active: false,
-    sharpe: 1.84,
-    win_rate: 0.582,
-    max_drawdown: 3.8,
-    created_at: "2026-07-20T00:00:00Z",
-    dna_yaml: `# NovaSwarm Trader Strategy DNA v0.9.0
-version: "0.9.0"
-risk_mode: "aggressive"
-max_portfolio_risk_pct: 3.0`,
-  },
-];
+};
 
 export default function SettingsPage() {
   const [config, setConfig] = useState<SystemConfig | null>(null);
   const [models, setModels] = useState<LLMModelMapping[]>([]);
   const [healingLogs, setHealingLogs] = useState<HealingEventRecord[]>([]);
-  const [strategies, setStrategies] = useState<StrategyVersionRecord[]>(SEED_STRATEGIES);
+  const [strategies, setStrategies] = useState<StrategyVersionRecord[]>([DEFAULT_STRATEGY]);
   const [selectedStrategyVersion, setSelectedStrategyVersion] = useState<string>("v1.0.0");
   const [loading, setLoading] = useState(true);
 
@@ -241,7 +208,7 @@ export default function SettingsPage() {
   const activeStrategy =
     (Array.isArray(strategies)
       ? strategies.find((s) => s.version === selectedStrategyVersion) || strategies[0]
-      : null) || SEED_STRATEGIES[0];
+      : null) || DEFAULT_STRATEGY;
 
   return (
     <div className="space-y-6">
